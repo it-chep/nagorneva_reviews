@@ -1,0 +1,370 @@
+syntax = "proto3";
+
+package nagorneva_reviews.admin.v1;
+option go_package = "github.com/nagorneva/nagorneva_reviews/gen/go/api/admin;adminv1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+// Every RPC has its own request and response message. Domain messages below are
+// only nested payloads and are never used directly as an RPC request/response.
+service AdminService {
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/login" body:"*"};
+  }
+  rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/users" body:"*"};
+  }
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/users/{id}"};
+  }
+  rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/users"};
+  }
+  rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+    option (google.api.http) = {patch:"/api/v1/admin/users/{id}" body:"*"};
+  }
+  rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/users/{id}"};
+  }
+  rpc CreateCity(CreateCityRequest) returns (CreateCityResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/cities" body:"*"};
+  }
+  rpc GetCity(GetCityRequest) returns (GetCityResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/cities/{id}"};
+  }
+  rpc ListCities(ListCitiesRequest) returns (ListCitiesResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/cities"};
+  }
+  rpc UpdateCity(UpdateCityRequest) returns (UpdateCityResponse) {
+    option (google.api.http) = {patch:"/api/v1/admin/cities/{id}" body:"*"};
+  }
+  rpc DeleteCity(DeleteCityRequest) returns (DeleteCityResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/cities/{id}"};
+  }
+  rpc CreateSpecialty(CreateSpecialtyRequest) returns (CreateSpecialtyResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/specialties" body:"*"};
+  }
+  rpc GetSpecialty(GetSpecialtyRequest) returns (GetSpecialtyResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/specialties/{id}"};
+  }
+  rpc ListSpecialties(ListSpecialtiesRequest) returns (ListSpecialtiesResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/specialties"};
+  }
+  rpc UpdateSpecialty(UpdateSpecialtyRequest) returns (UpdateSpecialtyResponse) {
+    option (google.api.http) = {patch:"/api/v1/admin/specialties/{id}" body:"*"};
+  }
+  rpc DeleteSpecialty(DeleteSpecialtyRequest) returns (DeleteSpecialtyResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/specialties/{id}"};
+  }
+  rpc CreateCourse(CreateCourseRequest) returns (CreateCourseResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/courses" body:"*"};
+  }
+  rpc GetCourse(GetCourseRequest) returns (GetCourseResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/courses/{id}"};
+  }
+  rpc ListCourses(ListCoursesRequest) returns (ListCoursesResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/courses"};
+  }
+  rpc UpdateCourse(UpdateCourseRequest) returns (UpdateCourseResponse) {
+    option (google.api.http) = {patch:"/api/v1/admin/courses/{id}" body:"*"};
+  }
+  rpc DeleteCourse(DeleteCourseRequest) returns (DeleteCourseResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/courses/{id}"};
+  }
+  rpc CreateDoctor(CreateDoctorRequest) returns (CreateDoctorResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/doctors" body:"*"};
+  }
+  rpc GetDoctor(GetDoctorRequest) returns (GetDoctorResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/doctors/{id}"};
+  }
+  rpc ListDoctors(ListDoctorsRequest) returns (ListDoctorsResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/doctors"};
+  }
+  rpc UpdateDoctor(UpdateDoctorRequest) returns (UpdateDoctorResponse) {
+    option (google.api.http) = {patch:"/api/v1/admin/doctors/{id}" body:"*"};
+  }
+  rpc DeleteDoctor(DeleteDoctorRequest) returns (DeleteDoctorResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/doctors/{id}"};
+  }
+  rpc UploadDoctorPhoto(UploadDoctorPhotoRequest) returns (UploadDoctorPhotoResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/doctors/{id}/photo" body:"*"};
+  }
+  rpc GetDoctorReviews(GetDoctorReviewsRequest) returns (GetDoctorReviewsResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/doctors/{id}/reviews"};
+  }
+  rpc CreateReview(CreateReviewRequest) returns (CreateReviewResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/reviews" body:"*"};
+  }
+  rpc GetReview(GetReviewRequest) returns (GetReviewResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/reviews/{id}"};
+  }
+  rpc ListReviews(ListReviewsRequest) returns (ListReviewsResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/reviews"};
+  }
+  rpc UpdateReview(UpdateReviewRequest) returns (UpdateReviewResponse) {
+    option (google.api.http) = {patch:"/api/v1/admin/reviews/{id}" body:"*"};
+  }
+  rpc DeleteReview(DeleteReviewRequest) returns (DeleteReviewResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/reviews/{id}"};
+  }
+}
+
+message LoginRequest {
+  string email = 1;
+  string password = 2;
+}
+message LoginResponse {
+  string access_token = 1;
+  string token_type = 2;
+}
+
+message User {
+  int64 id = 1;
+  string email = 2;
+}
+message CreateUserRequest {
+  string email = 1;
+  string password = 2;
+}
+message CreateUserResponse {
+  User user = 1;
+}
+message GetUserRequest {
+  int64 id = 1;
+}
+message GetUserResponse {
+  User user = 1;
+}
+message ListUsersRequest {}
+message ListUsersResponse {
+  repeated User users = 1;
+}
+message UpdateUserRequest {
+  int64 id = 1;
+  optional string email = 2;
+  optional string password = 3;
+}
+message UpdateUserResponse {
+  User user = 1;
+}
+message DeleteUserRequest {
+  int64 id = 1;
+}
+message DeleteUserResponse {}
+
+message City {
+  int64 id = 1;
+  string name = 2;
+  double lat = 3;
+  double lon = 4;
+}
+message CreateCityRequest {
+  string name = 1;
+  double lat = 2;
+  double lon = 3;
+}
+message CreateCityResponse {
+  City city = 1;
+}
+message GetCityRequest {
+  int64 id = 1;
+}
+message GetCityResponse {
+  City city = 1;
+}
+message ListCitiesRequest {}
+message ListCitiesResponse {
+  repeated City cities = 1;
+}
+message UpdateCityRequest {
+  int64 id = 1;
+  optional string name = 2;
+  optional double lat = 3;
+  optional double lon = 4;
+}
+message UpdateCityResponse {
+  City city = 1;
+}
+message DeleteCityRequest {
+  int64 id = 1;
+}
+message DeleteCityResponse {}
+
+message Specialty {
+  int64 id = 1;
+  string name = 2;
+}
+message CreateSpecialtyRequest {
+  string name = 1;
+}
+message CreateSpecialtyResponse {
+  Specialty specialty = 1;
+}
+message GetSpecialtyRequest {
+  int64 id = 1;
+}
+message GetSpecialtyResponse {
+  Specialty specialty = 1;
+}
+message ListSpecialtiesRequest {}
+message ListSpecialtiesResponse {
+  repeated Specialty specialties = 1;
+}
+message UpdateSpecialtyRequest {
+  int64 id = 1;
+  optional string name = 2;
+}
+message UpdateSpecialtyResponse {
+  Specialty specialty = 1;
+}
+message DeleteSpecialtyRequest {
+  int64 id = 1;
+}
+message DeleteSpecialtyResponse {}
+
+message Course {
+  int64 id = 1;
+  string name = 2;
+}
+message CreateCourseRequest {
+  string name = 1;
+}
+message CreateCourseResponse {
+  Course course = 1;
+}
+message GetCourseRequest {
+  int64 id = 1;
+}
+message GetCourseResponse {
+  Course course = 1;
+}
+message ListCoursesRequest {}
+message ListCoursesResponse {
+  repeated Course courses = 1;
+}
+message UpdateCourseRequest {
+  int64 id = 1;
+  optional string name = 2;
+}
+message UpdateCourseResponse {
+  Course course = 1;
+}
+message DeleteCourseRequest {
+  int64 id = 1;
+}
+message DeleteCourseResponse {}
+
+message Doctor {
+  int64 id = 1;
+  string name = 2;
+  string full_name = 3;
+  string photo = 4;
+  bool personal_data_consent = 5;
+  int64 city_id = 6;
+  int64 specialty_id = 7;
+  double lat = 8;
+  double lon = 9;
+  bool is_active = 10;
+}
+message CreateDoctorRequest {
+  string name = 1;
+  string full_name = 2;
+  int64 city_id = 3;
+  int64 specialty_id = 4;
+  double lat = 5;
+  double lon = 6;
+  bool personal_data_consent = 7;
+  bool is_active = 8;
+}
+message CreateDoctorResponse {
+  Doctor doctor = 1;
+}
+message GetDoctorRequest {
+  int64 id = 1;
+}
+message GetDoctorResponse {
+  Doctor doctor = 1;
+}
+message ListDoctorsRequest {}
+message ListDoctorsResponse {
+  repeated Doctor doctors = 1;
+}
+message UpdateDoctorRequest {
+  int64 id = 1;
+  optional string name = 2;
+  optional string full_name = 3;
+  optional int64 city_id = 4;
+  optional int64 specialty_id = 5;
+  optional double lat = 6;
+  optional double lon = 7;
+  optional bool personal_data_consent = 8;
+  optional bool is_active = 9;
+}
+message UpdateDoctorResponse {
+  Doctor doctor = 1;
+}
+message DeleteDoctorRequest {
+  int64 id = 1;
+}
+message DeleteDoctorResponse {}
+message UploadDoctorPhotoRequest {
+  int64 id = 1;
+  bytes photo = 2;
+  string filename = 3;
+  string content_type = 4;
+}
+message UploadDoctorPhotoResponse {
+  Doctor doctor = 1;
+}
+message GetDoctorReviewsRequest {
+  int64 id = 1;
+}
+message GetDoctorReviewsResponse {
+  repeated Review reviews = 1;
+}
+
+message Review {
+  int64 id = 1;
+  int64 doctor_id = 2;
+  int32 rating = 3;
+  string comment = 4;
+  int64 course_id = 5;
+  google.protobuf.Timestamp created_at = 6;
+  bool is_active = 7;
+  string course_name = 8;
+}
+message CreateReviewRequest {
+  int64 doctor_id = 1;
+  int32 rating = 2;
+  string comment = 3;
+  int64 course_id = 4;
+  bool is_active = 5;
+}
+message CreateReviewResponse {
+  Review review = 1;
+}
+message GetReviewRequest {
+  int64 id = 1;
+}
+message GetReviewResponse {
+  Review review = 1;
+}
+message ListReviewsRequest {}
+message ListReviewsResponse {
+  repeated Review reviews = 1;
+}
+message UpdateReviewRequest {
+  int64 id = 1;
+  optional int32 rating = 2;
+  optional string comment = 3;
+  optional int64 course_id = 4;
+  optional bool is_active = 5;
+}
+message UpdateReviewResponse {
+  Review review = 1;
+}
+message DeleteReviewRequest {
+  int64 id = 1;
+}
+message DeleteReviewResponse {}

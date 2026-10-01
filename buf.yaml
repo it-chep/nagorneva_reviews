@@ -1,0 +1,16 @@
+version: v2
+modules:
+  - path: api
+deps:
+  - buf.build/googleapis/googleapis
+  - buf.build/grpc-ecosystem/grpc-gateway
+lint:
+  use:
+    - STANDARD
+  except:
+    # File locations are part of the agreed public API: api/reviews/reviews.proto
+    # and api/admin/admin.proto.
+    - PACKAGE_DIRECTORY_MATCH
+breaking:
+  use:
+    - FILE

@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package nagorneva_reviews.reviews.v1;
+option go_package = "github.com/nagorneva/nagorneva_reviews/gen/go/api/reviews;reviewsv1";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+import "protoc-gen-openapiv2/options/annotations.proto";
+
+service ReviewsService {
+  rpc GetDoctorsOnMap(GetDoctorsOnMapRequest) returns (GetDoctorsOnMapResponse) {
+    option (google.api.http) = {post: "/api/v1/doctors_on_map" body: "*"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {summary: "Получение докторов на карте"};
+  }
+  rpc FilterReviews(FilterReviewsRequest) returns (FilterReviewsResponse) {
+    option (google.api.http) = {post: "/api/v1/reviews/filter" body: "*"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {summary: "Фильтрация отзывов по курсу и координатам"};
+  }
+}
+message GetDoctorsOnMapRequest {
+  double lat = 1;
+  double lon = 2;
+  double radius_km = 3;
+}
+
+message Review {
+  int64 id = 1;
+  int64 doctor_id = 2;
+  int32 rating = 3;
+  string comment = 4;
+  int64 course_id = 5;
+  string course_name = 6;
+  google.protobuf.Timestamp created_at = 7;
+}
+
+message DoctorOnMap {
+  int64 id = 1;
+  string name = 2;
+  string photo = 3;
+  string city = 4;
+  double lat = 5;
+  double lon = 6;
+  repeated Review reviews = 7;
+}
+
+message GetDoctorsOnMapResponse {
+  repeated DoctorOnMap doctors = 1;
+}
+
+message FilterReviewsRequest {
+  optional int64 course_id = 1;
+  optional double lat = 2;
+  optional double lon = 3;
+  double radius_km = 4;
+}
+
+message FilterReviewsResponse {
+  repeated Review reviews = 1;
+}
+
