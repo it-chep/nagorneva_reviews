@@ -2,45 +2,49 @@ package internal
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log/slog"
-	"net/http"
-	"time"
+	"runtime/debug"
+
+	appserver "github.com/nagorneva/nagorneva_reviews/internal/app/server"
+	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/module/admin"
+	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/module/reviews"
 )
 
+// modules aggregates application modules in the same way as medblogers_base.
+type modules struct {
+	admin   *adminmodule.Module
+	reviews *reviewsmodule.Module
+}
+
 type App struct {
-	server   *http.Server
+	server   *appserver.Server
 	shutdown func()
+	modules  modules
 }
 
 func New(ctx context.Context) (*App, error) {
 	a := &App{}
-	if err := a.initConfig(ctx).initPostgres(ctx).initS3(ctx).initModules(ctx).initRouter(ctx).err; err != nil {
+	if err := a.initConfig(ctx).initPostgres(ctx).initModules(ctx).initTransport(ctx).err; err != nil {
 		return nil, err
 	}
 	return a, nil
 }
-func Run(ctx context.Context) error {
-	a, err := New(ctx)
-	if err != nil {
-		return err
+
+// Run owns the application lifecycle; Server.Run starts the HTTP gateway and
+// native gRPC listener and gracefully stops both when ctx is cancelled.
+func (a *App) Run(ctx context.Context) (runErr error) {
+	if a == nil || a.server == nil {
+		return fmt.Errorf("application servers are not initialized")
 	}
-	defer a.shutdown()
-	errCh := make(chan error, 1)
-	go func() {
-		slog.Info("nagorneva_reviews started", "http", a.server.Addr)
-		errCh <- a.server.ListenAndServe()
-	}()
-	select {
-	case <-ctx.Done():
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-		defer cancel()
-		return a.server.Shutdown(shutdownCtx)
-	case err := <-errCh:
-		if errors.Is(err, http.ErrServerClosed) {
-			return nil
+	if a.shutdown != nil {
+		defer a.shutdown()
+	}
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			runErr = fmt.Errorf("application panic: %v\n%s", recovered, debug.Stack())
 		}
-		return fmt.Errorf("http server: %w", err)
-	}
+	}()
+	slog.Info("nagorneva_reviews started", "http", a.server.HTTPAddr(), "grpc", a.server.GRPCAddr())
+	return a.server.Run(ctx)
 }

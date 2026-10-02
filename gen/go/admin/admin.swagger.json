@@ -7,9 +7,6 @@
   "tags": [
     {
       "name": "AdminService"
-    },
-    {
-      "name": "ReviewsService"
     }
   ],
   "consumes": [
@@ -26,13 +23,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListCitiesResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.ListCitiesResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -46,13 +43,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateCityResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateCityResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -62,7 +59,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateCityRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateCityRequest"
             }
           }
         ],
@@ -78,13 +75,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetCityResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetCityResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -107,13 +104,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteCityResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteCityResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -136,13 +133,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateCityResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UpdateCityResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -159,7 +156,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUpdateCityBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateCityBody"
             }
           }
         ],
@@ -175,13 +172,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListCoursesResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.ListCoursesResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -195,13 +192,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateCourseResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateCourseResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -211,7 +208,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateCourseRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateCourseRequest"
             }
           }
         ],
@@ -227,13 +224,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetCourseResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetCourseResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -256,13 +253,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteCourseResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteCourseResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -285,13 +282,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateCourseResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UpdateCourseResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -308,7 +305,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUpdateCourseBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateCourseBody"
             }
           }
         ],
@@ -324,13 +321,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListDoctorsResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.ListDoctorsResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -344,13 +341,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateDoctorResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateDoctorResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -360,7 +357,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateDoctorRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateDoctorRequest"
             }
           }
         ],
@@ -376,13 +373,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetDoctorResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetDoctorResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -405,13 +402,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteDoctorResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteDoctorResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -434,13 +431,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateDoctorResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UpdateDoctorResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -457,7 +454,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUpdateDoctorBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateDoctorBody"
             }
           }
         ],
@@ -473,13 +470,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UploadDoctorPhotoResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -496,7 +493,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUploadDoctorPhotoBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhotoBody"
             }
           }
         ],
@@ -512,13 +509,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetDoctorReviewsResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetDoctorReviewsResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -543,13 +540,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1LoginResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.LoginResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -559,7 +556,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1LoginRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.LoginRequest"
             }
           }
         ],
@@ -575,13 +572,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListReviewsResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.ListReviewsResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -595,13 +592,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateReviewResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateReviewResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -611,7 +608,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateReviewRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateReviewRequest"
             }
           }
         ],
@@ -627,13 +624,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetReviewResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetReviewResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -656,13 +653,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteReviewResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteReviewResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -685,13 +682,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateReviewResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UpdateReviewResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -708,7 +705,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUpdateReviewBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateReviewBody"
             }
           }
         ],
@@ -724,13 +721,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListSpecialtiesResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.ListSpecialtiesResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -744,13 +741,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateSpecialtyResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateSpecialtyResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -760,7 +757,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateSpecialtyRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateSpecialtyRequest"
             }
           }
         ],
@@ -776,13 +773,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetSpecialtyResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetSpecialtyResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -805,13 +802,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteSpecialtyResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteSpecialtyResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -834,13 +831,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateSpecialtyResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UpdateSpecialtyResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -857,7 +854,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUpdateSpecialtyBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateSpecialtyBody"
             }
           }
         ],
@@ -873,13 +870,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1ListUsersResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.ListUsersResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -893,13 +890,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateUserResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateUserResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -909,7 +906,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateUserRequest"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.CreateUserRequest"
             }
           }
         ],
@@ -925,13 +922,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1GetUserResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetUserResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -954,13 +951,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1DeleteUserResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteUserResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -983,13 +980,13 @@
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1UpdateUserResponse"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.UpdateUserResponse"
             }
           },
           "default": {
             "description": "An unexpected error response.",
             "schema": {
-              "$ref": "#/definitions/rpcStatus"
+              "$ref": "#/definitions/google.rpc.Status"
             }
           }
         },
@@ -1006,7 +1003,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/AdminServiceUpdateUserBody"
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateUserBody"
             }
           }
         ],
@@ -1014,76 +1011,38 @@
           "AdminService"
         ]
       }
-    },
-    "/api/v1/doctors_on_map": {
-      "post": {
-        "summary": "Получение докторов на карте",
-        "operationId": "ReviewsService_GetDoctorsOnMap",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1GetDoctorsOnMapResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1GetDoctorsOnMapRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ReviewsService"
-        ]
-      }
-    },
-    "/api/v1/reviews/filter": {
-      "post": {
-        "summary": "Фильтрация отзывов по курсу и координатам",
-        "operationId": "ReviewsService_FilterReviews",
-        "responses": {
-          "200": {
-            "description": "A successful response.",
-            "schema": {
-              "$ref": "#/definitions/v1FilterReviewsResponse"
-            }
-          },
-          "default": {
-            "description": "An unexpected error response.",
-            "schema": {
-              "$ref": "#/definitions/rpcStatus"
-            }
-          }
-        },
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/v1FilterReviewsRequest"
-            }
-          }
-        ],
-        "tags": [
-          "ReviewsService"
-        ]
-      }
     }
   },
   "definitions": {
-    "AdminServiceUpdateCityBody": {
+    "google.protobuf.Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "google.rpc.Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/google.protobuf.Any"
+          }
+        }
+      }
+    },
+    "nagorneva_reviews.admin.v1.AdminService.UpdateCityBody": {
       "type": "object",
       "properties": {
         "name": {
@@ -1099,7 +1058,7 @@
         }
       }
     },
-    "AdminServiceUpdateCourseBody": {
+    "nagorneva_reviews.admin.v1.AdminService.UpdateCourseBody": {
       "type": "object",
       "properties": {
         "name": {
@@ -1107,7 +1066,7 @@
         }
       }
     },
-    "AdminServiceUpdateDoctorBody": {
+    "nagorneva_reviews.admin.v1.AdminService.UpdateDoctorBody": {
       "type": "object",
       "properties": {
         "name": {
@@ -1140,7 +1099,7 @@
         }
       }
     },
-    "AdminServiceUpdateReviewBody": {
+    "nagorneva_reviews.admin.v1.AdminService.UpdateReviewBody": {
       "type": "object",
       "properties": {
         "rating": {
@@ -1159,7 +1118,7 @@
         }
       }
     },
-    "AdminServiceUpdateSpecialtyBody": {
+    "nagorneva_reviews.admin.v1.AdminService.UpdateSpecialtyBody": {
       "type": "object",
       "properties": {
         "name": {
@@ -1167,7 +1126,7 @@
         }
       }
     },
-    "AdminServiceUpdateUserBody": {
+    "nagorneva_reviews.admin.v1.AdminService.UpdateUserBody": {
       "type": "object",
       "properties": {
         "email": {
@@ -1178,7 +1137,7 @@
         }
       }
     },
-    "AdminServiceUploadDoctorPhotoBody": {
+    "nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhotoBody": {
       "type": "object",
       "properties": {
         "photo": {
@@ -1193,100 +1152,7 @@
         }
       }
     },
-    "nagorneva_reviewsadminv1Review": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "doctorId": {
-          "type": "string",
-          "format": "int64"
-        },
-        "rating": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "comment": {
-          "type": "string"
-        },
-        "courseId": {
-          "type": "string",
-          "format": "int64"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "isActive": {
-          "type": "boolean"
-        },
-        "courseName": {
-          "type": "string"
-        }
-      }
-    },
-    "nagorneva_reviewsreviewsv1Review": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "doctorId": {
-          "type": "string",
-          "format": "int64"
-        },
-        "rating": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "comment": {
-          "type": "string"
-        },
-        "courseId": {
-          "type": "string",
-          "format": "int64"
-        },
-        "courseName": {
-          "type": "string"
-        },
-        "createdAt": {
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    },
-    "protobufAny": {
-      "type": "object",
-      "properties": {
-        "@type": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": {}
-    },
-    "rpcStatus": {
-      "type": "object",
-      "properties": {
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/protobufAny"
-          }
-        }
-      }
-    },
-    "v1City": {
+    "nagorneva_reviews.admin.v1.City": {
       "type": "object",
       "properties": {
         "id": {
@@ -1306,7 +1172,7 @@
         }
       }
     },
-    "v1Course": {
+    "nagorneva_reviews.admin.v1.Course": {
       "type": "object",
       "properties": {
         "id": {
@@ -1318,7 +1184,7 @@
         }
       }
     },
-    "v1CreateCityRequest": {
+    "nagorneva_reviews.admin.v1.CreateCityRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -1334,15 +1200,15 @@
         }
       }
     },
-    "v1CreateCityResponse": {
+    "nagorneva_reviews.admin.v1.CreateCityResponse": {
       "type": "object",
       "properties": {
         "city": {
-          "$ref": "#/definitions/v1City"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.City"
         }
       }
     },
-    "v1CreateCourseRequest": {
+    "nagorneva_reviews.admin.v1.CreateCourseRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -1350,15 +1216,15 @@
         }
       }
     },
-    "v1CreateCourseResponse": {
+    "nagorneva_reviews.admin.v1.CreateCourseResponse": {
       "type": "object",
       "properties": {
         "course": {
-          "$ref": "#/definitions/v1Course"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
         }
       }
     },
-    "v1CreateDoctorRequest": {
+    "nagorneva_reviews.admin.v1.CreateDoctorRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -1391,15 +1257,15 @@
         }
       }
     },
-    "v1CreateDoctorResponse": {
+    "nagorneva_reviews.admin.v1.CreateDoctorResponse": {
       "type": "object",
       "properties": {
         "doctor": {
-          "$ref": "#/definitions/v1Doctor"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Doctor"
         }
       }
     },
-    "v1CreateReviewRequest": {
+    "nagorneva_reviews.admin.v1.CreateReviewRequest": {
       "type": "object",
       "properties": {
         "doctorId": {
@@ -1422,15 +1288,15 @@
         }
       }
     },
-    "v1CreateReviewResponse": {
+    "nagorneva_reviews.admin.v1.CreateReviewResponse": {
       "type": "object",
       "properties": {
         "review": {
-          "$ref": "#/definitions/nagorneva_reviewsadminv1Review"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Review"
         }
       }
     },
-    "v1CreateSpecialtyRequest": {
+    "nagorneva_reviews.admin.v1.CreateSpecialtyRequest": {
       "type": "object",
       "properties": {
         "name": {
@@ -1438,15 +1304,15 @@
         }
       }
     },
-    "v1CreateSpecialtyResponse": {
+    "nagorneva_reviews.admin.v1.CreateSpecialtyResponse": {
       "type": "object",
       "properties": {
         "specialty": {
-          "$ref": "#/definitions/v1Specialty"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Specialty"
         }
       }
     },
-    "v1CreateUserRequest": {
+    "nagorneva_reviews.admin.v1.CreateUserRequest": {
       "type": "object",
       "properties": {
         "email": {
@@ -1457,33 +1323,33 @@
         }
       }
     },
-    "v1CreateUserResponse": {
+    "nagorneva_reviews.admin.v1.CreateUserResponse": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/v1User"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.User"
         }
       }
     },
-    "v1DeleteCityResponse": {
+    "nagorneva_reviews.admin.v1.DeleteCityResponse": {
       "type": "object"
     },
-    "v1DeleteCourseResponse": {
+    "nagorneva_reviews.admin.v1.DeleteCourseResponse": {
       "type": "object"
     },
-    "v1DeleteDoctorResponse": {
+    "nagorneva_reviews.admin.v1.DeleteDoctorResponse": {
       "type": "object"
     },
-    "v1DeleteReviewResponse": {
+    "nagorneva_reviews.admin.v1.DeleteReviewResponse": {
       "type": "object"
     },
-    "v1DeleteSpecialtyResponse": {
+    "nagorneva_reviews.admin.v1.DeleteSpecialtyResponse": {
       "type": "object"
     },
-    "v1DeleteUserResponse": {
+    "nagorneva_reviews.admin.v1.DeleteUserResponse": {
       "type": "object"
     },
-    "v1Doctor": {
+    "nagorneva_reviews.admin.v1.Doctor": {
       "type": "object",
       "properties": {
         "id": {
@@ -1523,234 +1389,139 @@
         }
       }
     },
-    "v1DoctorOnMap": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "name": {
-          "type": "string"
-        },
-        "photo": {
-          "type": "string"
-        },
-        "city": {
-          "type": "string"
-        },
-        "lat": {
-          "type": "number",
-          "format": "double"
-        },
-        "lon": {
-          "type": "number",
-          "format": "double"
-        },
-        "reviews": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/nagorneva_reviewsreviewsv1Review"
-          }
-        }
-      }
-    },
-    "v1FilterReviewsRequest": {
-      "type": "object",
-      "properties": {
-        "courseId": {
-          "type": "string",
-          "format": "int64"
-        },
-        "lat": {
-          "type": "number",
-          "format": "double"
-        },
-        "lon": {
-          "type": "number",
-          "format": "double"
-        },
-        "radiusKm": {
-          "type": "number",
-          "format": "double"
-        }
-      }
-    },
-    "v1FilterReviewsResponse": {
-      "type": "object",
-      "properties": {
-        "reviews": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/nagorneva_reviewsreviewsv1Review"
-          }
-        }
-      }
-    },
-    "v1GetCityResponse": {
+    "nagorneva_reviews.admin.v1.GetCityResponse": {
       "type": "object",
       "properties": {
         "city": {
-          "$ref": "#/definitions/v1City"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.City"
         }
       }
     },
-    "v1GetCourseResponse": {
+    "nagorneva_reviews.admin.v1.GetCourseResponse": {
       "type": "object",
       "properties": {
         "course": {
-          "$ref": "#/definitions/v1Course"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
         }
       }
     },
-    "v1GetDoctorResponse": {
+    "nagorneva_reviews.admin.v1.GetDoctorResponse": {
       "type": "object",
       "properties": {
         "doctor": {
-          "$ref": "#/definitions/v1Doctor"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Doctor"
         }
       }
     },
-    "v1GetDoctorReviewsResponse": {
+    "nagorneva_reviews.admin.v1.GetDoctorReviewsResponse": {
       "type": "object",
       "properties": {
         "reviews": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/nagorneva_reviewsadminv1Review"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Review"
           }
         }
       }
     },
-    "v1GetDoctorsOnMapRequest": {
-      "type": "object",
-      "properties": {
-        "lat": {
-          "type": "number",
-          "format": "double"
-        },
-        "lon": {
-          "type": "number",
-          "format": "double"
-        },
-        "radiusKm": {
-          "type": "number",
-          "format": "double"
-        }
-      }
-    },
-    "v1GetDoctorsOnMapResponse": {
-      "type": "object",
-      "properties": {
-        "doctors": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "$ref": "#/definitions/v1DoctorOnMap"
-          }
-        }
-      }
-    },
-    "v1GetReviewResponse": {
+    "nagorneva_reviews.admin.v1.GetReviewResponse": {
       "type": "object",
       "properties": {
         "review": {
-          "$ref": "#/definitions/nagorneva_reviewsadminv1Review"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Review"
         }
       }
     },
-    "v1GetSpecialtyResponse": {
+    "nagorneva_reviews.admin.v1.GetSpecialtyResponse": {
       "type": "object",
       "properties": {
         "specialty": {
-          "$ref": "#/definitions/v1Specialty"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Specialty"
         }
       }
     },
-    "v1GetUserResponse": {
+    "nagorneva_reviews.admin.v1.GetUserResponse": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/v1User"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.User"
         }
       }
     },
-    "v1ListCitiesResponse": {
+    "nagorneva_reviews.admin.v1.ListCitiesResponse": {
       "type": "object",
       "properties": {
         "cities": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1City"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.City"
           }
         }
       }
     },
-    "v1ListCoursesResponse": {
+    "nagorneva_reviews.admin.v1.ListCoursesResponse": {
       "type": "object",
       "properties": {
         "courses": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1Course"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
           }
         }
       }
     },
-    "v1ListDoctorsResponse": {
+    "nagorneva_reviews.admin.v1.ListDoctorsResponse": {
       "type": "object",
       "properties": {
         "doctors": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1Doctor"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Doctor"
           }
         }
       }
     },
-    "v1ListReviewsResponse": {
+    "nagorneva_reviews.admin.v1.ListReviewsResponse": {
       "type": "object",
       "properties": {
         "reviews": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/nagorneva_reviewsadminv1Review"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Review"
           }
         }
       }
     },
-    "v1ListSpecialtiesResponse": {
+    "nagorneva_reviews.admin.v1.ListSpecialtiesResponse": {
       "type": "object",
       "properties": {
         "specialties": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1Specialty"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Specialty"
           }
         }
       }
     },
-    "v1ListUsersResponse": {
+    "nagorneva_reviews.admin.v1.ListUsersResponse": {
       "type": "object",
       "properties": {
         "users": {
           "type": "array",
           "items": {
             "type": "object",
-            "$ref": "#/definitions/v1User"
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.User"
           }
         }
       }
     },
-    "v1LoginRequest": {
+    "nagorneva_reviews.admin.v1.LoginRequest": {
       "type": "object",
       "properties": {
         "email": {
@@ -1761,7 +1532,7 @@
         }
       }
     },
-    "v1LoginResponse": {
+    "nagorneva_reviews.admin.v1.LoginResponse": {
       "type": "object",
       "properties": {
         "accessToken": {
@@ -1772,7 +1543,41 @@
         }
       }
     },
-    "v1Specialty": {
+    "nagorneva_reviews.admin.v1.Review": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "doctorId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "courseName": {
+          "type": "string"
+        }
+      }
+    },
+    "nagorneva_reviews.admin.v1.Specialty": {
       "type": "object",
       "properties": {
         "id": {
@@ -1784,63 +1589,63 @@
         }
       }
     },
-    "v1UpdateCityResponse": {
+    "nagorneva_reviews.admin.v1.UpdateCityResponse": {
       "type": "object",
       "properties": {
         "city": {
-          "$ref": "#/definitions/v1City"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.City"
         }
       }
     },
-    "v1UpdateCourseResponse": {
+    "nagorneva_reviews.admin.v1.UpdateCourseResponse": {
       "type": "object",
       "properties": {
         "course": {
-          "$ref": "#/definitions/v1Course"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
         }
       }
     },
-    "v1UpdateDoctorResponse": {
+    "nagorneva_reviews.admin.v1.UpdateDoctorResponse": {
       "type": "object",
       "properties": {
         "doctor": {
-          "$ref": "#/definitions/v1Doctor"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Doctor"
         }
       }
     },
-    "v1UpdateReviewResponse": {
+    "nagorneva_reviews.admin.v1.UpdateReviewResponse": {
       "type": "object",
       "properties": {
         "review": {
-          "$ref": "#/definitions/nagorneva_reviewsadminv1Review"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Review"
         }
       }
     },
-    "v1UpdateSpecialtyResponse": {
+    "nagorneva_reviews.admin.v1.UpdateSpecialtyResponse": {
       "type": "object",
       "properties": {
         "specialty": {
-          "$ref": "#/definitions/v1Specialty"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Specialty"
         }
       }
     },
-    "v1UpdateUserResponse": {
+    "nagorneva_reviews.admin.v1.UpdateUserResponse": {
       "type": "object",
       "properties": {
         "user": {
-          "$ref": "#/definitions/v1User"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.User"
         }
       }
     },
-    "v1UploadDoctorPhotoResponse": {
+    "nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse": {
       "type": "object",
       "properties": {
         "doctor": {
-          "$ref": "#/definitions/v1Doctor"
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Doctor"
         }
       }
     },
-    "v1User": {
+    "nagorneva_reviews.admin.v1.User": {
       "type": "object",
       "properties": {
         "id": {

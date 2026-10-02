@@ -1,10 +1,7 @@
 package auth
 
 import (
-	"context"
 	"errors"
-	"net/http"
-	"strings"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
@@ -35,26 +32,4 @@ func (s Service) Verify(raw string) (int64, error) {
 		return 0, errors.New("invalid token")
 	}
 	return c.UserID, nil
-}
-
-type contextKey struct{}
-
-func UserID(ctx context.Context) (int64, bool) {
-	id, ok := ctx.Value(contextKey{}).(int64)
-	return id, ok
-}
-func (s Service) Middleware(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		h := r.Header.Get("Authorization")
-		if !strings.HasPrefix(h, "Bearer ") {
-			http.Error(w, `{"error":"authorization required"}`, http.StatusUnauthorized)
-			return
-		}
-		id, err := s.Verify(strings.TrimPrefix(h, "Bearer "))
-		if err != nil {
-			http.Error(w, `{"error":"invalid token"}`, http.StatusUnauthorized)
-			return
-		}
-		next.ServeHTTP(w, r.WithContext(context.WithValue(r.Context(), contextKey{}, id)))
-	})
 }

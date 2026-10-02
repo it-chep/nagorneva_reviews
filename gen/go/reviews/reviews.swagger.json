@@ -1,0 +1,242 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "reviews/reviews.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ReviewsService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/doctors_on_map": {
+      "post": {
+        "summary": "Получение докторов на карте",
+        "operationId": "ReviewsService_GetDoctorsOnMap",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReviewsService"
+        ]
+      }
+    },
+    "/api/v1/reviews/filter": {
+      "post": {
+        "summary": "Фильтрация отзывов по курсу и координатам",
+        "operationId": "ReviewsService_FilterReviews",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilterReviewsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilterReviewsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReviewsService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "google.protobuf.Any": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "google.rpc.Status": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/google.protobuf.Any"
+          }
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.DoctorOnMap": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "lon": {
+          "type": "number",
+          "format": "double"
+        },
+        "reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.reviews.v1.Review"
+          }
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.FilterReviewsRequest": {
+      "type": "object",
+      "properties": {
+        "courseId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "lon": {
+          "type": "number",
+          "format": "double"
+        },
+        "radiusKm": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.FilterReviewsResponse": {
+      "type": "object",
+      "properties": {
+        "reviews": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.reviews.v1.Review"
+          }
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest": {
+      "type": "object",
+      "properties": {
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "lon": {
+          "type": "number",
+          "format": "double"
+        },
+        "radiusKm": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse": {
+      "type": "object",
+      "properties": {
+        "doctors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.reviews.v1.DoctorOnMap"
+          }
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.Review": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "doctorId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "rating": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string",
+          "format": "int64"
+        },
+        "courseName": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

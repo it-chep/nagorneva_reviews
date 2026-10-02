@@ -8,6 +8,7 @@ package reviewsv1
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -60,15 +61,14 @@ func (c *reviewsServiceClient) FilterReviews(ctx context.Context, in *FilterRevi
 }
 
 // ReviewsServiceServer is the server API for ReviewsService service.
-// All implementations must embed UnimplementedReviewsServiceServer
+// All implementations should embed UnimplementedReviewsServiceServer
 // for forward compatibility.
 type ReviewsServiceServer interface {
 	GetDoctorsOnMap(context.Context, *GetDoctorsOnMapRequest) (*GetDoctorsOnMapResponse, error)
 	FilterReviews(context.Context, *FilterReviewsRequest) (*FilterReviewsResponse, error)
-	mustEmbedUnimplementedReviewsServiceServer()
 }
 
-// UnimplementedReviewsServiceServer must be embedded to have
+// UnimplementedReviewsServiceServer should be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
@@ -81,8 +81,7 @@ func (UnimplementedReviewsServiceServer) GetDoctorsOnMap(context.Context, *GetDo
 func (UnimplementedReviewsServiceServer) FilterReviews(context.Context, *FilterReviewsRequest) (*FilterReviewsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method FilterReviews not implemented")
 }
-func (UnimplementedReviewsServiceServer) mustEmbedUnimplementedReviewsServiceServer() {}
-func (UnimplementedReviewsServiceServer) testEmbeddedByValue()                        {}
+func (UnimplementedReviewsServiceServer) testEmbeddedByValue() {}
 
 // UnsafeReviewsServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to ReviewsServiceServer will

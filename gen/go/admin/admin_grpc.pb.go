@@ -8,6 +8,7 @@ package adminv1
 
 import (
 	context "context"
+
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -435,7 +436,7 @@ func (c *adminServiceClient) DeleteReview(ctx context.Context, in *DeleteReviewR
 }
 
 // AdminServiceServer is the server API for AdminService service.
-// All implementations must embed UnimplementedAdminServiceServer
+// All implementations should embed UnimplementedAdminServiceServer
 // for forward compatibility.
 //
 // Every RPC has its own request and response message. Domain messages below are
@@ -474,10 +475,9 @@ type AdminServiceServer interface {
 	ListReviews(context.Context, *ListReviewsRequest) (*ListReviewsResponse, error)
 	UpdateReview(context.Context, *UpdateReviewRequest) (*UpdateReviewResponse, error)
 	DeleteReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error)
-	mustEmbedUnimplementedAdminServiceServer()
 }
 
-// UnimplementedAdminServiceServer must be embedded to have
+// UnimplementedAdminServiceServer should be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
@@ -583,8 +583,7 @@ func (UnimplementedAdminServiceServer) UpdateReview(context.Context, *UpdateRevi
 func (UnimplementedAdminServiceServer) DeleteReview(context.Context, *DeleteReviewRequest) (*DeleteReviewResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method DeleteReview not implemented")
 }
-func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
-func (UnimplementedAdminServiceServer) testEmbeddedByValue()                      {}
+func (UnimplementedAdminServiceServer) testEmbeddedByValue() {}
 
 // UnsafeAdminServiceServer may be embedded to opt out of forward compatibility for this service.
 // Use of this interface is not recommended, as added methods to AdminServiceServer will

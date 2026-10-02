@@ -14,11 +14,15 @@
 ```bash
 cp .env.example .env
 docker compose up -d
-goose -dir migrations postgres "$DATABASE_URL" up
+make migrate-up
 go run ./cmd/nagorneva_reviews
 ```
 
 Перед первым запуском задайте `JWT_SECRET` длиной не менее 32 символов. При указании `ADMIN_EMAIL` и `ADMIN_PASSWORD` приложение создаст единственного администратора при запуске — пароль сохраняется только в bcrypt-хеше.
+
+HTTP API работает через grpc-gateway на `HTTP_ADDR` (по умолчанию `:8080`), а нативный gRPC API — на `GRPC_ADDR` (по умолчанию `:7002`). Оба транспорта используют контракты из `api/`.
+
+`DEBUG=false` по умолчанию. При `DEBUG=true` JWT-проверка отключается для admin HTTP и native gRPC вызовов — используйте это только локально.
 
 ## API
 
@@ -40,7 +44,7 @@ buf generate
 | `GET /api/v1/admin/doctors/{id}/reviews` | Все отзывы выбранного врача, включая неактивные |
 | `POST /api/v1/admin/doctors/{id}/photo` | `multipart/form-data`, поле `photo`; загрузка в S3 |
 
-Для S3 совместимого MinIO используются `S3_ENDPOINT`, `S3_ACCESS_KEY`, `S3_SECRET_KEY`, `S3_BUCKET` и `S3_PUBLIC_URL`. Имя объекта — `doctors/<doctor_id>/<timestamp>.<ext>`.
+Для загрузки фотографий используется Yandex Object Storage по схеме из `medblogers_base`: укажите существующий бакет и его статические ключи в `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` и `S3_BUCKET`. Приложение не создаёт бакет само. `S3_PUBLIC_URL` необязателен: по умолчанию ссылки имеют вид `https://storage.yandexcloud.net/<S3_BUCKET>/<object-key>`. Имя объекта — `images/user_<doctor_id>_<timestamp>.<ext>`.
 
 ## Важное решение по данным
 
