@@ -1665,6 +1665,7 @@ type Course struct {
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	DoctorsCount  int64                  `protobuf:"varint,3,opt,name=doctors_count,json=doctorsCount,proto3" json:"doctors_count,omitempty"`
+	SiteLink      string                 `protobuf:"bytes,4,opt,name=site_link,json=siteLink,proto3" json:"site_link,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1720,9 +1721,17 @@ func (x *Course) GetDoctorsCount() int64 {
 	return 0
 }
 
+func (x *Course) GetSiteLink() string {
+	if x != nil {
+		return x.SiteLink
+	}
+	return ""
+}
+
 type CreateCourseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	SiteLink      string                 `protobuf:"bytes,2,opt,name=site_link,json=siteLink,proto3" json:"site_link,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1760,6 +1769,13 @@ func (*CreateCourseRequest) Descriptor() ([]byte, []int) {
 func (x *CreateCourseRequest) GetName() string {
 	if x != nil {
 		return x.Name
+	}
+	return ""
+}
+
+func (x *CreateCourseRequest) GetSiteLink() string {
+	if x != nil {
+		return x.SiteLink
 	}
 	return ""
 }
@@ -1980,6 +1996,7 @@ type UpdateCourseRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          *string                `protobuf:"bytes,2,opt,name=name,proto3,oneof" json:"name,omitempty"`
+	SiteLink      *string                `protobuf:"bytes,3,opt,name=site_link,json=siteLink,proto3,oneof" json:"site_link,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -2024,6 +2041,13 @@ func (x *UpdateCourseRequest) GetId() int64 {
 func (x *UpdateCourseRequest) GetName() string {
 	if x != nil && x.Name != nil {
 		return *x.Name
+	}
+	return ""
+}
+
+func (x *UpdateCourseRequest) GetSiteLink() string {
+	if x != nil && x.SiteLink != nil {
+		return *x.SiteLink
 	}
 	return ""
 }
@@ -3701,13 +3725,15 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\tspecialty\x18\x01 \x01(\v2%.nagorneva_reviews.admin.v1.SpecialtyR\tspecialty\"(\n" +
 	"\x16DeleteSpecialtyRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x19\n" +
-	"\x17DeleteSpecialtyResponse\"Q\n" +
+	"\x17DeleteSpecialtyResponse\"n\n" +
 	"\x06Course\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12#\n" +
-	"\rdoctors_count\x18\x03 \x01(\x03R\fdoctorsCount\")\n" +
+	"\rdoctors_count\x18\x03 \x01(\x03R\fdoctorsCount\x12\x1b\n" +
+	"\tsite_link\x18\x04 \x01(\tR\bsiteLink\"F\n" +
 	"\x13CreateCourseRequest\x12\x12\n" +
-	"\x04name\x18\x01 \x01(\tR\x04name\"R\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
+	"\tsite_link\x18\x02 \x01(\tR\bsiteLink\"R\n" +
 	"\x14CreateCourseResponse\x12:\n" +
 	"\x06course\x18\x01 \x01(\v2\".nagorneva_reviews.admin.v1.CourseR\x06course\"\"\n" +
 	"\x10GetCourseRequest\x12\x0e\n" +
@@ -3716,11 +3742,14 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\x06course\x18\x01 \x01(\v2\".nagorneva_reviews.admin.v1.CourseR\x06course\"\x14\n" +
 	"\x12ListCoursesRequest\"S\n" +
 	"\x13ListCoursesResponse\x12<\n" +
-	"\acourses\x18\x01 \x03(\v2\".nagorneva_reviews.admin.v1.CourseR\acourses\"G\n" +
+	"\acourses\x18\x01 \x03(\v2\".nagorneva_reviews.admin.v1.CourseR\acourses\"w\n" +
 	"\x13UpdateCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01B\a\n" +
-	"\x05_name\"R\n" +
+	"\x04name\x18\x02 \x01(\tH\x00R\x04name\x88\x01\x01\x12 \n" +
+	"\tsite_link\x18\x03 \x01(\tH\x01R\bsiteLink\x88\x01\x01B\a\n" +
+	"\x05_nameB\f\n" +
+	"\n" +
+	"_site_link\"R\n" +
 	"\x14UpdateCourseResponse\x12:\n" +
 	"\x06course\x18\x01 \x01(\v2\".nagorneva_reviews.admin.v1.CourseR\x06course\"%\n" +
 	"\x13DeleteCourseRequest\x12\x0e\n" +

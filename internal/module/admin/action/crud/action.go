@@ -45,9 +45,12 @@ func validate(resource string, values map[string]any) error {
 }
 
 var columns = map[string]map[string]struct{}{
-	"users": {"email": {}, "password": {}}, "cities": {"name": {}, "lat": {}, "lon": {}}, "specialties": {"name": {}}, "courses": {"name": {}},
-	"doctors": {"name": {}, "full_name": {}, "photo": {}, "personal_data_consent": {}, "city_id": {}, "specialty_id": {}, "lat": {}, "lon": {}, "is_active": {}},
-	"reviews": {"doctor_id": {}, "rating": {}, "comment": {}, "course_id": {}, "is_active": {}},
+	"users":       {"email": {}, "password": {}},
+	"cities":      {"name": {}, "lat": {}, "lon": {}},
+	"specialties": {"name": {}},
+	"courses":     {"name": {}, "site_link": {}},
+	"doctors":     {"name": {}, "full_name": {}, "photo": {}, "personal_data_consent": {}, "city_id": {}, "specialty_id": {}, "lat": {}, "lon": {}, "is_active": {}},
+	"reviews":     {"doctor_id": {}, "rating": {}, "comment": {}, "course_id": {}, "is_active": {}},
 }
 
 func setClause(values map[string]any, start int) ([]string, []any) {

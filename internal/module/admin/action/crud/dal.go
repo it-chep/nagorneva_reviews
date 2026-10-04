@@ -34,7 +34,7 @@ FROM specialties specialty
 ORDER BY specialty.id`
 
 const courseListSelect = `SELECT
-	course.id, course.name,
+	course.id, course.name, course.site_link,
 	(SELECT count(*) FROM doctor_courses completion WHERE completion.course_id = course.id) AS doctors_count
 FROM courses course
 ORDER BY course.id`

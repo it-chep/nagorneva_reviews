@@ -32,7 +32,12 @@ func course(v map[string]any) *adminpb.Course {
 	if v == nil {
 		return nil
 	}
-	return &adminpb.Course{Id: int64Value(v["id"]), Name: stringValue(v["name"]), DoctorsCount: int64Value(v["doctors_count"])}
+	return &adminpb.Course{
+		Id:           int64Value(v["id"]),
+		Name:         stringValue(v["name"]),
+		DoctorsCount: int64Value(v["doctors_count"]),
+		SiteLink:     stringValue(v["site_link"]),
+	}
 }
 
 func doctor(v map[string]any) *adminpb.Doctor {

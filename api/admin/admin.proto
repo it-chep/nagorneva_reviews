@@ -229,9 +229,11 @@ message Course {
   int64 id = 1;
   string name = 2;
   int64 doctors_count = 3;
+  string site_link = 4;
 }
 message CreateCourseRequest {
   string name = 1;
+  string site_link = 2;
 }
 message CreateCourseResponse {
   Course course = 1;
@@ -249,6 +251,7 @@ message ListCoursesResponse {
 message UpdateCourseRequest {
   int64 id = 1;
   optional string name = 2;
+  optional string site_link = 3;
 }
 message UpdateCourseResponse {
   Course course = 1;
