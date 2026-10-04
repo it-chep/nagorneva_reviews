@@ -3,12 +3,23 @@ package crud
 import (
 	"context"
 	"fmt"
+	"strings"
+
 	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
-	"strings"
 )
 
 type DAL struct{ db *pgxpool.Pool }
+
+const doctorSelect = `SELECT
+	d.id, d.name, d.full_name, d.photo, d.personal_data_consent,
+	c.id AS city_id, c.name AS city_name, c.lat AS city_lat, c.lon AS city_lon,
+	s.id AS specialty_id, s.name AS specialty_name,
+	d.lat, d.lon, d.is_active,
+	(SELECT count(*) FROM reviews review WHERE review.doctor_id = d.id) AS reviews_count
+FROM doctors d
+JOIN cities c ON c.id = d.city_id
+JOIN specialties s ON s.id = d.specialty_id`
 
 func (d DAL) create(ctx context.Context, r string, v map[string]any) (map[string]any, error) {
 	if err := validate(r, v); err != nil {
@@ -20,6 +31,14 @@ func (d DAL) create(ctx context.Context, r string, v map[string]any) (map[string
 	for i := range sets {
 		cols[i] = strings.Split(sets[i], "=")[0]
 	}
+	if r == "doctors" {
+		var id int64
+		q := fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s) RETURNING id", r, strings.Join(cols, ","), placeholders(len(args)))
+		if err := d.db.QueryRow(ctx, q, args...).Scan(&id); err != nil {
+			return nil, err
+		}
+		return d.get(ctx, r, id)
+	}
 	q := fmt.Sprintf("INSERT INTO %s (%s) VALUES (%s) RETURNING %s", r, strings.Join(cols, ","), placeholders(len(args)), fieldList(r))
 	return d.one(ctx, q, args...)
 }
@@ -27,13 +46,20 @@ func (d DAL) get(ctx context.Context, r string, id int64) (map[string]any, error
 	if _, ok := columns[r]; !ok {
 		return nil, fmt.Errorf("unknown resource")
 	}
+	if r == "doctors" {
+		return d.one(ctx, doctorSelect+" WHERE d.id=$1", id)
+	}
 	return d.one(ctx, fmt.Sprintf("SELECT %s FROM %s WHERE id=$1", fieldList(r), r), id)
 }
 func (d DAL) list(ctx context.Context, r string) ([]map[string]any, error) {
 	if _, ok := columns[r]; !ok {
 		return nil, fmt.Errorf("unknown resource")
 	}
-	rows, err := d.db.Query(ctx, fmt.Sprintf("SELECT %s FROM %s ORDER BY id", fieldList(r), r))
+	query := fmt.Sprintf("SELECT %s FROM %s ORDER BY id", fieldList(r), r)
+	if r == "doctors" {
+		query = doctorSelect + " ORDER BY d.id"
+	}
+	rows, err := d.db.Query(ctx, query)
 	if err != nil {
 		return nil, err
 	}
@@ -60,6 +86,12 @@ func (d DAL) update(ctx context.Context, r string, id int64, v map[string]any) (
 	args = append(args, id)
 	if r == "doctors" {
 		sets = append(sets, "updated_at=now()")
+		var updatedID int64
+		q := fmt.Sprintf("UPDATE %s SET %s WHERE id=$%d RETURNING id", r, strings.Join(sets, ","), len(args))
+		if err := d.db.QueryRow(ctx, q, args...).Scan(&updatedID); err != nil {
+			return nil, err
+		}
+		return d.get(ctx, r, updatedID)
 	}
 	q := fmt.Sprintf("UPDATE %s SET %s WHERE id=$%d RETURNING %s", r, strings.Join(sets, ","), len(args), fieldList(r))
 	return d.one(ctx, q, args...)

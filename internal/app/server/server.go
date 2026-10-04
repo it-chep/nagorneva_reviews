@@ -67,6 +67,10 @@ func New(_ context.Context, cfg Config, adminService AdminService, reviewsServic
 	// non-protobuf routes, so the middleware must be attached before those
 	// routes are declared (Chi rejects middleware added afterwards).
 	router.Use(
+		// grpc-gateway treats `/resource/` as `/resource/{id}` with an empty
+		// value. Normalize it before gateway routing so list endpoints work
+		// consistently with and without a trailing slash.
+		trimTrailingSlash,
 		chimiddleware.Recoverer,
 		chimiddleware.RequestID,
 		chimiddleware.RealIP,
@@ -106,6 +110,23 @@ func incomingHeaderMatcher(key string) (string, bool) {
 		return "authorization", true
 	}
 	return runtime.DefaultHeaderMatcher(key)
+}
+
+// trimTrailingSlash updates both URL.Path and Chi's route context. Chi's own
+// StripSlashes only changes the route context, while Clay's root-mounted
+// gateway computes its child route from URL.Path as well.
+func trimTrailingSlash(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if len(r.URL.Path) > 1 && strings.HasSuffix(r.URL.Path, "/") {
+			path := strings.TrimRight(r.URL.Path, "/")
+			r.URL.Path = path
+			r.URL.RawPath = ""
+			if routeContext := chi.RouteContext(r.Context()); routeContext != nil {
+				routeContext.RoutePath = path
+			}
+		}
+		next.ServeHTTP(w, r)
+	})
 }
 
 func addressPort(name, address string) (int, error) {

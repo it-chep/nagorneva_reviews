@@ -1368,13 +1368,11 @@
         "personalDataConsent": {
           "type": "boolean"
         },
-        "cityId": {
-          "type": "string",
-          "format": "int64"
+        "city": {
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.City"
         },
-        "specialtyId": {
-          "type": "string",
-          "format": "int64"
+        "specialty": {
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Specialty"
         },
         "lat": {
           "type": "number",
@@ -1386,6 +1384,10 @@
         },
         "isActive": {
           "type": "boolean"
+        },
+        "reviewsCount": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

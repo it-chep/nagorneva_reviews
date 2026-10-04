@@ -2,4 +2,5 @@
 bin/
 .gocache/
 coverage.out
+outputs/*.sql
 *.local

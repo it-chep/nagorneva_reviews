@@ -261,11 +261,12 @@ message Doctor {
   string full_name = 3;
   string photo = 4;
   bool personal_data_consent = 5;
-  int64 city_id = 6;
-  int64 specialty_id = 7;
+  City city = 6;
+  Specialty specialty = 7;
   double lat = 8;
   double lon = 9;
   bool is_active = 10;
+  int64 reviews_count = 11;
 }
 message CreateDoctorRequest {
   string name = 1;

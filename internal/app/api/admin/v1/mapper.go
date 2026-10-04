@@ -39,7 +39,27 @@ func doctor(v map[string]any) *adminpb.Doctor {
 	if v == nil {
 		return nil
 	}
-	return &adminpb.Doctor{Id: int64Value(v["id"]), Name: stringValue(v["name"]), FullName: stringValue(v["full_name"]), Photo: stringValue(v["photo"]), PersonalDataConsent: boolValue(v["personal_data_consent"]), CityId: int64Value(v["city_id"]), SpecialtyId: int64Value(v["specialty_id"]), Lat: float64Value(v["lat"]), Lon: float64Value(v["lon"]), IsActive: boolValue(v["is_active"])}
+	return &adminpb.Doctor{
+		Id:                  int64Value(v["id"]),
+		Name:                stringValue(v["name"]),
+		FullName:            stringValue(v["full_name"]),
+		Photo:               stringValue(v["photo"]),
+		PersonalDataConsent: boolValue(v["personal_data_consent"]),
+		City: &adminpb.City{
+			Id:   int64Value(v["city_id"]),
+			Name: stringValue(v["city_name"]),
+			Lat:  float64Value(v["city_lat"]),
+			Lon:  float64Value(v["city_lon"]),
+		},
+		Specialty: &adminpb.Specialty{
+			Id:   int64Value(v["specialty_id"]),
+			Name: stringValue(v["specialty_name"]),
+		},
+		Lat:          float64Value(v["lat"]),
+		Lon:          float64Value(v["lon"]),
+		IsActive:     boolValue(v["is_active"]),
+		ReviewsCount: int64Value(v["reviews_count"]),
+	}
 }
 
 func review(v map[string]any) *adminpb.Review {

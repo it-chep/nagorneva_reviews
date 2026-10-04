@@ -2135,11 +2135,12 @@ type Doctor struct {
 	FullName            string                 `protobuf:"bytes,3,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
 	Photo               string                 `protobuf:"bytes,4,opt,name=photo,proto3" json:"photo,omitempty"`
 	PersonalDataConsent bool                   `protobuf:"varint,5,opt,name=personal_data_consent,json=personalDataConsent,proto3" json:"personal_data_consent,omitempty"`
-	CityId              int64                  `protobuf:"varint,6,opt,name=city_id,json=cityId,proto3" json:"city_id,omitempty"`
-	SpecialtyId         int64                  `protobuf:"varint,7,opt,name=specialty_id,json=specialtyId,proto3" json:"specialty_id,omitempty"`
+	City                *City                  `protobuf:"bytes,6,opt,name=city,proto3" json:"city,omitempty"`
+	Specialty           *Specialty             `protobuf:"bytes,7,opt,name=specialty,proto3" json:"specialty,omitempty"`
 	Lat                 float64                `protobuf:"fixed64,8,opt,name=lat,proto3" json:"lat,omitempty"`
 	Lon                 float64                `protobuf:"fixed64,9,opt,name=lon,proto3" json:"lon,omitempty"`
 	IsActive            bool                   `protobuf:"varint,10,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	ReviewsCount        int64                  `protobuf:"varint,11,opt,name=reviews_count,json=reviewsCount,proto3" json:"reviews_count,omitempty"`
 	unknownFields       protoimpl.UnknownFields
 	sizeCache           protoimpl.SizeCache
 }
@@ -2209,18 +2210,18 @@ func (x *Doctor) GetPersonalDataConsent() bool {
 	return false
 }
 
-func (x *Doctor) GetCityId() int64 {
+func (x *Doctor) GetCity() *City {
 	if x != nil {
-		return x.CityId
+		return x.City
 	}
-	return 0
+	return nil
 }
 
-func (x *Doctor) GetSpecialtyId() int64 {
+func (x *Doctor) GetSpecialty() *Specialty {
 	if x != nil {
-		return x.SpecialtyId
+		return x.Specialty
 	}
-	return 0
+	return nil
 }
 
 func (x *Doctor) GetLat() float64 {
@@ -2242,6 +2243,13 @@ func (x *Doctor) GetIsActive() bool {
 		return x.IsActive
 	}
 	return false
+}
+
+func (x *Doctor) GetReviewsCount() int64 {
+	if x != nil {
+		return x.ReviewsCount
+	}
+	return 0
 }
 
 type CreateDoctorRequest struct {
@@ -3690,19 +3698,20 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\x06course\x18\x01 \x01(\v2\".nagorneva_reviews.admin.v1.CourseR\x06course\"%\n" +
 	"\x13DeleteCourseRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x16\n" +
-	"\x14DeleteCourseResponse\"\x90\x02\n" +
+	"\x14DeleteCourseResponse\"\xf4\x02\n" +
 	"\x06Doctor\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
 	"\tfull_name\x18\x03 \x01(\tR\bfullName\x12\x14\n" +
 	"\x05photo\x18\x04 \x01(\tR\x05photo\x122\n" +
-	"\x15personal_data_consent\x18\x05 \x01(\bR\x13personalDataConsent\x12\x17\n" +
-	"\acity_id\x18\x06 \x01(\x03R\x06cityId\x12!\n" +
-	"\fspecialty_id\x18\a \x01(\x03R\vspecialtyId\x12\x10\n" +
+	"\x15personal_data_consent\x18\x05 \x01(\bR\x13personalDataConsent\x124\n" +
+	"\x04city\x18\x06 \x01(\v2 .nagorneva_reviews.admin.v1.CityR\x04city\x12C\n" +
+	"\tspecialty\x18\a \x01(\v2%.nagorneva_reviews.admin.v1.SpecialtyR\tspecialty\x12\x10\n" +
 	"\x03lat\x18\b \x01(\x01R\x03lat\x12\x10\n" +
 	"\x03lon\x18\t \x01(\x01R\x03lon\x12\x1b\n" +
 	"\tis_active\x18\n" +
-	" \x01(\bR\bisActive\"\xf7\x01\n" +
+	" \x01(\bR\bisActive\x12#\n" +
+	"\rreviews_count\x18\v \x01(\x03R\freviewsCount\"\xf7\x01\n" +
 	"\x13CreateDoctorRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
 	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x17\n" +
@@ -3949,88 +3958,90 @@ var file_admin_admin_proto_depIdxs = []int32{
 	35, // 13: nagorneva_reviews.admin.v1.GetCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
 	35, // 14: nagorneva_reviews.admin.v1.ListCoursesResponse.courses:type_name -> nagorneva_reviews.admin.v1.Course
 	35, // 15: nagorneva_reviews.admin.v1.UpdateCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
-	46, // 16: nagorneva_reviews.admin.v1.CreateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 17: nagorneva_reviews.admin.v1.GetDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 18: nagorneva_reviews.admin.v1.ListDoctorsResponse.doctors:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 19: nagorneva_reviews.admin.v1.UpdateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 20: nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	61, // 21: nagorneva_reviews.admin.v1.GetDoctorReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
-	72, // 22: nagorneva_reviews.admin.v1.Review.created_at:type_name -> google.protobuf.Timestamp
-	61, // 23: nagorneva_reviews.admin.v1.CreateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
-	61, // 24: nagorneva_reviews.admin.v1.GetReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
-	61, // 25: nagorneva_reviews.admin.v1.ListReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
-	61, // 26: nagorneva_reviews.admin.v1.UpdateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
-	0,  // 27: nagorneva_reviews.admin.v1.AdminService.Login:input_type -> nagorneva_reviews.admin.v1.LoginRequest
-	3,  // 28: nagorneva_reviews.admin.v1.AdminService.CreateUser:input_type -> nagorneva_reviews.admin.v1.CreateUserRequest
-	5,  // 29: nagorneva_reviews.admin.v1.AdminService.GetUser:input_type -> nagorneva_reviews.admin.v1.GetUserRequest
-	7,  // 30: nagorneva_reviews.admin.v1.AdminService.ListUsers:input_type -> nagorneva_reviews.admin.v1.ListUsersRequest
-	9,  // 31: nagorneva_reviews.admin.v1.AdminService.UpdateUser:input_type -> nagorneva_reviews.admin.v1.UpdateUserRequest
-	11, // 32: nagorneva_reviews.admin.v1.AdminService.DeleteUser:input_type -> nagorneva_reviews.admin.v1.DeleteUserRequest
-	14, // 33: nagorneva_reviews.admin.v1.AdminService.CreateCity:input_type -> nagorneva_reviews.admin.v1.CreateCityRequest
-	16, // 34: nagorneva_reviews.admin.v1.AdminService.GetCity:input_type -> nagorneva_reviews.admin.v1.GetCityRequest
-	18, // 35: nagorneva_reviews.admin.v1.AdminService.ListCities:input_type -> nagorneva_reviews.admin.v1.ListCitiesRequest
-	20, // 36: nagorneva_reviews.admin.v1.AdminService.UpdateCity:input_type -> nagorneva_reviews.admin.v1.UpdateCityRequest
-	22, // 37: nagorneva_reviews.admin.v1.AdminService.DeleteCity:input_type -> nagorneva_reviews.admin.v1.DeleteCityRequest
-	25, // 38: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:input_type -> nagorneva_reviews.admin.v1.CreateSpecialtyRequest
-	27, // 39: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:input_type -> nagorneva_reviews.admin.v1.GetSpecialtyRequest
-	29, // 40: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:input_type -> nagorneva_reviews.admin.v1.ListSpecialtiesRequest
-	31, // 41: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:input_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyRequest
-	33, // 42: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:input_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyRequest
-	36, // 43: nagorneva_reviews.admin.v1.AdminService.CreateCourse:input_type -> nagorneva_reviews.admin.v1.CreateCourseRequest
-	38, // 44: nagorneva_reviews.admin.v1.AdminService.GetCourse:input_type -> nagorneva_reviews.admin.v1.GetCourseRequest
-	40, // 45: nagorneva_reviews.admin.v1.AdminService.ListCourses:input_type -> nagorneva_reviews.admin.v1.ListCoursesRequest
-	42, // 46: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:input_type -> nagorneva_reviews.admin.v1.UpdateCourseRequest
-	44, // 47: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:input_type -> nagorneva_reviews.admin.v1.DeleteCourseRequest
-	47, // 48: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:input_type -> nagorneva_reviews.admin.v1.CreateDoctorRequest
-	49, // 49: nagorneva_reviews.admin.v1.AdminService.GetDoctor:input_type -> nagorneva_reviews.admin.v1.GetDoctorRequest
-	51, // 50: nagorneva_reviews.admin.v1.AdminService.ListDoctors:input_type -> nagorneva_reviews.admin.v1.ListDoctorsRequest
-	53, // 51: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:input_type -> nagorneva_reviews.admin.v1.UpdateDoctorRequest
-	55, // 52: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:input_type -> nagorneva_reviews.admin.v1.DeleteDoctorRequest
-	57, // 53: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:input_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest
-	59, // 54: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:input_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsRequest
-	62, // 55: nagorneva_reviews.admin.v1.AdminService.CreateReview:input_type -> nagorneva_reviews.admin.v1.CreateReviewRequest
-	64, // 56: nagorneva_reviews.admin.v1.AdminService.GetReview:input_type -> nagorneva_reviews.admin.v1.GetReviewRequest
-	66, // 57: nagorneva_reviews.admin.v1.AdminService.ListReviews:input_type -> nagorneva_reviews.admin.v1.ListReviewsRequest
-	68, // 58: nagorneva_reviews.admin.v1.AdminService.UpdateReview:input_type -> nagorneva_reviews.admin.v1.UpdateReviewRequest
-	70, // 59: nagorneva_reviews.admin.v1.AdminService.DeleteReview:input_type -> nagorneva_reviews.admin.v1.DeleteReviewRequest
-	1,  // 60: nagorneva_reviews.admin.v1.AdminService.Login:output_type -> nagorneva_reviews.admin.v1.LoginResponse
-	4,  // 61: nagorneva_reviews.admin.v1.AdminService.CreateUser:output_type -> nagorneva_reviews.admin.v1.CreateUserResponse
-	6,  // 62: nagorneva_reviews.admin.v1.AdminService.GetUser:output_type -> nagorneva_reviews.admin.v1.GetUserResponse
-	8,  // 63: nagorneva_reviews.admin.v1.AdminService.ListUsers:output_type -> nagorneva_reviews.admin.v1.ListUsersResponse
-	10, // 64: nagorneva_reviews.admin.v1.AdminService.UpdateUser:output_type -> nagorneva_reviews.admin.v1.UpdateUserResponse
-	12, // 65: nagorneva_reviews.admin.v1.AdminService.DeleteUser:output_type -> nagorneva_reviews.admin.v1.DeleteUserResponse
-	15, // 66: nagorneva_reviews.admin.v1.AdminService.CreateCity:output_type -> nagorneva_reviews.admin.v1.CreateCityResponse
-	17, // 67: nagorneva_reviews.admin.v1.AdminService.GetCity:output_type -> nagorneva_reviews.admin.v1.GetCityResponse
-	19, // 68: nagorneva_reviews.admin.v1.AdminService.ListCities:output_type -> nagorneva_reviews.admin.v1.ListCitiesResponse
-	21, // 69: nagorneva_reviews.admin.v1.AdminService.UpdateCity:output_type -> nagorneva_reviews.admin.v1.UpdateCityResponse
-	23, // 70: nagorneva_reviews.admin.v1.AdminService.DeleteCity:output_type -> nagorneva_reviews.admin.v1.DeleteCityResponse
-	26, // 71: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:output_type -> nagorneva_reviews.admin.v1.CreateSpecialtyResponse
-	28, // 72: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:output_type -> nagorneva_reviews.admin.v1.GetSpecialtyResponse
-	30, // 73: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:output_type -> nagorneva_reviews.admin.v1.ListSpecialtiesResponse
-	32, // 74: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:output_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyResponse
-	34, // 75: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:output_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyResponse
-	37, // 76: nagorneva_reviews.admin.v1.AdminService.CreateCourse:output_type -> nagorneva_reviews.admin.v1.CreateCourseResponse
-	39, // 77: nagorneva_reviews.admin.v1.AdminService.GetCourse:output_type -> nagorneva_reviews.admin.v1.GetCourseResponse
-	41, // 78: nagorneva_reviews.admin.v1.AdminService.ListCourses:output_type -> nagorneva_reviews.admin.v1.ListCoursesResponse
-	43, // 79: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:output_type -> nagorneva_reviews.admin.v1.UpdateCourseResponse
-	45, // 80: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:output_type -> nagorneva_reviews.admin.v1.DeleteCourseResponse
-	48, // 81: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:output_type -> nagorneva_reviews.admin.v1.CreateDoctorResponse
-	50, // 82: nagorneva_reviews.admin.v1.AdminService.GetDoctor:output_type -> nagorneva_reviews.admin.v1.GetDoctorResponse
-	52, // 83: nagorneva_reviews.admin.v1.AdminService.ListDoctors:output_type -> nagorneva_reviews.admin.v1.ListDoctorsResponse
-	54, // 84: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:output_type -> nagorneva_reviews.admin.v1.UpdateDoctorResponse
-	56, // 85: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:output_type -> nagorneva_reviews.admin.v1.DeleteDoctorResponse
-	58, // 86: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:output_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse
-	60, // 87: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:output_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsResponse
-	63, // 88: nagorneva_reviews.admin.v1.AdminService.CreateReview:output_type -> nagorneva_reviews.admin.v1.CreateReviewResponse
-	65, // 89: nagorneva_reviews.admin.v1.AdminService.GetReview:output_type -> nagorneva_reviews.admin.v1.GetReviewResponse
-	67, // 90: nagorneva_reviews.admin.v1.AdminService.ListReviews:output_type -> nagorneva_reviews.admin.v1.ListReviewsResponse
-	69, // 91: nagorneva_reviews.admin.v1.AdminService.UpdateReview:output_type -> nagorneva_reviews.admin.v1.UpdateReviewResponse
-	71, // 92: nagorneva_reviews.admin.v1.AdminService.DeleteReview:output_type -> nagorneva_reviews.admin.v1.DeleteReviewResponse
-	60, // [60:93] is the sub-list for method output_type
-	27, // [27:60] is the sub-list for method input_type
-	27, // [27:27] is the sub-list for extension type_name
-	27, // [27:27] is the sub-list for extension extendee
-	0,  // [0:27] is the sub-list for field type_name
+	13, // 16: nagorneva_reviews.admin.v1.Doctor.city:type_name -> nagorneva_reviews.admin.v1.City
+	24, // 17: nagorneva_reviews.admin.v1.Doctor.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
+	46, // 18: nagorneva_reviews.admin.v1.CreateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	46, // 19: nagorneva_reviews.admin.v1.GetDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	46, // 20: nagorneva_reviews.admin.v1.ListDoctorsResponse.doctors:type_name -> nagorneva_reviews.admin.v1.Doctor
+	46, // 21: nagorneva_reviews.admin.v1.UpdateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	46, // 22: nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	61, // 23: nagorneva_reviews.admin.v1.GetDoctorReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
+	72, // 24: nagorneva_reviews.admin.v1.Review.created_at:type_name -> google.protobuf.Timestamp
+	61, // 25: nagorneva_reviews.admin.v1.CreateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
+	61, // 26: nagorneva_reviews.admin.v1.GetReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
+	61, // 27: nagorneva_reviews.admin.v1.ListReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
+	61, // 28: nagorneva_reviews.admin.v1.UpdateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
+	0,  // 29: nagorneva_reviews.admin.v1.AdminService.Login:input_type -> nagorneva_reviews.admin.v1.LoginRequest
+	3,  // 30: nagorneva_reviews.admin.v1.AdminService.CreateUser:input_type -> nagorneva_reviews.admin.v1.CreateUserRequest
+	5,  // 31: nagorneva_reviews.admin.v1.AdminService.GetUser:input_type -> nagorneva_reviews.admin.v1.GetUserRequest
+	7,  // 32: nagorneva_reviews.admin.v1.AdminService.ListUsers:input_type -> nagorneva_reviews.admin.v1.ListUsersRequest
+	9,  // 33: nagorneva_reviews.admin.v1.AdminService.UpdateUser:input_type -> nagorneva_reviews.admin.v1.UpdateUserRequest
+	11, // 34: nagorneva_reviews.admin.v1.AdminService.DeleteUser:input_type -> nagorneva_reviews.admin.v1.DeleteUserRequest
+	14, // 35: nagorneva_reviews.admin.v1.AdminService.CreateCity:input_type -> nagorneva_reviews.admin.v1.CreateCityRequest
+	16, // 36: nagorneva_reviews.admin.v1.AdminService.GetCity:input_type -> nagorneva_reviews.admin.v1.GetCityRequest
+	18, // 37: nagorneva_reviews.admin.v1.AdminService.ListCities:input_type -> nagorneva_reviews.admin.v1.ListCitiesRequest
+	20, // 38: nagorneva_reviews.admin.v1.AdminService.UpdateCity:input_type -> nagorneva_reviews.admin.v1.UpdateCityRequest
+	22, // 39: nagorneva_reviews.admin.v1.AdminService.DeleteCity:input_type -> nagorneva_reviews.admin.v1.DeleteCityRequest
+	25, // 40: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:input_type -> nagorneva_reviews.admin.v1.CreateSpecialtyRequest
+	27, // 41: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:input_type -> nagorneva_reviews.admin.v1.GetSpecialtyRequest
+	29, // 42: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:input_type -> nagorneva_reviews.admin.v1.ListSpecialtiesRequest
+	31, // 43: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:input_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyRequest
+	33, // 44: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:input_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyRequest
+	36, // 45: nagorneva_reviews.admin.v1.AdminService.CreateCourse:input_type -> nagorneva_reviews.admin.v1.CreateCourseRequest
+	38, // 46: nagorneva_reviews.admin.v1.AdminService.GetCourse:input_type -> nagorneva_reviews.admin.v1.GetCourseRequest
+	40, // 47: nagorneva_reviews.admin.v1.AdminService.ListCourses:input_type -> nagorneva_reviews.admin.v1.ListCoursesRequest
+	42, // 48: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:input_type -> nagorneva_reviews.admin.v1.UpdateCourseRequest
+	44, // 49: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:input_type -> nagorneva_reviews.admin.v1.DeleteCourseRequest
+	47, // 50: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:input_type -> nagorneva_reviews.admin.v1.CreateDoctorRequest
+	49, // 51: nagorneva_reviews.admin.v1.AdminService.GetDoctor:input_type -> nagorneva_reviews.admin.v1.GetDoctorRequest
+	51, // 52: nagorneva_reviews.admin.v1.AdminService.ListDoctors:input_type -> nagorneva_reviews.admin.v1.ListDoctorsRequest
+	53, // 53: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:input_type -> nagorneva_reviews.admin.v1.UpdateDoctorRequest
+	55, // 54: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:input_type -> nagorneva_reviews.admin.v1.DeleteDoctorRequest
+	57, // 55: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:input_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest
+	59, // 56: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:input_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsRequest
+	62, // 57: nagorneva_reviews.admin.v1.AdminService.CreateReview:input_type -> nagorneva_reviews.admin.v1.CreateReviewRequest
+	64, // 58: nagorneva_reviews.admin.v1.AdminService.GetReview:input_type -> nagorneva_reviews.admin.v1.GetReviewRequest
+	66, // 59: nagorneva_reviews.admin.v1.AdminService.ListReviews:input_type -> nagorneva_reviews.admin.v1.ListReviewsRequest
+	68, // 60: nagorneva_reviews.admin.v1.AdminService.UpdateReview:input_type -> nagorneva_reviews.admin.v1.UpdateReviewRequest
+	70, // 61: nagorneva_reviews.admin.v1.AdminService.DeleteReview:input_type -> nagorneva_reviews.admin.v1.DeleteReviewRequest
+	1,  // 62: nagorneva_reviews.admin.v1.AdminService.Login:output_type -> nagorneva_reviews.admin.v1.LoginResponse
+	4,  // 63: nagorneva_reviews.admin.v1.AdminService.CreateUser:output_type -> nagorneva_reviews.admin.v1.CreateUserResponse
+	6,  // 64: nagorneva_reviews.admin.v1.AdminService.GetUser:output_type -> nagorneva_reviews.admin.v1.GetUserResponse
+	8,  // 65: nagorneva_reviews.admin.v1.AdminService.ListUsers:output_type -> nagorneva_reviews.admin.v1.ListUsersResponse
+	10, // 66: nagorneva_reviews.admin.v1.AdminService.UpdateUser:output_type -> nagorneva_reviews.admin.v1.UpdateUserResponse
+	12, // 67: nagorneva_reviews.admin.v1.AdminService.DeleteUser:output_type -> nagorneva_reviews.admin.v1.DeleteUserResponse
+	15, // 68: nagorneva_reviews.admin.v1.AdminService.CreateCity:output_type -> nagorneva_reviews.admin.v1.CreateCityResponse
+	17, // 69: nagorneva_reviews.admin.v1.AdminService.GetCity:output_type -> nagorneva_reviews.admin.v1.GetCityResponse
+	19, // 70: nagorneva_reviews.admin.v1.AdminService.ListCities:output_type -> nagorneva_reviews.admin.v1.ListCitiesResponse
+	21, // 71: nagorneva_reviews.admin.v1.AdminService.UpdateCity:output_type -> nagorneva_reviews.admin.v1.UpdateCityResponse
+	23, // 72: nagorneva_reviews.admin.v1.AdminService.DeleteCity:output_type -> nagorneva_reviews.admin.v1.DeleteCityResponse
+	26, // 73: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:output_type -> nagorneva_reviews.admin.v1.CreateSpecialtyResponse
+	28, // 74: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:output_type -> nagorneva_reviews.admin.v1.GetSpecialtyResponse
+	30, // 75: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:output_type -> nagorneva_reviews.admin.v1.ListSpecialtiesResponse
+	32, // 76: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:output_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyResponse
+	34, // 77: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:output_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyResponse
+	37, // 78: nagorneva_reviews.admin.v1.AdminService.CreateCourse:output_type -> nagorneva_reviews.admin.v1.CreateCourseResponse
+	39, // 79: nagorneva_reviews.admin.v1.AdminService.GetCourse:output_type -> nagorneva_reviews.admin.v1.GetCourseResponse
+	41, // 80: nagorneva_reviews.admin.v1.AdminService.ListCourses:output_type -> nagorneva_reviews.admin.v1.ListCoursesResponse
+	43, // 81: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:output_type -> nagorneva_reviews.admin.v1.UpdateCourseResponse
+	45, // 82: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:output_type -> nagorneva_reviews.admin.v1.DeleteCourseResponse
+	48, // 83: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:output_type -> nagorneva_reviews.admin.v1.CreateDoctorResponse
+	50, // 84: nagorneva_reviews.admin.v1.AdminService.GetDoctor:output_type -> nagorneva_reviews.admin.v1.GetDoctorResponse
+	52, // 85: nagorneva_reviews.admin.v1.AdminService.ListDoctors:output_type -> nagorneva_reviews.admin.v1.ListDoctorsResponse
+	54, // 86: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:output_type -> nagorneva_reviews.admin.v1.UpdateDoctorResponse
+	56, // 87: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:output_type -> nagorneva_reviews.admin.v1.DeleteDoctorResponse
+	58, // 88: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:output_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse
+	60, // 89: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:output_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsResponse
+	63, // 90: nagorneva_reviews.admin.v1.AdminService.CreateReview:output_type -> nagorneva_reviews.admin.v1.CreateReviewResponse
+	65, // 91: nagorneva_reviews.admin.v1.AdminService.GetReview:output_type -> nagorneva_reviews.admin.v1.GetReviewResponse
+	67, // 92: nagorneva_reviews.admin.v1.AdminService.ListReviews:output_type -> nagorneva_reviews.admin.v1.ListReviewsResponse
+	69, // 93: nagorneva_reviews.admin.v1.AdminService.UpdateReview:output_type -> nagorneva_reviews.admin.v1.UpdateReviewResponse
+	71, // 94: nagorneva_reviews.admin.v1.AdminService.DeleteReview:output_type -> nagorneva_reviews.admin.v1.DeleteReviewResponse
+	62, // [62:95] is the sub-list for method output_type
+	29, // [29:62] is the sub-list for method input_type
+	29, // [29:29] is the sub-list for extension type_name
+	29, // [29:29] is the sub-list for extension extendee
+	0,  // [0:29] is the sub-list for field type_name
 }
 
 func init() { file_admin_admin_proto_init() }
