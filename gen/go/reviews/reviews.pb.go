@@ -25,6 +25,55 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type ReviewsSort int32
+
+const (
+	ReviewsSort_REVIEWS_SORT_UNSPECIFIED ReviewsSort = 0
+	ReviewsSort_REVIEWS_SORT_DESC        ReviewsSort = 1
+	ReviewsSort_REVIEWS_SORT_ASC         ReviewsSort = 2
+)
+
+// Enum value maps for ReviewsSort.
+var (
+	ReviewsSort_name = map[int32]string{
+		0: "REVIEWS_SORT_UNSPECIFIED",
+		1: "REVIEWS_SORT_DESC",
+		2: "REVIEWS_SORT_ASC",
+	}
+	ReviewsSort_value = map[string]int32{
+		"REVIEWS_SORT_UNSPECIFIED": 0,
+		"REVIEWS_SORT_DESC":        1,
+		"REVIEWS_SORT_ASC":         2,
+	}
+)
+
+func (x ReviewsSort) Enum() *ReviewsSort {
+	p := new(ReviewsSort)
+	*p = x
+	return p
+}
+
+func (x ReviewsSort) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ReviewsSort) Descriptor() protoreflect.EnumDescriptor {
+	return file_reviews_reviews_proto_enumTypes[0].Descriptor()
+}
+
+func (ReviewsSort) Type() protoreflect.EnumType {
+	return &file_reviews_reviews_proto_enumTypes[0]
+}
+
+func (x ReviewsSort) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ReviewsSort.Descriptor instead.
+func (ReviewsSort) EnumDescriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{0}
+}
+
 type GetDoctorsOnMapRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Lat           float64                `protobuf:"fixed64,1,opt,name=lat,proto3" json:"lat,omitempty"`
@@ -425,6 +474,424 @@ func (x *FilterReviewsResponse) GetReviews() []*Review {
 	return nil
 }
 
+type FilterDoctorsRequest struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Inside each group, a doctor may match any supplied ID. Non-empty groups
+	// are combined with AND: city AND specialty AND completed course.
+	CityIds             []int64     `protobuf:"varint,1,rep,packed,name=city_ids,json=cityIds,proto3" json:"city_ids,omitempty"`
+	SpecialtyIds        []int64     `protobuf:"varint,2,rep,packed,name=specialty_ids,json=specialtyIds,proto3" json:"specialty_ids,omitempty"`
+	CourseIds           []int64     `protobuf:"varint,3,rep,packed,name=course_ids,json=courseIds,proto3" json:"course_ids,omitempty"`
+	IsActive            *bool       `protobuf:"varint,4,opt,name=is_active,json=isActive,proto3,oneof" json:"is_active,omitempty"`
+	PersonalDataConsent *bool       `protobuf:"varint,5,opt,name=personal_data_consent,json=personalDataConsent,proto3,oneof" json:"personal_data_consent,omitempty"`
+	ReviewsSort         ReviewsSort `protobuf:"varint,6,opt,name=reviews_sort,json=reviewsSort,proto3,enum=nagorneva_reviews.reviews.v1.ReviewsSort" json:"reviews_sort,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *FilterDoctorsRequest) Reset() {
+	*x = FilterDoctorsRequest{}
+	mi := &file_reviews_reviews_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilterDoctorsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilterDoctorsRequest) ProtoMessage() {}
+
+func (x *FilterDoctorsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilterDoctorsRequest.ProtoReflect.Descriptor instead.
+func (*FilterDoctorsRequest) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *FilterDoctorsRequest) GetCityIds() []int64 {
+	if x != nil {
+		return x.CityIds
+	}
+	return nil
+}
+
+func (x *FilterDoctorsRequest) GetSpecialtyIds() []int64 {
+	if x != nil {
+		return x.SpecialtyIds
+	}
+	return nil
+}
+
+func (x *FilterDoctorsRequest) GetCourseIds() []int64 {
+	if x != nil {
+		return x.CourseIds
+	}
+	return nil
+}
+
+func (x *FilterDoctorsRequest) GetIsActive() bool {
+	if x != nil && x.IsActive != nil {
+		return *x.IsActive
+	}
+	return false
+}
+
+func (x *FilterDoctorsRequest) GetPersonalDataConsent() bool {
+	if x != nil && x.PersonalDataConsent != nil {
+		return *x.PersonalDataConsent
+	}
+	return false
+}
+
+func (x *FilterDoctorsRequest) GetReviewsSort() ReviewsSort {
+	if x != nil {
+		return x.ReviewsSort
+	}
+	return ReviewsSort_REVIEWS_SORT_UNSPECIFIED
+}
+
+type FilterDoctorCity struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Lat           float64                `protobuf:"fixed64,3,opt,name=lat,proto3" json:"lat,omitempty"`
+	Lon           float64                `protobuf:"fixed64,4,opt,name=lon,proto3" json:"lon,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FilterDoctorCity) Reset() {
+	*x = FilterDoctorCity{}
+	mi := &file_reviews_reviews_proto_msgTypes[7]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilterDoctorCity) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilterDoctorCity) ProtoMessage() {}
+
+func (x *FilterDoctorCity) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[7]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilterDoctorCity.ProtoReflect.Descriptor instead.
+func (*FilterDoctorCity) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{7}
+}
+
+func (x *FilterDoctorCity) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FilterDoctorCity) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *FilterDoctorCity) GetLat() float64 {
+	if x != nil {
+		return x.Lat
+	}
+	return 0
+}
+
+func (x *FilterDoctorCity) GetLon() float64 {
+	if x != nil {
+		return x.Lon
+	}
+	return 0
+}
+
+type FilterDoctorSpecialty struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FilterDoctorSpecialty) Reset() {
+	*x = FilterDoctorSpecialty{}
+	mi := &file_reviews_reviews_proto_msgTypes[8]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilterDoctorSpecialty) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilterDoctorSpecialty) ProtoMessage() {}
+
+func (x *FilterDoctorSpecialty) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[8]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilterDoctorSpecialty.ProtoReflect.Descriptor instead.
+func (*FilterDoctorSpecialty) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{8}
+}
+
+func (x *FilterDoctorSpecialty) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FilterDoctorSpecialty) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type CompletedCourse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *CompletedCourse) Reset() {
+	*x = CompletedCourse{}
+	mi := &file_reviews_reviews_proto_msgTypes[9]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *CompletedCourse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*CompletedCourse) ProtoMessage() {}
+
+func (x *CompletedCourse) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[9]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use CompletedCourse.ProtoReflect.Descriptor instead.
+func (*CompletedCourse) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{9}
+}
+
+func (x *CompletedCourse) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *CompletedCourse) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+type FilteredDoctor struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Id                  int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Photo               string                 `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
+	City                *FilterDoctorCity      `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty"`
+	Specialty           *FilterDoctorSpecialty `protobuf:"bytes,5,opt,name=specialty,proto3" json:"specialty,omitempty"`
+	CompletedCourses    []*CompletedCourse     `protobuf:"bytes,6,rep,name=completed_courses,json=completedCourses,proto3" json:"completed_courses,omitempty"`
+	IsActive            bool                   `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	PersonalDataConsent bool                   `protobuf:"varint,8,opt,name=personal_data_consent,json=personalDataConsent,proto3" json:"personal_data_consent,omitempty"`
+	ReviewsCount        int64                  `protobuf:"varint,9,opt,name=reviews_count,json=reviewsCount,proto3" json:"reviews_count,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *FilteredDoctor) Reset() {
+	*x = FilteredDoctor{}
+	mi := &file_reviews_reviews_proto_msgTypes[10]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilteredDoctor) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilteredDoctor) ProtoMessage() {}
+
+func (x *FilteredDoctor) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[10]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilteredDoctor.ProtoReflect.Descriptor instead.
+func (*FilteredDoctor) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{10}
+}
+
+func (x *FilteredDoctor) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FilteredDoctor) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *FilteredDoctor) GetPhoto() string {
+	if x != nil {
+		return x.Photo
+	}
+	return ""
+}
+
+func (x *FilteredDoctor) GetCity() *FilterDoctorCity {
+	if x != nil {
+		return x.City
+	}
+	return nil
+}
+
+func (x *FilteredDoctor) GetSpecialty() *FilterDoctorSpecialty {
+	if x != nil {
+		return x.Specialty
+	}
+	return nil
+}
+
+func (x *FilteredDoctor) GetCompletedCourses() []*CompletedCourse {
+	if x != nil {
+		return x.CompletedCourses
+	}
+	return nil
+}
+
+func (x *FilteredDoctor) GetIsActive() bool {
+	if x != nil {
+		return x.IsActive
+	}
+	return false
+}
+
+func (x *FilteredDoctor) GetPersonalDataConsent() bool {
+	if x != nil {
+		return x.PersonalDataConsent
+	}
+	return false
+}
+
+func (x *FilteredDoctor) GetReviewsCount() int64 {
+	if x != nil {
+		return x.ReviewsCount
+	}
+	return 0
+}
+
+type FilterDoctorsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Doctors       []*FilteredDoctor      `protobuf:"bytes,1,rep,name=doctors,proto3" json:"doctors,omitempty"`
+	DoctorCount   int64                  `protobuf:"varint,2,opt,name=doctor_count,json=doctorCount,proto3" json:"doctor_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FilterDoctorsResponse) Reset() {
+	*x = FilterDoctorsResponse{}
+	mi := &file_reviews_reviews_proto_msgTypes[11]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilterDoctorsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilterDoctorsResponse) ProtoMessage() {}
+
+func (x *FilterDoctorsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[11]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilterDoctorsResponse.ProtoReflect.Descriptor instead.
+func (*FilterDoctorsResponse) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{11}
+}
+
+func (x *FilterDoctorsResponse) GetDoctors() []*FilteredDoctor {
+	if x != nil {
+		return x.Doctors
+	}
+	return nil
+}
+
+func (x *FilterDoctorsResponse) GetDoctorCount() int64 {
+	if x != nil {
+		return x.DoctorCount
+	}
+	return 0
+}
+
 var File_reviews_reviews_proto protoreflect.FileDescriptor
 
 const file_reviews_reviews_proto_rawDesc = "" +
@@ -464,10 +931,50 @@ const file_reviews_reviews_proto_rawDesc = "" +
 	"\x04_latB\x06\n" +
 	"\x04_lon\"W\n" +
 	"\x15FilterReviewsResponse\x12>\n" +
-	"\areviews\x18\x01 \x03(\v2$.nagorneva_reviews.reviews.v1.ReviewR\areviews2\xdc\x03\n" +
+	"\areviews\x18\x01 \x03(\v2$.nagorneva_reviews.reviews.v1.ReviewR\areviews\"\xc6\x02\n" +
+	"\x14FilterDoctorsRequest\x12\x19\n" +
+	"\bcity_ids\x18\x01 \x03(\x03R\acityIds\x12#\n" +
+	"\rspecialty_ids\x18\x02 \x03(\x03R\fspecialtyIds\x12\x1d\n" +
+	"\n" +
+	"course_ids\x18\x03 \x03(\x03R\tcourseIds\x12 \n" +
+	"\tis_active\x18\x04 \x01(\bH\x00R\bisActive\x88\x01\x01\x127\n" +
+	"\x15personal_data_consent\x18\x05 \x01(\bH\x01R\x13personalDataConsent\x88\x01\x01\x12L\n" +
+	"\freviews_sort\x18\x06 \x01(\x0e2).nagorneva_reviews.reviews.v1.ReviewsSortR\vreviewsSortB\f\n" +
+	"\n" +
+	"_is_activeB\x18\n" +
+	"\x16_personal_data_consent\"Z\n" +
+	"\x10FilterDoctorCity\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x10\n" +
+	"\x03lat\x18\x03 \x01(\x01R\x03lat\x12\x10\n" +
+	"\x03lon\x18\x04 \x01(\x01R\x03lon\";\n" +
+	"\x15FilterDoctorSpecialty\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"5\n" +
+	"\x0fCompletedCourse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\"\xb3\x03\n" +
+	"\x0eFilteredDoctor\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05photo\x18\x03 \x01(\tR\x05photo\x12B\n" +
+	"\x04city\x18\x04 \x01(\v2..nagorneva_reviews.reviews.v1.FilterDoctorCityR\x04city\x12Q\n" +
+	"\tspecialty\x18\x05 \x01(\v23.nagorneva_reviews.reviews.v1.FilterDoctorSpecialtyR\tspecialty\x12Z\n" +
+	"\x11completed_courses\x18\x06 \x03(\v2-.nagorneva_reviews.reviews.v1.CompletedCourseR\x10completedCourses\x12\x1b\n" +
+	"\tis_active\x18\a \x01(\bR\bisActive\x122\n" +
+	"\x15personal_data_consent\x18\b \x01(\bR\x13personalDataConsent\x12#\n" +
+	"\rreviews_count\x18\t \x01(\x03R\freviewsCount\"\x82\x01\n" +
+	"\x15FilterDoctorsResponse\x12F\n" +
+	"\adoctors\x18\x01 \x03(\v2,.nagorneva_reviews.reviews.v1.FilteredDoctorR\adoctors\x12!\n" +
+	"\fdoctor_count\x18\x02 \x01(\x03R\vdoctorCount*X\n" +
+	"\vReviewsSort\x12\x1c\n" +
+	"\x18REVIEWS_SORT_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11REVIEWS_SORT_DESC\x10\x01\x12\x14\n" +
+	"\x10REVIEWS_SORT_ASC\x10\x022\xf8\x05\n" +
 	"\x0eReviewsService\x12\xd9\x01\n" +
 	"\x0fGetDoctorsOnMap\x124.nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest\x1a5.nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse\"Y\x92A5\x123Получение докторов на карте\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/doctors_on_map\x12\xed\x01\n" +
-	"\rFilterReviews\x122.nagorneva_reviews.reviews.v1.FilterReviewsRequest\x1a3.nagorneva_reviews.reviews.v1.FilterReviewsResponse\"s\x92AO\x12MФильтрация отзывов по курсу и координатам\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/reviews/filterBEZCgithub.com/nagorneva/nagorneva_reviews/gen/go/api/reviews;reviewsv1b\x06proto3"
+	"\rFilterReviews\x122.nagorneva_reviews.reviews.v1.FilterReviewsRequest\x1a3.nagorneva_reviews.reviews.v1.FilterReviewsResponse\"s\x92AO\x12MФильтрация отзывов по курсу и координатам\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/reviews/filter\x12\x99\x02\n" +
+	"\rFilterDoctors\x122.nagorneva_reviews.reviews.v1.FilterDoctorsRequest\x1a3.nagorneva_reviews.reviews.v1.FilterDoctorsResponse\"\x9e\x01\x92Az\x12xФильтрация врачей по городам, специальностям и пройденным курсам\x82\xd3\xe4\x93\x02\x1b:\x01*\"\x16/api/v1/doctors/filterBEZCgithub.com/nagorneva/nagorneva_reviews/gen/go/api/reviews;reviewsv1b\x06proto3"
 
 var (
 	file_reviews_reviews_proto_rawDescOnce sync.Once
@@ -481,30 +988,45 @@ func file_reviews_reviews_proto_rawDescGZIP() []byte {
 	return file_reviews_reviews_proto_rawDescData
 }
 
-var file_reviews_reviews_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_reviews_reviews_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_reviews_reviews_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
 var file_reviews_reviews_proto_goTypes = []any{
-	(*GetDoctorsOnMapRequest)(nil),  // 0: nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
-	(*Review)(nil),                  // 1: nagorneva_reviews.reviews.v1.Review
-	(*DoctorOnMap)(nil),             // 2: nagorneva_reviews.reviews.v1.DoctorOnMap
-	(*GetDoctorsOnMapResponse)(nil), // 3: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
-	(*FilterReviewsRequest)(nil),    // 4: nagorneva_reviews.reviews.v1.FilterReviewsRequest
-	(*FilterReviewsResponse)(nil),   // 5: nagorneva_reviews.reviews.v1.FilterReviewsResponse
-	(*timestamppb.Timestamp)(nil),   // 6: google.protobuf.Timestamp
+	(ReviewsSort)(0),                // 0: nagorneva_reviews.reviews.v1.ReviewsSort
+	(*GetDoctorsOnMapRequest)(nil),  // 1: nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
+	(*Review)(nil),                  // 2: nagorneva_reviews.reviews.v1.Review
+	(*DoctorOnMap)(nil),             // 3: nagorneva_reviews.reviews.v1.DoctorOnMap
+	(*GetDoctorsOnMapResponse)(nil), // 4: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
+	(*FilterReviewsRequest)(nil),    // 5: nagorneva_reviews.reviews.v1.FilterReviewsRequest
+	(*FilterReviewsResponse)(nil),   // 6: nagorneva_reviews.reviews.v1.FilterReviewsResponse
+	(*FilterDoctorsRequest)(nil),    // 7: nagorneva_reviews.reviews.v1.FilterDoctorsRequest
+	(*FilterDoctorCity)(nil),        // 8: nagorneva_reviews.reviews.v1.FilterDoctorCity
+	(*FilterDoctorSpecialty)(nil),   // 9: nagorneva_reviews.reviews.v1.FilterDoctorSpecialty
+	(*CompletedCourse)(nil),         // 10: nagorneva_reviews.reviews.v1.CompletedCourse
+	(*FilteredDoctor)(nil),          // 11: nagorneva_reviews.reviews.v1.FilteredDoctor
+	(*FilterDoctorsResponse)(nil),   // 12: nagorneva_reviews.reviews.v1.FilterDoctorsResponse
+	(*timestamppb.Timestamp)(nil),   // 13: google.protobuf.Timestamp
 }
 var file_reviews_reviews_proto_depIdxs = []int32{
-	6, // 0: nagorneva_reviews.reviews.v1.Review.created_at:type_name -> google.protobuf.Timestamp
-	1, // 1: nagorneva_reviews.reviews.v1.DoctorOnMap.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
-	2, // 2: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.DoctorOnMap
-	1, // 3: nagorneva_reviews.reviews.v1.FilterReviewsResponse.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
-	0, // 4: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:input_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
-	4, // 5: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:input_type -> nagorneva_reviews.reviews.v1.FilterReviewsRequest
-	3, // 6: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:output_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
-	5, // 7: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:output_type -> nagorneva_reviews.reviews.v1.FilterReviewsResponse
-	6, // [6:8] is the sub-list for method output_type
-	4, // [4:6] is the sub-list for method input_type
-	4, // [4:4] is the sub-list for extension type_name
-	4, // [4:4] is the sub-list for extension extendee
-	0, // [0:4] is the sub-list for field type_name
+	13, // 0: nagorneva_reviews.reviews.v1.Review.created_at:type_name -> google.protobuf.Timestamp
+	2,  // 1: nagorneva_reviews.reviews.v1.DoctorOnMap.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
+	3,  // 2: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.DoctorOnMap
+	2,  // 3: nagorneva_reviews.reviews.v1.FilterReviewsResponse.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
+	0,  // 4: nagorneva_reviews.reviews.v1.FilterDoctorsRequest.reviews_sort:type_name -> nagorneva_reviews.reviews.v1.ReviewsSort
+	8,  // 5: nagorneva_reviews.reviews.v1.FilteredDoctor.city:type_name -> nagorneva_reviews.reviews.v1.FilterDoctorCity
+	9,  // 6: nagorneva_reviews.reviews.v1.FilteredDoctor.specialty:type_name -> nagorneva_reviews.reviews.v1.FilterDoctorSpecialty
+	10, // 7: nagorneva_reviews.reviews.v1.FilteredDoctor.completed_courses:type_name -> nagorneva_reviews.reviews.v1.CompletedCourse
+	11, // 8: nagorneva_reviews.reviews.v1.FilterDoctorsResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.FilteredDoctor
+	1,  // 9: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:input_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
+	5,  // 10: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:input_type -> nagorneva_reviews.reviews.v1.FilterReviewsRequest
+	7,  // 11: nagorneva_reviews.reviews.v1.ReviewsService.FilterDoctors:input_type -> nagorneva_reviews.reviews.v1.FilterDoctorsRequest
+	4,  // 12: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:output_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
+	6,  // 13: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:output_type -> nagorneva_reviews.reviews.v1.FilterReviewsResponse
+	12, // 14: nagorneva_reviews.reviews.v1.ReviewsService.FilterDoctors:output_type -> nagorneva_reviews.reviews.v1.FilterDoctorsResponse
+	12, // [12:15] is the sub-list for method output_type
+	9,  // [9:12] is the sub-list for method input_type
+	9,  // [9:9] is the sub-list for extension type_name
+	9,  // [9:9] is the sub-list for extension extendee
+	0,  // [0:9] is the sub-list for field type_name
 }
 
 func init() { file_reviews_reviews_proto_init() }
@@ -513,18 +1035,20 @@ func file_reviews_reviews_proto_init() {
 		return
 	}
 	file_reviews_reviews_proto_msgTypes[4].OneofWrappers = []any{}
+	file_reviews_reviews_proto_msgTypes[6].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_reviews_reviews_proto_rawDesc), len(file_reviews_reviews_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   6,
+			NumEnums:      1,
+			NumMessages:   12,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_reviews_reviews_proto_goTypes,
 		DependencyIndexes: file_reviews_reviews_proto_depIdxs,
+		EnumInfos:         file_reviews_reviews_proto_enumTypes,
 		MessageInfos:      file_reviews_reviews_proto_msgTypes,
 	}.Build()
 	File_reviews_reviews_proto = out.File

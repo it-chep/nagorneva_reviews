@@ -91,3 +91,21 @@ func (w *ReviewsServiceServiceDesc) FilterReviews(ctx context.Context, in *Filte
 	}
 	return resp.(*FilterReviewsResponse), err
 }
+
+func (w *ReviewsServiceServiceDesc) FilterDoctors(ctx context.Context, in *FilterDoctorsRequest) (*FilterDoctorsResponse, error) {
+	if w.opts.UnaryInterceptor == nil {
+		return w.svc.FilterDoctors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w,
+		FullMethod: "/nagorneva_reviews.reviews.v1.ReviewsService/FilterDoctors",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.svc.FilterDoctors(ctx, req.(*FilterDoctorsRequest))
+	}
+	resp, err := w.opts.UnaryInterceptor(ctx, in, info, handler)
+	if err != nil || resp == nil {
+		return nil, err
+	}
+	return resp.(*FilterDoctorsResponse), err
+}

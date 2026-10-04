@@ -16,6 +16,10 @@ service ReviewsService {
     option (google.api.http) = {post: "/api/v1/reviews/filter" body: "*"};
     option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {summary: "Фильтрация отзывов по курсу и координатам"};
   }
+  rpc FilterDoctors(FilterDoctorsRequest) returns (FilterDoctorsResponse) {
+    option (google.api.http) = {post: "/api/v1/doctors/filter" body: "*"};
+    option (grpc.gateway.protoc_gen_openapiv2.options.openapiv2_operation) = {summary: "Фильтрация врачей по городам, специальностям и пройденным курсам"};
+  }
 }
 message GetDoctorsOnMapRequest {
   double lat = 1;
@@ -58,3 +62,53 @@ message FilterReviewsResponse {
   repeated Review reviews = 1;
 }
 
+enum ReviewsSort {
+  REVIEWS_SORT_UNSPECIFIED = 0;
+  REVIEWS_SORT_DESC = 1;
+  REVIEWS_SORT_ASC = 2;
+}
+
+message FilterDoctorsRequest {
+  // Inside each group, a doctor may match any supplied ID. Non-empty groups
+  // are combined with AND: city AND specialty AND completed course.
+  repeated int64 city_ids = 1;
+  repeated int64 specialty_ids = 2;
+  repeated int64 course_ids = 3;
+  optional bool is_active = 4;
+  optional bool personal_data_consent = 5;
+  ReviewsSort reviews_sort = 6;
+}
+
+message FilterDoctorCity {
+  int64 id = 1;
+  string name = 2;
+  double lat = 3;
+  double lon = 4;
+}
+
+message FilterDoctorSpecialty {
+  int64 id = 1;
+  string name = 2;
+}
+
+message CompletedCourse {
+  int64 id = 1;
+  string name = 2;
+}
+
+message FilteredDoctor {
+  int64 id = 1;
+  string name = 2;
+  string photo = 3;
+  FilterDoctorCity city = 4;
+  FilterDoctorSpecialty specialty = 5;
+  repeated CompletedCourse completed_courses = 6;
+  bool is_active = 7;
+  bool personal_data_consent = 8;
+  int64 reviews_count = 9;
+}
+
+message FilterDoctorsResponse {
+  repeated FilteredDoctor doctors = 1;
+  int64 doctor_count = 2;
+}

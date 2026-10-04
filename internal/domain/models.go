@@ -51,3 +51,18 @@ type DoctorOnMap struct {
 	City    string             `json:"city"`
 	Reviews []ReviewWithCourse `json:"reviews"`
 }
+
+// FilteredDoctor is a public doctor card returned by the catalog filter.
+// Courses are taken from the explicit doctor_courses completion relation,
+// rather than inferred from reviews.
+type FilteredDoctor struct {
+	ID                  int64
+	Name                string
+	Photo               string
+	City                City
+	Specialty           Specialty
+	CompletedCourses    []Course
+	IsActive            bool
+	PersonalDataConsent bool
+	ReviewsCount        int64
+}

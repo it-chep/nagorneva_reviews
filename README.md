@@ -38,6 +38,7 @@ buf generate
 | Метод | Назначение |
 |---|---|
 | `POST /api/v1/doctors_on_map` | Доктора по координатам, с городом, доступным фото и активными отзывами/курсами |
+| `POST /api/v1/doctors/filter` | Фильтр врачей по `city_ids`, `specialty_ids`, `course_ids`, `is_active`, `personal_data_consent`, `reviews_sort` |
 | `POST /api/v1/reviews/filter` | Фильтр отзывов по `course_id`, `lat`, `lon`, `radius_km` |
 | `POST /api/v1/admin/login` | Вход администратора |
 | `/api/v1/admin/{users,cities,specialties,doctors,courses,reviews}` | `GET`, `POST`, `GET/{id}`, `PATCH/{id}`, `DELETE/{id}` |
@@ -49,3 +50,5 @@ buf generate
 ## Важное решение по данным
 
 В исходном ТЗ `speciallity` содержит опечатку. В БД и API использовано согласованное имя `specialties` / `specialty_id`. Это предотвращает постоянную неоднозначность в SQL и фронтенде. Координаты врача сохранены отдельно от города: город задаёт фильтр и справочник, а координаты врача — точку на карте.
+
+В `POST /api/v1/doctors/filter` значения внутри одного массива работают как «или», а непустые группы фильтров объединяются как «и». Например, врач из любого указанного города, с любой указанной специальностью и прошедший любой указанный курс. Поле `course_ids` сверяется с отдельной связью `doctor_courses`, а не с текстом отзывов. Необязательные `is_active` и `personal_data_consent` принимают `true` или `false`; если поле не передано, соответствующий признак не фильтруется. `reviews_sort` принимает `REVIEWS_SORT_DESC` или `REVIEWS_SORT_ASC`; без него и при одинаковом числе отзывов врачи отсортированы по ID. Ответ содержит `doctor_count` — общее число врачей, совпавших с фильтром.

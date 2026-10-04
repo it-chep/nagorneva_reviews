@@ -1169,6 +1169,10 @@
         "lon": {
           "type": "number",
           "format": "double"
+        },
+        "doctorsCount": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -1181,6 +1185,10 @@
         },
         "name": {
           "type": "string"
+        },
+        "doctorsCount": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -1588,6 +1596,10 @@
         },
         "name": {
           "type": "string"
+        },
+        "doctorsCount": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },

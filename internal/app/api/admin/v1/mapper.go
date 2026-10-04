@@ -18,21 +18,21 @@ func city(v map[string]any) *adminpb.City {
 	if v == nil {
 		return nil
 	}
-	return &adminpb.City{Id: int64Value(v["id"]), Name: stringValue(v["name"]), Lat: float64Value(v["lat"]), Lon: float64Value(v["lon"])}
+	return &adminpb.City{Id: int64Value(v["id"]), Name: stringValue(v["name"]), Lat: float64Value(v["lat"]), Lon: float64Value(v["lon"]), DoctorsCount: int64Value(v["doctors_count"])}
 }
 
 func specialty(v map[string]any) *adminpb.Specialty {
 	if v == nil {
 		return nil
 	}
-	return &adminpb.Specialty{Id: int64Value(v["id"]), Name: stringValue(v["name"])}
+	return &adminpb.Specialty{Id: int64Value(v["id"]), Name: stringValue(v["name"]), DoctorsCount: int64Value(v["doctors_count"])}
 }
 
 func course(v map[string]any) *adminpb.Course {
 	if v == nil {
 		return nil
 	}
-	return &adminpb.Course{Id: int64Value(v["id"]), Name: stringValue(v["name"])}
+	return &adminpb.Course{Id: int64Value(v["id"]), Name: stringValue(v["name"]), DoctorsCount: int64Value(v["doctors_count"])}
 }
 
 func doctor(v map[string]any) *adminpb.Doctor {

@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	ReviewsService_GetDoctorsOnMap_FullMethodName = "/nagorneva_reviews.reviews.v1.ReviewsService/GetDoctorsOnMap"
 	ReviewsService_FilterReviews_FullMethodName   = "/nagorneva_reviews.reviews.v1.ReviewsService/FilterReviews"
+	ReviewsService_FilterDoctors_FullMethodName   = "/nagorneva_reviews.reviews.v1.ReviewsService/FilterDoctors"
 )
 
 // ReviewsServiceClient is the client API for ReviewsService service.
@@ -30,6 +31,7 @@ const (
 type ReviewsServiceClient interface {
 	GetDoctorsOnMap(ctx context.Context, in *GetDoctorsOnMapRequest, opts ...grpc.CallOption) (*GetDoctorsOnMapResponse, error)
 	FilterReviews(ctx context.Context, in *FilterReviewsRequest, opts ...grpc.CallOption) (*FilterReviewsResponse, error)
+	FilterDoctors(ctx context.Context, in *FilterDoctorsRequest, opts ...grpc.CallOption) (*FilterDoctorsResponse, error)
 }
 
 type reviewsServiceClient struct {
@@ -60,12 +62,23 @@ func (c *reviewsServiceClient) FilterReviews(ctx context.Context, in *FilterRevi
 	return out, nil
 }
 
+func (c *reviewsServiceClient) FilterDoctors(ctx context.Context, in *FilterDoctorsRequest, opts ...grpc.CallOption) (*FilterDoctorsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FilterDoctorsResponse)
+	err := c.cc.Invoke(ctx, ReviewsService_FilterDoctors_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // ReviewsServiceServer is the server API for ReviewsService service.
 // All implementations should embed UnimplementedReviewsServiceServer
 // for forward compatibility.
 type ReviewsServiceServer interface {
 	GetDoctorsOnMap(context.Context, *GetDoctorsOnMapRequest) (*GetDoctorsOnMapResponse, error)
 	FilterReviews(context.Context, *FilterReviewsRequest) (*FilterReviewsResponse, error)
+	FilterDoctors(context.Context, *FilterDoctorsRequest) (*FilterDoctorsResponse, error)
 }
 
 // UnimplementedReviewsServiceServer should be embedded to have
@@ -80,6 +93,9 @@ func (UnimplementedReviewsServiceServer) GetDoctorsOnMap(context.Context, *GetDo
 }
 func (UnimplementedReviewsServiceServer) FilterReviews(context.Context, *FilterReviewsRequest) (*FilterReviewsResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method FilterReviews not implemented")
+}
+func (UnimplementedReviewsServiceServer) FilterDoctors(context.Context, *FilterDoctorsRequest) (*FilterDoctorsResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method FilterDoctors not implemented")
 }
 func (UnimplementedReviewsServiceServer) testEmbeddedByValue() {}
 
@@ -137,6 +153,24 @@ func _ReviewsService_FilterReviews_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ReviewsService_FilterDoctors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FilterDoctorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ReviewsServiceServer).FilterDoctors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: ReviewsService_FilterDoctors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ReviewsServiceServer).FilterDoctors(ctx, req.(*FilterDoctorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // ReviewsService_ServiceDesc is the grpc.ServiceDesc for ReviewsService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -151,6 +185,10 @@ var ReviewsService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "FilterReviews",
 			Handler:    _ReviewsService_FilterReviews_Handler,
+		},
+		{
+			MethodName: "FilterDoctors",
+			Handler:    _ReviewsService_FilterDoctors_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

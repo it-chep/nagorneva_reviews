@@ -16,6 +16,39 @@
     "application/json"
   ],
   "paths": {
+    "/api/v1/doctors/filter": {
+      "post": {
+        "summary": "Фильтрация врачей по городам, специальностям и пройденным курсам",
+        "operationId": "ReviewsService_FilterDoctors",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilterDoctorsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilterDoctorsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ReviewsService"
+        ]
+      }
+    },
     "/api/v1/doctors_on_map": {
       "post": {
         "summary": "Получение докторов на карте",
@@ -112,6 +145,18 @@
         }
       }
     },
+    "nagorneva_reviews.reviews.v1.CompletedCourse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "nagorneva_reviews.reviews.v1.DoctorOnMap": {
       "type": "object",
       "properties": {
@@ -145,6 +190,90 @@
         }
       }
     },
+    "nagorneva_reviews.reviews.v1.FilterDoctorCity": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "lat": {
+          "type": "number",
+          "format": "double"
+        },
+        "lon": {
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.FilterDoctorSpecialty": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.FilterDoctorsRequest": {
+      "type": "object",
+      "properties": {
+        "cityIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          },
+          "description": "Inside each group, a doctor may match any supplied ID. Non-empty groups\nare combined with AND: city AND specialty AND completed course."
+        },
+        "specialtyIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "courseIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "personalDataConsent": {
+          "type": "boolean"
+        },
+        "reviewsSort": {
+          "$ref": "#/definitions/nagorneva_reviews.reviews.v1.ReviewsSort"
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.FilterDoctorsResponse": {
+      "type": "object",
+      "properties": {
+        "doctors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilteredDoctor"
+          }
+        },
+        "doctorCount": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "nagorneva_reviews.reviews.v1.FilterReviewsRequest": {
       "type": "object",
       "properties": {
@@ -175,6 +304,44 @@
             "type": "object",
             "$ref": "#/definitions/nagorneva_reviews.reviews.v1.Review"
           }
+        }
+      }
+    },
+    "nagorneva_reviews.reviews.v1.FilteredDoctor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "city": {
+          "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilterDoctorCity"
+        },
+        "specialty": {
+          "$ref": "#/definitions/nagorneva_reviews.reviews.v1.FilterDoctorSpecialty"
+        },
+        "completedCourses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.reviews.v1.CompletedCourse"
+          }
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "personalDataConsent": {
+          "type": "boolean"
+        },
+        "reviewsCount": {
+          "type": "string",
+          "format": "int64"
         }
       }
     },
@@ -237,6 +404,15 @@
           "format": "date-time"
         }
       }
+    },
+    "nagorneva_reviews.reviews.v1.ReviewsSort": {
+      "type": "string",
+      "enum": [
+        "REVIEWS_SORT_UNSPECIFIED",
+        "REVIEWS_SORT_DESC",
+        "REVIEWS_SORT_ASC"
+      ],
+      "default": "REVIEWS_SORT_UNSPECIFIED"
     }
   }
 }

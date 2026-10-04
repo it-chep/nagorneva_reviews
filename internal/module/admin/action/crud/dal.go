@@ -21,6 +21,24 @@ FROM doctors d
 JOIN cities c ON c.id = d.city_id
 JOIN specialties s ON s.id = d.specialty_id`
 
+const cityListSelect = `SELECT
+	city.id, city.name, city.lat, city.lon,
+	(SELECT count(*) FROM doctors doctor WHERE doctor.city_id = city.id) AS doctors_count
+FROM cities city
+ORDER BY city.id`
+
+const specialtyListSelect = `SELECT
+	specialty.id, specialty.name,
+	(SELECT count(*) FROM doctors doctor WHERE doctor.specialty_id = specialty.id) AS doctors_count
+FROM specialties specialty
+ORDER BY specialty.id`
+
+const courseListSelect = `SELECT
+	course.id, course.name,
+	(SELECT count(*) FROM doctor_courses completion WHERE completion.course_id = course.id) AS doctors_count
+FROM courses course
+ORDER BY course.id`
+
 func (d DAL) create(ctx context.Context, r string, v map[string]any) (map[string]any, error) {
 	if err := validate(r, v); err != nil {
 		return nil, err
@@ -56,7 +74,14 @@ func (d DAL) list(ctx context.Context, r string) ([]map[string]any, error) {
 		return nil, fmt.Errorf("unknown resource")
 	}
 	query := fmt.Sprintf("SELECT %s FROM %s ORDER BY id", fieldList(r), r)
-	if r == "doctors" {
+	switch r {
+	case "cities":
+		query = cityListSelect
+	case "specialties":
+		query = specialtyListSelect
+	case "courses":
+		query = courseListSelect
+	case "doctors":
 		query = doctorSelect + " ORDER BY d.id"
 	}
 	rows, err := d.db.Query(ctx, query)

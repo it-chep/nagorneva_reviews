@@ -158,6 +158,7 @@ message City {
   string name = 2;
   double lat = 3;
   double lon = 4;
+  int64 doctors_count = 5;
 }
 message CreateCityRequest {
   string name = 1;
@@ -194,6 +195,7 @@ message DeleteCityResponse {}
 message Specialty {
   int64 id = 1;
   string name = 2;
+  int64 doctors_count = 3;
 }
 message CreateSpecialtyRequest {
   string name = 1;
@@ -226,6 +228,7 @@ message DeleteSpecialtyResponse {}
 message Course {
   int64 id = 1;
   string name = 2;
+  int64 doctors_count = 3;
 }
 message CreateCourseRequest {
   string name = 1;

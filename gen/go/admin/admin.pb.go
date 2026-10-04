@@ -634,6 +634,7 @@ type City struct {
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
 	Lat           float64                `protobuf:"fixed64,3,opt,name=lat,proto3" json:"lat,omitempty"`
 	Lon           float64                `protobuf:"fixed64,4,opt,name=lon,proto3" json:"lon,omitempty"`
+	DoctorsCount  int64                  `protobuf:"varint,5,opt,name=doctors_count,json=doctorsCount,proto3" json:"doctors_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -692,6 +693,13 @@ func (x *City) GetLat() float64 {
 func (x *City) GetLon() float64 {
 	if x != nil {
 		return x.Lon
+	}
+	return 0
+}
+
+func (x *City) GetDoctorsCount() int64 {
+	if x != nil {
+		return x.DoctorsCount
 	}
 	return 0
 }
@@ -1164,6 +1172,7 @@ type Specialty struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	DoctorsCount  int64                  `protobuf:"varint,3,opt,name=doctors_count,json=doctorsCount,proto3" json:"doctors_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1210,6 +1219,13 @@ func (x *Specialty) GetName() string {
 		return x.Name
 	}
 	return ""
+}
+
+func (x *Specialty) GetDoctorsCount() int64 {
+	if x != nil {
+		return x.DoctorsCount
+	}
+	return 0
 }
 
 type CreateSpecialtyRequest struct {
@@ -1648,6 +1664,7 @@ type Course struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	DoctorsCount  int64                  `protobuf:"varint,3,opt,name=doctors_count,json=doctorsCount,proto3" json:"doctors_count,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -1694,6 +1711,13 @@ func (x *Course) GetName() string {
 		return x.Name
 	}
 	return ""
+}
+
+func (x *Course) GetDoctorsCount() int64 {
+	if x != nil {
+		return x.DoctorsCount
+	}
+	return 0
 }
 
 type CreateCourseRequest struct {
@@ -3621,12 +3645,13 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\x04user\x18\x01 \x01(\v2 .nagorneva_reviews.admin.v1.UserR\x04user\"#\n" +
 	"\x11DeleteUserRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x14\n" +
-	"\x12DeleteUserResponse\"N\n" +
+	"\x12DeleteUserResponse\"s\n" +
 	"\x04City\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x10\n" +
 	"\x03lat\x18\x03 \x01(\x01R\x03lat\x12\x10\n" +
-	"\x03lon\x18\x04 \x01(\x01R\x03lon\"K\n" +
+	"\x03lon\x18\x04 \x01(\x01R\x03lon\x12#\n" +
+	"\rdoctors_count\x18\x05 \x01(\x03R\fdoctorsCount\"K\n" +
 	"\x11CreateCityRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x10\n" +
 	"\x03lat\x18\x02 \x01(\x01R\x03lat\x12\x10\n" +
@@ -3652,10 +3677,11 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\x04city\x18\x01 \x01(\v2 .nagorneva_reviews.admin.v1.CityR\x04city\"#\n" +
 	"\x11DeleteCityRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x14\n" +
-	"\x12DeleteCityResponse\"/\n" +
+	"\x12DeleteCityResponse\"T\n" +
 	"\tSpecialty\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\",\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12#\n" +
+	"\rdoctors_count\x18\x03 \x01(\x03R\fdoctorsCount\",\n" +
 	"\x16CreateSpecialtyRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"^\n" +
 	"\x17CreateSpecialtyResponse\x12C\n" +
@@ -3675,10 +3701,11 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\tspecialty\x18\x01 \x01(\v2%.nagorneva_reviews.admin.v1.SpecialtyR\tspecialty\"(\n" +
 	"\x16DeleteSpecialtyRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x19\n" +
-	"\x17DeleteSpecialtyResponse\",\n" +
+	"\x17DeleteSpecialtyResponse\"Q\n" +
 	"\x06Course\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
-	"\x04name\x18\x02 \x01(\tR\x04name\")\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12#\n" +
+	"\rdoctors_count\x18\x03 \x01(\x03R\fdoctorsCount\")\n" +
 	"\x13CreateCourseRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"R\n" +
 	"\x14CreateCourseResponse\x12:\n" +
