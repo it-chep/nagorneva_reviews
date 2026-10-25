@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) ListCities(ctx context.Context, _ *adminpb.ListCitiesRequest) (*adminpb.ListCitiesResponse, error) {
-	items, err := s.module.Actions.ListCities.Execute(ctx)
+	items, err := s.module.Actions.Cities.ListCities.Execute(ctx)
 	return &adminpb.ListCitiesResponse{Cities: cities(items)}, rpcError(err)
 }

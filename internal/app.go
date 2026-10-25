@@ -7,8 +7,8 @@ import (
 	"runtime/debug"
 
 	appserver "github.com/nagorneva/nagorneva_reviews/internal/app/server"
-	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/module/admin"
-	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/module/reviews"
+	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/admin"
+	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews"
 )
 
 // modules aggregates application modules in the same way as medblogers_base.
@@ -26,6 +26,9 @@ type App struct {
 func New(ctx context.Context) (*App, error) {
 	a := &App{}
 	if err := a.initConfig(ctx).initPostgres(ctx).initModules(ctx).initTransport(ctx).err; err != nil {
+		if a.shutdown != nil {
+			a.shutdown()
+		}
 		return nil, err
 	}
 	return a, nil

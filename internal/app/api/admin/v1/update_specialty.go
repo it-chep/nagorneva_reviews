@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) UpdateSpecialty(ctx context.Context, req *adminpb.UpdateSpecialtyRequest) (*adminpb.UpdateSpecialtyResponse, error) {
-	v, err := s.module.Actions.UpdateSpecialty.Execute(ctx, req.GetId(), req.Name)
+	v, err := s.module.Actions.Specialties.UpdateSpecialty.Execute(ctx, req.GetId(), req.Name)
 	return &adminpb.UpdateSpecialtyResponse{Specialty: specialty(v)}, rpcError(err)
 }

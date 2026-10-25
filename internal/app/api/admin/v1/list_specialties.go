@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) ListSpecialties(ctx context.Context, _ *adminpb.ListSpecialtiesRequest) (*adminpb.ListSpecialtiesResponse, error) {
-	items, err := s.module.Actions.ListSpecialties.Execute(ctx)
+	items, err := s.module.Actions.Specialties.ListSpecialties.Execute(ctx)
 	return &adminpb.ListSpecialtiesResponse{Specialties: specialties(items)}, rpcError(err)
 }

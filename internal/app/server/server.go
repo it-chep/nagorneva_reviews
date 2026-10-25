@@ -1,11 +1,11 @@
-// Package server owns the application's HTTP grpc-gateway and native gRPC
-// transports. It uses the same Clay setup as medblogers_base so gateway calls
-// pass through the generated service descriptors and gRPC interceptors.
+// Package server runs Clay with generated gRPC and grpc-gateway descriptors.
 package server
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"log/slog"
 	"net"
 	"net/http"
 	"strconv"
@@ -21,38 +21,59 @@ import (
 	appmiddleware "github.com/nagorneva/nagorneva_reviews/internal/app/middleware"
 	clayserver "github.com/not-for-prod/clay/server"
 	"github.com/not-for-prod/clay/transport"
+
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
+
+	"google.golang.org/grpc/status"
 )
 
 const shutdownTimeout = 15 * time.Second
 
-// Config configures the public HTTP gateway and native gRPC listener.
+// Photo requests contain up to 10 MiB of binary data plus protobuf metadata.
+const maxMessageSize = 12 << 20
+
 type Config struct {
-	HTTPAddr string
-	GRPCAddr string
-	Token    appmiddleware.TokenVerifier
-	Debug    bool
+	HTTPAddr, GRPCAddr string
+	AllowedOrigins     []string
+	Token              appmiddleware.TokenVerifier
+	Debug              bool
 }
 
-// AdminService is the generated gRPC service plus the browser multipart
-// endpoint that grpc-gateway cannot represent.
+func (c Config) GetAllowedOrigins() []string { return c.AllowedOrigins }
+
 type AdminService interface {
 	adminpb.AdminServiceServer
 	UploadDoctorPhotoMultipart(http.ResponseWriter, *http.Request)
 }
 
-// Server runs Clay's generated-descriptor transport. Clay registers each
-// service both in native gRPC and grpc-gateway, applying unary middleware to
-// both paths just as medblogers_base does.
-type Server struct {
-	server      *clayserver.Server
-	controllers []transport.ServiceDesc
-	httpAddr    string
-	grpcAddr    string
+// registeredServices keeps gateway access for the multipart/JSON shared URL,
+// and signals when Clay has finished initializing both transports.
+type registeredServices struct {
+	*transport.CompoundServiceDesc
+	gateway *runtime.ServeMux
+	rpc     *grpc.Server
+	ready   chan struct{}
 }
 
-// New composes the Chi routes that are not generated from protobuf (health
-// and multipart upload) and leaves protobuf HTTP/gRPC registration to Clay.
-func New(_ context.Context, cfg Config, adminService AdminService, reviewsService reviewspb.ReviewsServiceServer) (*Server, error) {
+func (d *registeredServices) RegisterHTTP(ctx context.Context, mux *runtime.ServeMux) error {
+	d.gateway = mux
+	return d.CompoundServiceDesc.RegisterHTTP(ctx, mux)
+}
+func (d *registeredServices) RegisterGRPC(rpc *grpc.Server) {
+	d.CompoundServiceDesc.RegisterGRPC(rpc)
+	d.rpc = rpc
+	close(d.ready)
+}
+
+type Server struct {
+	cfg      Config
+	clay     *clayserver.Server
+	services *registeredServices
+	admin    AdminService
+}
+
+func New(_ context.Context, cfg Config, admin AdminService, reviews reviewspb.ReviewsServiceServer) (*Server, error) {
 	httpPort, err := addressPort("HTTP_ADDR", cfg.HTTPAddr)
 	if err != nil {
 		return nil, err
@@ -61,68 +82,118 @@ func New(_ context.Context, cfg Config, adminService AdminService, reviewsServic
 	if err != nil {
 		return nil, err
 	}
-
-	router := chi.NewRouter()
-	// Clay applies WithHTTPMiddlewares during Run. This project has explicit
-	// non-protobuf routes, so the middleware must be attached before those
-	// routes are declared (Chi rejects middleware added afterwards).
-	router.Use(
-		// grpc-gateway treats `/resource/` as `/resource/{id}` with an empty
-		// value. Normalize it before gateway routing so list endpoints work
-		// consistently with and without a trailing slash.
-		trimTrailingSlash,
-		chimiddleware.Recoverer,
-		chimiddleware.RequestID,
-		chimiddleware.RealIP,
-		chimiddleware.Timeout(30*time.Second),
-		appmiddleware.CORS,
-	)
-	router.Get("/healthz", healthv1.Get)
-	router.With(appmiddleware.AdminAuth(cfg.Token, cfg.Debug)).Post("/api/v1/admin/doctors/{id}/photo", func(w http.ResponseWriter, r *http.Request) {
-		if strings.HasPrefix(r.Header.Get("Content-Type"), "multipart/") {
-			adminService.UploadDoctorPhotoMultipart(w, r)
-			return
-		}
-		http.Error(w, `{"error":"multipart/form-data is required"}`, http.StatusUnsupportedMediaType)
-	})
-
-	clay := clayserver.NewServer(
-		grpcPort,
+	if !cfg.Debug && cfg.Token == nil {
+		return nil, fmt.Errorf("admin token verifier is required")
+	}
+	s := &Server{cfg: cfg, admin: admin, services: &registeredServices{
+		CompoundServiceDesc: transport.NewCompoundServiceDesc(
+			adminpb.NewAdminServiceServiceDesc(admin),
+			reviewspb.NewReviewsServiceServiceDesc(reviews),
+		),
+		ready: make(chan struct{}),
+	}}
+	s.clay = clayserver.NewServer(grpcPort,
 		clayserver.WithHTTPPort(httpPort),
-		clayserver.WithHTTPMux(router),
-		clayserver.WithGRPCUnaryMiddlewares(appmiddleware.GRPCAdminAuth(cfg.Token, cfg.Debug)),
+		clayserver.WithHTTPMux(s.router()),
+		clayserver.WithGRPCUnaryMiddlewares(recoverRPC, appmiddleware.GRPCAdminAuth(cfg.Token, cfg.Debug)),
+		clayserver.WithGRPCOpts(grpc.MaxRecvMsgSize(maxMessageSize), grpc.MaxSendMsgSize(maxMessageSize)),
 		clayserver.WithRuntimeServeMuxOpts(runtime.WithIncomingHeaderMatcher(incomingHeaderMatcher)),
 	)
+	return s, nil
+}
 
-	return &Server{
-		server: clay,
-		controllers: []transport.ServiceDesc{
-			adminpb.NewAdminServiceServiceDesc(adminService),
-			reviewspb.NewReviewsServiceServiceDesc(reviewsService),
-		},
-		httpAddr: cfg.HTTPAddr,
-		grpcAddr: cfg.GRPCAddr,
-	}, nil
+func recoverRPC(ctx context.Context, req any, info *grpc.UnaryServerInfo, next grpc.UnaryHandler) (response any, err error) {
+	defer func() {
+		if recovered := recover(); recovered != nil {
+			slog.ErrorContext(ctx, "gRPC handler panic", "method", info.FullMethod, "panic", recovered)
+			response = nil
+			err = status.Error(codes.Internal, "internal server error")
+		}
+	}()
+	return next(ctx, req)
+}
+
+func (s *Server) HTTPAddr() string { return s.cfg.HTTPAddr }
+func (s *Server) GRPCAddr() string { return s.cfg.GRPCAddr }
+
+// Run delegates listeners, gateway registration and gRPC registration to Clay.
+func (s *Server) Run(ctx context.Context) error {
+	if err := ctx.Err(); err != nil {
+		return err
+	}
+	results := make(chan error, 1)
+	go func() { results <- s.clay.Run(s.services) }()
+	// Clay initializes its server fields in Run. Wait for registration before
+	// calling Stop so cancellation cannot race those writes.
+	select {
+	case err := <-results:
+		return err
+	case <-s.services.ready:
+	}
+	var runErr error
+	completed := false
+	select {
+	case runErr = <-results:
+		completed = true
+	case <-ctx.Done():
+	}
+	shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
+	defer cancel()
+	stopped := make(chan error, 1)
+	go func() { stopped <- s.clay.Stop(shutdownCtx) }()
+	var stopErr error
+	select {
+	case stopErr = <-stopped:
+	case <-shutdownCtx.Done():
+		s.services.rpc.Stop()
+		stopErr = shutdownCtx.Err()
+	}
+	if !completed {
+		select {
+		case runErr = <-results:
+		case <-shutdownCtx.Done():
+			runErr = shutdownCtx.Err()
+		}
+	}
+	if errors.Is(runErr, http.ErrServerClosed) || errors.Is(runErr, grpc.ErrServerStopped) {
+		runErr = nil
+	}
+	return errors.Join(runErr, stopErr)
+}
+
+func (s *Server) router() *chi.Mux {
+	router := chi.NewRouter()
+	router.Use(trimTrailingSlash, chimiddleware.Recoverer, chimiddleware.RequestID,
+		chimiddleware.RealIP, chimiddleware.Timeout(30*time.Second), appmiddleware.CORSMiddleware(s.cfg))
+	router.Get("/healthz", healthv1.Get)
+	multipart := appmiddleware.AdminAuth(s.cfg.Token, s.cfg.Debug)(http.HandlerFunc(s.admin.UploadDoctorPhotoMultipart))
+	router.Post("/api/v1/admin/doctors/{id}/photo", func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.Header.Get("Content-Type"), "multipart/") {
+			multipart.ServeHTTP(w, r)
+			return
+		}
+		// JSON/base64 requests for this same RPC must reach the generated gateway.
+		s.services.gateway.ServeHTTP(w, r)
+	})
+	return router
 }
 
 func incomingHeaderMatcher(key string) (string, bool) {
-	if strings.EqualFold(key, "Authorization") {
-		return "authorization", true
+	// runtime forwards Authorization itself. Do not append a second copy or
+	// accept an alternative credential supplied through a metadata header.
+	if strings.EqualFold(key, "Grpc-Metadata-Authorization") {
+		return "", false
 	}
 	return runtime.DefaultHeaderMatcher(key)
 }
 
-// trimTrailingSlash updates both URL.Path and Chi's route context. Chi's own
-// StripSlashes only changes the route context, while Clay's root-mounted
-// gateway computes its child route from URL.Path as well.
 func trimTrailingSlash(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if len(r.URL.Path) > 1 && strings.HasSuffix(r.URL.Path, "/") {
-			path := strings.TrimRight(r.URL.Path, "/")
-			r.URL.Path = path
+		if len(r.URL.Path) > 1 && strings.HasSuffix(r.URL.Path, "/") && !strings.HasPrefix(r.URL.Path, "/docs/") {
+			r.URL.Path = strings.TrimRight(r.URL.Path, "/")
 			r.URL.RawPath = ""
 			if routeContext := chi.RouteContext(r.Context()); routeContext != nil {
-				routeContext.RoutePath = path
+				routeContext.RoutePath = r.URL.Path
 			}
 		}
 		next.ServeHTTP(w, r)
@@ -136,44 +207,7 @@ func addressPort(name, address string) (int, error) {
 	}
 	port, err := strconv.Atoi(rawPort)
 	if err != nil || port < 1 || port > 65535 {
-		return 0, fmt.Errorf("%s %q must contain a port from 1 to 65535", name, address)
+		return 0, fmt.Errorf("%s %q has an invalid port", name, address)
 	}
 	return port, nil
-}
-
-// HTTPAddr returns the configured grpc-gateway listener address.
-func (s *Server) HTTPAddr() string { return s.httpAddr }
-
-// GRPCAddr returns the configured native gRPC listener address.
-func (s *Server) GRPCAddr() string { return s.grpcAddr }
-
-// Run starts both transports. On cancellation it follows Clay's graceful
-// shutdown path, matching medblogers_base's application lifecycle.
-func (s *Server) Run(ctx context.Context) error {
-	if s == nil || s.server == nil {
-		return fmt.Errorf("application servers are not initialized")
-	}
-
-	errCh := make(chan error, 1)
-	go func() { errCh <- s.server.Run(s.controllers...) }()
-
-	select {
-	case err := <-errCh:
-		return err
-	case <-ctx.Done():
-		shutdownCtx, cancel := context.WithTimeout(context.Background(), shutdownTimeout)
-		defer cancel()
-		if err := s.Stop(shutdownCtx); err != nil {
-			return fmt.Errorf("graceful shutdown: %w", err)
-		}
-		return nil
-	}
-}
-
-// Stop gracefully terminates the HTTP and gRPC transports.
-func (s *Server) Stop(ctx context.Context) error {
-	if s == nil || s.server == nil {
-		return nil
-	}
-	return s.server.Stop(ctx)
 }

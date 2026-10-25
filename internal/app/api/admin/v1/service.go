@@ -2,7 +2,7 @@ package adminv1
 
 import (
 	adminpb "github.com/nagorneva/nagorneva_reviews/gen/go/admin"
-	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/module/admin"
+	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/admin"
 )
 
 // Service adapts generated gRPC methods to admin actions.

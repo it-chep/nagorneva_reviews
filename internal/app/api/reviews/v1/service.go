@@ -2,7 +2,7 @@ package reviewsv1
 
 import (
 	reviewspb "github.com/nagorneva/nagorneva_reviews/gen/go/reviews"
-	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/module/reviews"
+	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews"
 )
 
 // Service contains the dependencies shared by public review endpoints.

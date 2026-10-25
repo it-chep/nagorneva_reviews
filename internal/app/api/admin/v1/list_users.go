@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) ListUsers(ctx context.Context, _ *adminpb.ListUsersRequest) (*adminpb.ListUsersResponse, error) {
-	items, err := s.module.Actions.ListUsers.Execute(ctx)
+	items, err := s.module.Actions.Users.ListUsers.Execute(ctx)
 	return &adminpb.ListUsersResponse{Users: users(items)}, rpcError(err)
 }

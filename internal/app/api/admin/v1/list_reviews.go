@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) ListReviews(ctx context.Context, _ *adminpb.ListReviewsRequest) (*adminpb.ListReviewsResponse, error) {
-	items, err := s.module.Actions.ListReviews.Execute(ctx)
+	items, err := s.module.Actions.Reviews.ListReviews.Execute(ctx)
 	return &adminpb.ListReviewsResponse{Reviews: reviews(items)}, rpcError(err)
 }

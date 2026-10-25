@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) UpdateUser(ctx context.Context, req *adminpb.UpdateUserRequest) (*adminpb.UpdateUserResponse, error) {
-	v, err := s.module.Actions.UpdateUser.Execute(ctx, req.GetId(), req.Email, req.Password)
+	v, err := s.module.Actions.Users.UpdateUser.Execute(ctx, req.GetId(), req.Email, req.Password)
 	return &adminpb.UpdateUserResponse{User: user(v)}, rpcError(err)
 }

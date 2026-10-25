@@ -7,5 +7,5 @@ import (
 )
 
 func (s *Service) DeleteReview(ctx context.Context, req *adminpb.DeleteReviewRequest) (*adminpb.DeleteReviewResponse, error) {
-	return &adminpb.DeleteReviewResponse{}, rpcError(s.module.Actions.DeleteReview.Execute(ctx, req.GetId()))
+	return &adminpb.DeleteReviewResponse{}, rpcError(s.module.Actions.Reviews.DeleteReview.Execute(ctx, req.GetId()))
 }

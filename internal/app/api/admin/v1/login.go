@@ -5,7 +5,7 @@ import (
 	"errors"
 
 	adminpb "github.com/nagorneva/nagorneva_reviews/gen/go/admin"
-	"github.com/nagorneva/nagorneva_reviews/internal/module/admin/action/login"
+	"github.com/nagorneva/nagorneva_reviews/internal/modules/admin/action/login"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

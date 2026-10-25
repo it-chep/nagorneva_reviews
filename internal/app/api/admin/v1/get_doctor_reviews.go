@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) GetDoctorReviews(ctx context.Context, req *adminpb.GetDoctorReviewsRequest) (*adminpb.GetDoctorReviewsResponse, error) {
-	items, err := s.module.Actions.GetDoctorReviews.Execute(ctx, req.GetId())
+	items, err := s.module.Actions.Reviews.GetDoctorReviews.Execute(ctx, req.GetId())
 	return &adminpb.GetDoctorReviewsResponse{Reviews: reviews(items)}, rpcError(err)
 }

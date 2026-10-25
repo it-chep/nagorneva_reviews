@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) CreateCity(ctx context.Context, req *adminpb.CreateCityRequest) (*adminpb.CreateCityResponse, error) {
-	v, err := s.module.Actions.CreateCity.Execute(ctx, req.GetName(), req.GetLat(), req.GetLon())
+	v, err := s.module.Actions.Cities.CreateCity.Execute(ctx, req.GetName(), req.GetLat(), req.GetLon())
 	return &adminpb.CreateCityResponse{City: city(v)}, rpcError(err)
 }

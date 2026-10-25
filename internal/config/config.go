@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -15,6 +16,7 @@ import (
 type Config struct {
 	HTTPAddr, GRPCAddr, DatabaseURL, JWTSecret, S3Endpoint, S3Region, S3Bucket, S3AccessKey, S3SecretKey, S3PublicURL, AdminEmail, AdminPassword string
 	PostgresHost, PostgresPort, PostgresUser, PostgresPassword, PostgresDB                                                                       string
+	AllowedOrigins                                                                                                                               []string
 	Debug                                                                                                                                        bool
 	JWTTTL                                                                                                                                       time.Duration
 }
@@ -43,6 +45,7 @@ func Load() (Config, error) {
 		JWTSecret:        os.Getenv("JWT_SECRET"),
 		JWTTTL:           ttl,
 		Debug:            debug,
+		AllowedOrigins:   origins(value("CORS_ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:5173")),
 		S3Endpoint:       value("S3_ENDPOINT", "https://storage.yandexcloud.net"),
 		S3Region:         value("S3_REGION", "ru-central1"),
 		S3Bucket:         os.Getenv("S3_BUCKET"),
@@ -74,4 +77,8 @@ func value(key, fallback string) string {
 		return v
 	}
 	return fallback
+}
+
+func origins(value string) []string {
+	return strings.Split(value, ",")
 }

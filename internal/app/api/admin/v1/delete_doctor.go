@@ -7,5 +7,5 @@ import (
 )
 
 func (s *Service) DeleteDoctor(ctx context.Context, req *adminpb.DeleteDoctorRequest) (*adminpb.DeleteDoctorResponse, error) {
-	return &adminpb.DeleteDoctorResponse{}, rpcError(s.module.Actions.DeleteDoctor.Execute(ctx, req.GetId()))
+	return &adminpb.DeleteDoctorResponse{}, rpcError(s.module.Actions.Doctors.DeleteDoctor.Execute(ctx, req.GetId()))
 }

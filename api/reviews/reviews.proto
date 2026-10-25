@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package nagorneva_reviews.reviews.v1;
-option go_package = "github.com/nagorneva/nagorneva_reviews/gen/go/api/reviews;reviewsv1";
+option go_package = "github.com/nagorneva/nagorneva_reviews/gen/go/reviews;reviewsv1";
 
 import "google/api/annotations.proto";
 import "google/protobuf/timestamp.proto";

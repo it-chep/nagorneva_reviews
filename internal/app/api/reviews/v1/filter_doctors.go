@@ -4,8 +4,8 @@ import (
 	"context"
 
 	reviewspb "github.com/nagorneva/nagorneva_reviews/gen/go/reviews"
-	"github.com/nagorneva/nagorneva_reviews/internal/domain"
-	filterdoctors "github.com/nagorneva/nagorneva_reviews/internal/module/reviews/action/filter_doctors"
+	filterdoctors "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/action/filter_doctors"
+	"github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/domain"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

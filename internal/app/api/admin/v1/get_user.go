@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) GetUser(ctx context.Context, req *adminpb.GetUserRequest) (*adminpb.GetUserResponse, error) {
-	v, err := s.module.Actions.GetUser.Execute(ctx, req.GetId())
+	v, err := s.module.Actions.Users.GetUser.Execute(ctx, req.GetId())
 	return &adminpb.GetUserResponse{User: user(v)}, rpcError(err)
 }

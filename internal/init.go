@@ -8,8 +8,8 @@ import (
 	reviewsapi "github.com/nagorneva/nagorneva_reviews/internal/app/api/reviews/v1"
 	appserver "github.com/nagorneva/nagorneva_reviews/internal/app/server"
 	"github.com/nagorneva/nagorneva_reviews/internal/config"
-	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/module/admin"
-	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/module/reviews"
+	adminmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/admin"
+	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews"
 	"github.com/nagorneva/nagorneva_reviews/internal/pkg/auth"
 )
 
@@ -63,10 +63,11 @@ func (i *initializer) initTransport(ctx context.Context) *initializer {
 	adminService := adminapi.New(i.modules.admin)
 	reviewsService := reviewsapi.New(i.modules.reviews)
 	i.server, i.err = appserver.New(ctx, appserver.Config{
-		HTTPAddr: i.cfg.HTTPAddr,
-		GRPCAddr: i.cfg.GRPCAddr,
-		Token:    i.token,
-		Debug:    i.cfg.Debug,
+		HTTPAddr:       i.cfg.HTTPAddr,
+		GRPCAddr:       i.cfg.GRPCAddr,
+		AllowedOrigins: i.cfg.AllowedOrigins,
+		Token:          i.token,
+		Debug:          i.cfg.Debug,
 	}, adminService, reviewsService)
 	return i
 }

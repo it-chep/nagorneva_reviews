@@ -7,6 +7,6 @@ import (
 )
 
 func (s *Service) GetCourse(ctx context.Context, req *adminpb.GetCourseRequest) (*adminpb.GetCourseResponse, error) {
-	v, err := s.module.Actions.GetCourse.Execute(ctx, req.GetId())
+	v, err := s.module.Actions.Courses.GetCourse.Execute(ctx, req.GetId())
 	return &adminpb.GetCourseResponse{Course: course(v)}, rpcError(err)
 }

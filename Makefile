@@ -2,7 +2,7 @@ APP_NAME := nagorneva_reviews
 
 LOCAL_BIN := $(CURDIR)/bin
 -include .env
-export PATH := $(PATH):$(LOCAL_BIN)
+export PATH := $(LOCAL_BIN):$(PATH)
 
 POSTGRES_HOST ?= localhost
 POSTGRES_PORT ?= 5432
@@ -11,13 +11,13 @@ POSTGRES_PASSWORD ?= reviews
 POSTGRES_DB ?= reviews
 DATABASE_URL := postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@$(POSTGRES_HOST):$(POSTGRES_PORT)/$(POSTGRES_DB)?sslmode=disable
 
-.PHONY: deps run build test migrate-up migrate-down migration proto gen buf docker-up docker-down lint
+.PHONY: deps run build test test-race test-integration migrate-up migrate-down migration proto gen buf docker-up docker-down lint
 
 deps:
 	GOBIN=$(LOCAL_BIN) go install github.com/pressly/goose/v3/cmd/goose@latest
-	GOBIN=$(LOCAL_BIN) go install github.com/bufbuild/buf/cmd/buf@latest
+	GOBIN=$(LOCAL_BIN) go install github.com/bufbuild/buf/cmd/buf@v1.50.0
 	GOBIN=$(LOCAL_BIN) go install github.com/not-for-prod/clay/cmd/protoc-gen-goclay@v0.4.0
-	GOBIN=$(LOCAL_BIN) go install golang.org/x/tools/cmd/goimports@v0.36.0
+	GOBIN=$(LOCAL_BIN) go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@v2.8.0
 
 run:
 	go run ./cmd/$(APP_NAME)
@@ -28,6 +28,13 @@ build:
 test:
 	go test ./...
 
+test-race:
+	go test -race ./...
+
+# Use a disposable database; tests create and remove their own schema.
+test-integration:
+	go test -race -tags=integration -count=1 ./e2e/...
+
 migrate-up:
 	goose -dir migrations postgres "$(DATABASE_URL)" up
 
@@ -35,14 +42,11 @@ migrate-down:
 	goose -dir migrations postgres "$(DATABASE_URL)" down
 
 
-# buf mirrors medblogers_base: it validates the proto module and regenerates
-# the Go, grpc-gateway, OpenAPI and Clay service descriptors together.
+# Generate Go messages, gRPC, grpc-gateway, OpenAPI and Clay descriptors.
 buf:
-	buf dep update
-	buf dep prune
 	buf build
 	buf generate --template buf.gen.yaml
-	goimports -w $$(find gen/go -type f -name '*.go')
+
 
 # Keep both familiar entry points.  Declaring them phony prevents the gen/
 # directory from making `make gen` a silent no-op.
@@ -55,7 +59,7 @@ migration:
 	goose -dir migrations create $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS)) sql
 
 lint:
-	golangci-lint run ./...
+	golangci-lint run --build-tags=integration ./...
 
 docker-up:
 	docker compose up --build
