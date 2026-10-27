@@ -47,6 +47,14 @@ message DoctorOnMap {
   double lat = 5;
   double lon = 6;
   repeated Review reviews = 7;
+  // Courses assigned through doctor_courses, including courses without reviews.
+  repeated DoctorCourse courses = 8;
+}
+
+message DoctorCourse {
+  int64 id = 1;
+  string name = 2;
+  string site_link = 3;
 }
 
 message GetDoctorsOnMapResponse {

@@ -292,3 +292,73 @@ func TestTypedRepositoriesAndPublicQueries(t *testing.T) {
 		t.Fatal(err)
 	}
 }
+
+func TestDoctorOnMapCoursesWithoutReviews(t *testing.T) {
+	db := testDatabase(t)
+	ctx := context.Background()
+	_, err := db.Exec(ctx, `
+ INSERT INTO cities(id,name,lat,lon) VALUES(1,'City',0,0);
+ INSERT INTO specialties(id,name) VALUES(1,'Specialty');
+ INSERT INTO courses(id,name,site_link) VALUES(1,'First','https://example.test/first'),(2,'Second','');
+ INSERT INTO doctors(id,name,full_name,city_id,specialty_id,lat,lon,is_active) VALUES(1,'Doctor','Doctor',1,1,0,0,true),(2,'No courses','No courses',1,1,0,0,true);
+ INSERT INTO doctor_courses(doctor_id,course_id) VALUES(1,2),(1,1);`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	response, err := reviewsapi.New(reviewsmodule.New(db)).GetDoctorsOnMap(ctx, &reviewspb.GetDoctorsOnMapRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(response.Doctors) != 2 {
+		t.Fatalf("doctors: %v", response)
+	}
+	doctor := response.Doctors[0]
+	if len(doctor.Reviews) != 0 || len(doctor.Courses) != 2 {
+		t.Fatalf("courses without reviews: %v", doctor)
+	}
+	if doctor.Courses[0].Id != 1 || doctor.Courses[0].Name != "First" || doctor.Courses[0].SiteLink != "https://example.test/first" || doctor.Courses[1].Id != 2 || doctor.Courses[1].Name != "Second" || doctor.Courses[1].SiteLink != "" {
+		t.Fatalf("course data: %v", doctor.Courses)
+	}
+	if len(response.Doctors[1].Courses) != 0 {
+		t.Fatalf("unexpected courses: %v", response.Doctors[1])
+	}
+	data, err := protojson.Marshal(doctor)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(data), `"siteLink":"https://example.test/first"`) {
+		t.Fatalf("course JSON: %s", data)
+	}
+}
+
+func TestDoctorOnMapReviewsFirst(t *testing.T) {
+	db := testDatabase(t)
+	ctx := context.Background()
+	_, err := db.Exec(ctx, `
+ INSERT INTO cities(id,name,lat,lon) VALUES(1,'City',0,0);
+ INSERT INTO specialties(id,name) VALUES(1,'Specialty');
+ INSERT INTO courses(id,name) VALUES(1,'Course');
+ INSERT INTO doctors(id,name,full_name,city_id,specialty_id,lat,lon,is_active) VALUES
+ (1,'A','A',1,1,0,0,true),(2,'B','B',1,1,0,0,true),(3,'Z','Z',1,1,0,0,true),(4,'Y','Y',1,1,0,0,true),(5,'Hidden','Hidden',1,1,0,0,false);
+ INSERT INTO reviews(doctor_id,rating,comment,course_id,is_active) VALUES
+ (2,5,'Hidden',1,false),(3,5,'Visible',1,true),(4,5,'Visible',1,true),(5,5,'Visible',1,true);`)
+	if err != nil {
+		t.Fatal(err)
+	}
+	response, err := reviewsapi.New(reviewsmodule.New(db)).GetDoctorsOnMap(ctx, &reviewspb.GetDoctorsOnMapRequest{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := []int64{3, 4, 1, 2}
+	if len(response.Doctors) != len(want) {
+		t.Fatalf("doctors: %v", response)
+	}
+	for i, id := range want {
+		if response.Doctors[i].Id != id {
+			t.Fatalf("doctor at %d = %d, want %d", i, response.Doctors[i].Id, id)
+		}
+		if (len(response.Doctors[i].Reviews) > 0) != (i < 2) {
+			t.Fatalf("unexpected reviews: %v", response.Doctors[i])
+		}
+	}
+}

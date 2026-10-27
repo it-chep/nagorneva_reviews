@@ -3,4 +3,6 @@ bin/
 .gocache/
 coverage.out
 outputs/*.sql
+outputs/doctors_import_*/
+outputs/reviews_import_*/
 *.local

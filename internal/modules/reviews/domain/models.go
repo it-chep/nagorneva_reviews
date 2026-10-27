@@ -18,8 +18,9 @@ type Specialty struct {
 	Name string `json:"name"`
 }
 type Course struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
+	SiteLink string `json:"site_link"`
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
 }
 type Doctor struct {
 	ID                  int64   `json:"id"`
@@ -48,6 +49,7 @@ type ReviewWithCourse struct {
 	CourseSiteLink string `json:"course_site_link"`
 }
 type DoctorOnMap struct {
+	Courses []Course `json:"courses"`
 	Doctor
 	City    string             `json:"city"`
 	Reviews []ReviewWithCourse `json:"reviews"`

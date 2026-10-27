@@ -157,6 +157,21 @@
         }
       }
     },
+    "nagorneva_reviews.reviews.v1.DoctorCourse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "siteLink": {
+          "type": "string"
+        }
+      }
+    },
     "nagorneva_reviews.reviews.v1.DoctorOnMap": {
       "type": "object",
       "properties": {
@@ -187,6 +202,14 @@
             "type": "object",
             "$ref": "#/definitions/nagorneva_reviews.reviews.v1.Review"
           }
+        },
+        "courses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.reviews.v1.DoctorCourse"
+          },
+          "description": "Courses assigned through doctor_courses, including courses without reviews."
         }
       }
     },

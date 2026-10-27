@@ -235,14 +235,16 @@ func (x *Review) GetCourseSiteLink() string {
 }
 
 type DoctorOnMap struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Photo         string                 `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
-	City          string                 `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty"`
-	Lat           float64                `protobuf:"fixed64,5,opt,name=lat,proto3" json:"lat,omitempty"`
-	Lon           float64                `protobuf:"fixed64,6,opt,name=lon,proto3" json:"lon,omitempty"`
-	Reviews       []*Review              `protobuf:"bytes,7,rep,name=reviews,proto3" json:"reviews,omitempty"`
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Id      int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name    string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Photo   string                 `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
+	City    string                 `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty"`
+	Lat     float64                `protobuf:"fixed64,5,opt,name=lat,proto3" json:"lat,omitempty"`
+	Lon     float64                `protobuf:"fixed64,6,opt,name=lon,proto3" json:"lon,omitempty"`
+	Reviews []*Review              `protobuf:"bytes,7,rep,name=reviews,proto3" json:"reviews,omitempty"`
+	// Courses assigned through doctor_courses, including courses without reviews.
+	Courses       []*DoctorCourse `protobuf:"bytes,8,rep,name=courses,proto3" json:"courses,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -326,6 +328,73 @@ func (x *DoctorOnMap) GetReviews() []*Review {
 	return nil
 }
 
+func (x *DoctorOnMap) GetCourses() []*DoctorCourse {
+	if x != nil {
+		return x.Courses
+	}
+	return nil
+}
+
+type DoctorCourse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	SiteLink      string                 `protobuf:"bytes,3,opt,name=site_link,json=siteLink,proto3" json:"site_link,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DoctorCourse) Reset() {
+	*x = DoctorCourse{}
+	mi := &file_reviews_reviews_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DoctorCourse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DoctorCourse) ProtoMessage() {}
+
+func (x *DoctorCourse) ProtoReflect() protoreflect.Message {
+	mi := &file_reviews_reviews_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DoctorCourse.ProtoReflect.Descriptor instead.
+func (*DoctorCourse) Descriptor() ([]byte, []int) {
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *DoctorCourse) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DoctorCourse) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *DoctorCourse) GetSiteLink() string {
+	if x != nil {
+		return x.SiteLink
+	}
+	return ""
+}
+
 type GetDoctorsOnMapResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Doctors       []*DoctorOnMap         `protobuf:"bytes,1,rep,name=doctors,proto3" json:"doctors,omitempty"`
@@ -335,7 +404,7 @@ type GetDoctorsOnMapResponse struct {
 
 func (x *GetDoctorsOnMapResponse) Reset() {
 	*x = GetDoctorsOnMapResponse{}
-	mi := &file_reviews_reviews_proto_msgTypes[3]
+	mi := &file_reviews_reviews_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -347,7 +416,7 @@ func (x *GetDoctorsOnMapResponse) String() string {
 func (*GetDoctorsOnMapResponse) ProtoMessage() {}
 
 func (x *GetDoctorsOnMapResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[3]
+	mi := &file_reviews_reviews_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -360,7 +429,7 @@ func (x *GetDoctorsOnMapResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDoctorsOnMapResponse.ProtoReflect.Descriptor instead.
 func (*GetDoctorsOnMapResponse) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{3}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *GetDoctorsOnMapResponse) GetDoctors() []*DoctorOnMap {
@@ -382,7 +451,7 @@ type FilterReviewsRequest struct {
 
 func (x *FilterReviewsRequest) Reset() {
 	*x = FilterReviewsRequest{}
-	mi := &file_reviews_reviews_proto_msgTypes[4]
+	mi := &file_reviews_reviews_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -394,7 +463,7 @@ func (x *FilterReviewsRequest) String() string {
 func (*FilterReviewsRequest) ProtoMessage() {}
 
 func (x *FilterReviewsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[4]
+	mi := &file_reviews_reviews_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -407,7 +476,7 @@ func (x *FilterReviewsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilterReviewsRequest.ProtoReflect.Descriptor instead.
 func (*FilterReviewsRequest) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{4}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *FilterReviewsRequest) GetCourseId() int64 {
@@ -447,7 +516,7 @@ type FilterReviewsResponse struct {
 
 func (x *FilterReviewsResponse) Reset() {
 	*x = FilterReviewsResponse{}
-	mi := &file_reviews_reviews_proto_msgTypes[5]
+	mi := &file_reviews_reviews_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -459,7 +528,7 @@ func (x *FilterReviewsResponse) String() string {
 func (*FilterReviewsResponse) ProtoMessage() {}
 
 func (x *FilterReviewsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[5]
+	mi := &file_reviews_reviews_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -472,7 +541,7 @@ func (x *FilterReviewsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilterReviewsResponse.ProtoReflect.Descriptor instead.
 func (*FilterReviewsResponse) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{5}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *FilterReviewsResponse) GetReviews() []*Review {
@@ -498,7 +567,7 @@ type FilterDoctorsRequest struct {
 
 func (x *FilterDoctorsRequest) Reset() {
 	*x = FilterDoctorsRequest{}
-	mi := &file_reviews_reviews_proto_msgTypes[6]
+	mi := &file_reviews_reviews_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -510,7 +579,7 @@ func (x *FilterDoctorsRequest) String() string {
 func (*FilterDoctorsRequest) ProtoMessage() {}
 
 func (x *FilterDoctorsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[6]
+	mi := &file_reviews_reviews_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -523,7 +592,7 @@ func (x *FilterDoctorsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilterDoctorsRequest.ProtoReflect.Descriptor instead.
 func (*FilterDoctorsRequest) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{6}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *FilterDoctorsRequest) GetCityIds() []int64 {
@@ -580,7 +649,7 @@ type FilterDoctorCity struct {
 
 func (x *FilterDoctorCity) Reset() {
 	*x = FilterDoctorCity{}
-	mi := &file_reviews_reviews_proto_msgTypes[7]
+	mi := &file_reviews_reviews_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -592,7 +661,7 @@ func (x *FilterDoctorCity) String() string {
 func (*FilterDoctorCity) ProtoMessage() {}
 
 func (x *FilterDoctorCity) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[7]
+	mi := &file_reviews_reviews_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -605,7 +674,7 @@ func (x *FilterDoctorCity) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilterDoctorCity.ProtoReflect.Descriptor instead.
 func (*FilterDoctorCity) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{7}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *FilterDoctorCity) GetId() int64 {
@@ -646,7 +715,7 @@ type FilterDoctorSpecialty struct {
 
 func (x *FilterDoctorSpecialty) Reset() {
 	*x = FilterDoctorSpecialty{}
-	mi := &file_reviews_reviews_proto_msgTypes[8]
+	mi := &file_reviews_reviews_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -658,7 +727,7 @@ func (x *FilterDoctorSpecialty) String() string {
 func (*FilterDoctorSpecialty) ProtoMessage() {}
 
 func (x *FilterDoctorSpecialty) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[8]
+	mi := &file_reviews_reviews_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -671,7 +740,7 @@ func (x *FilterDoctorSpecialty) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilterDoctorSpecialty.ProtoReflect.Descriptor instead.
 func (*FilterDoctorSpecialty) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{8}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *FilterDoctorSpecialty) GetId() int64 {
@@ -698,7 +767,7 @@ type CompletedCourse struct {
 
 func (x *CompletedCourse) Reset() {
 	*x = CompletedCourse{}
-	mi := &file_reviews_reviews_proto_msgTypes[9]
+	mi := &file_reviews_reviews_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -710,7 +779,7 @@ func (x *CompletedCourse) String() string {
 func (*CompletedCourse) ProtoMessage() {}
 
 func (x *CompletedCourse) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[9]
+	mi := &file_reviews_reviews_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -723,7 +792,7 @@ func (x *CompletedCourse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CompletedCourse.ProtoReflect.Descriptor instead.
 func (*CompletedCourse) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{9}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{10}
 }
 
 func (x *CompletedCourse) GetId() int64 {
@@ -757,7 +826,7 @@ type FilteredDoctor struct {
 
 func (x *FilteredDoctor) Reset() {
 	*x = FilteredDoctor{}
-	mi := &file_reviews_reviews_proto_msgTypes[10]
+	mi := &file_reviews_reviews_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -769,7 +838,7 @@ func (x *FilteredDoctor) String() string {
 func (*FilteredDoctor) ProtoMessage() {}
 
 func (x *FilteredDoctor) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[10]
+	mi := &file_reviews_reviews_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -782,7 +851,7 @@ func (x *FilteredDoctor) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilteredDoctor.ProtoReflect.Descriptor instead.
 func (*FilteredDoctor) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{10}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *FilteredDoctor) GetId() int64 {
@@ -858,7 +927,7 @@ type FilterDoctorsResponse struct {
 
 func (x *FilterDoctorsResponse) Reset() {
 	*x = FilterDoctorsResponse{}
-	mi := &file_reviews_reviews_proto_msgTypes[11]
+	mi := &file_reviews_reviews_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -870,7 +939,7 @@ func (x *FilterDoctorsResponse) String() string {
 func (*FilterDoctorsResponse) ProtoMessage() {}
 
 func (x *FilterDoctorsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_reviews_reviews_proto_msgTypes[11]
+	mi := &file_reviews_reviews_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -883,7 +952,7 @@ func (x *FilterDoctorsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use FilterDoctorsResponse.ProtoReflect.Descriptor instead.
 func (*FilterDoctorsResponse) Descriptor() ([]byte, []int) {
-	return file_reviews_reviews_proto_rawDescGZIP(), []int{11}
+	return file_reviews_reviews_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *FilterDoctorsResponse) GetDoctors() []*FilteredDoctor {
@@ -919,7 +988,7 @@ const file_reviews_reviews_proto_rawDesc = "" +
 	"courseName\x129\n" +
 	"\n" +
 	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12(\n" +
-	"\x10course_site_link\x18\b \x01(\tR\x0ecourseSiteLink\"\xbf\x01\n" +
+	"\x10course_site_link\x18\b \x01(\tR\x0ecourseSiteLink\"\x85\x02\n" +
 	"\vDoctorOnMap\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
@@ -927,7 +996,12 @@ const file_reviews_reviews_proto_rawDesc = "" +
 	"\x04city\x18\x04 \x01(\tR\x04city\x12\x10\n" +
 	"\x03lat\x18\x05 \x01(\x01R\x03lat\x12\x10\n" +
 	"\x03lon\x18\x06 \x01(\x01R\x03lon\x12>\n" +
-	"\areviews\x18\a \x03(\v2$.nagorneva_reviews.reviews.v1.ReviewR\areviews\"^\n" +
+	"\areviews\x18\a \x03(\v2$.nagorneva_reviews.reviews.v1.ReviewR\areviews\x12D\n" +
+	"\acourses\x18\b \x03(\v2*.nagorneva_reviews.reviews.v1.DoctorCourseR\acourses\"O\n" +
+	"\fDoctorCourse\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
+	"\tsite_link\x18\x03 \x01(\tR\bsiteLink\"^\n" +
 	"\x17GetDoctorsOnMapResponse\x12C\n" +
 	"\adoctors\x18\x01 \x03(\v2).nagorneva_reviews.reviews.v1.DoctorOnMapR\adoctors\"\xa1\x01\n" +
 	"\x14FilterReviewsRequest\x12 \n" +
@@ -998,44 +1072,46 @@ func file_reviews_reviews_proto_rawDescGZIP() []byte {
 }
 
 var file_reviews_reviews_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
-var file_reviews_reviews_proto_msgTypes = make([]protoimpl.MessageInfo, 12)
+var file_reviews_reviews_proto_msgTypes = make([]protoimpl.MessageInfo, 13)
 var file_reviews_reviews_proto_goTypes = []any{
 	(ReviewsSort)(0),                // 0: nagorneva_reviews.reviews.v1.ReviewsSort
 	(*GetDoctorsOnMapRequest)(nil),  // 1: nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
 	(*Review)(nil),                  // 2: nagorneva_reviews.reviews.v1.Review
 	(*DoctorOnMap)(nil),             // 3: nagorneva_reviews.reviews.v1.DoctorOnMap
-	(*GetDoctorsOnMapResponse)(nil), // 4: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
-	(*FilterReviewsRequest)(nil),    // 5: nagorneva_reviews.reviews.v1.FilterReviewsRequest
-	(*FilterReviewsResponse)(nil),   // 6: nagorneva_reviews.reviews.v1.FilterReviewsResponse
-	(*FilterDoctorsRequest)(nil),    // 7: nagorneva_reviews.reviews.v1.FilterDoctorsRequest
-	(*FilterDoctorCity)(nil),        // 8: nagorneva_reviews.reviews.v1.FilterDoctorCity
-	(*FilterDoctorSpecialty)(nil),   // 9: nagorneva_reviews.reviews.v1.FilterDoctorSpecialty
-	(*CompletedCourse)(nil),         // 10: nagorneva_reviews.reviews.v1.CompletedCourse
-	(*FilteredDoctor)(nil),          // 11: nagorneva_reviews.reviews.v1.FilteredDoctor
-	(*FilterDoctorsResponse)(nil),   // 12: nagorneva_reviews.reviews.v1.FilterDoctorsResponse
-	(*timestamppb.Timestamp)(nil),   // 13: google.protobuf.Timestamp
+	(*DoctorCourse)(nil),            // 4: nagorneva_reviews.reviews.v1.DoctorCourse
+	(*GetDoctorsOnMapResponse)(nil), // 5: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
+	(*FilterReviewsRequest)(nil),    // 6: nagorneva_reviews.reviews.v1.FilterReviewsRequest
+	(*FilterReviewsResponse)(nil),   // 7: nagorneva_reviews.reviews.v1.FilterReviewsResponse
+	(*FilterDoctorsRequest)(nil),    // 8: nagorneva_reviews.reviews.v1.FilterDoctorsRequest
+	(*FilterDoctorCity)(nil),        // 9: nagorneva_reviews.reviews.v1.FilterDoctorCity
+	(*FilterDoctorSpecialty)(nil),   // 10: nagorneva_reviews.reviews.v1.FilterDoctorSpecialty
+	(*CompletedCourse)(nil),         // 11: nagorneva_reviews.reviews.v1.CompletedCourse
+	(*FilteredDoctor)(nil),          // 12: nagorneva_reviews.reviews.v1.FilteredDoctor
+	(*FilterDoctorsResponse)(nil),   // 13: nagorneva_reviews.reviews.v1.FilterDoctorsResponse
+	(*timestamppb.Timestamp)(nil),   // 14: google.protobuf.Timestamp
 }
 var file_reviews_reviews_proto_depIdxs = []int32{
-	13, // 0: nagorneva_reviews.reviews.v1.Review.created_at:type_name -> google.protobuf.Timestamp
+	14, // 0: nagorneva_reviews.reviews.v1.Review.created_at:type_name -> google.protobuf.Timestamp
 	2,  // 1: nagorneva_reviews.reviews.v1.DoctorOnMap.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
-	3,  // 2: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.DoctorOnMap
-	2,  // 3: nagorneva_reviews.reviews.v1.FilterReviewsResponse.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
-	0,  // 4: nagorneva_reviews.reviews.v1.FilterDoctorsRequest.reviews_sort:type_name -> nagorneva_reviews.reviews.v1.ReviewsSort
-	8,  // 5: nagorneva_reviews.reviews.v1.FilteredDoctor.city:type_name -> nagorneva_reviews.reviews.v1.FilterDoctorCity
-	9,  // 6: nagorneva_reviews.reviews.v1.FilteredDoctor.specialty:type_name -> nagorneva_reviews.reviews.v1.FilterDoctorSpecialty
-	10, // 7: nagorneva_reviews.reviews.v1.FilteredDoctor.completed_courses:type_name -> nagorneva_reviews.reviews.v1.CompletedCourse
-	11, // 8: nagorneva_reviews.reviews.v1.FilterDoctorsResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.FilteredDoctor
-	1,  // 9: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:input_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
-	5,  // 10: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:input_type -> nagorneva_reviews.reviews.v1.FilterReviewsRequest
-	7,  // 11: nagorneva_reviews.reviews.v1.ReviewsService.FilterDoctors:input_type -> nagorneva_reviews.reviews.v1.FilterDoctorsRequest
-	4,  // 12: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:output_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
-	6,  // 13: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:output_type -> nagorneva_reviews.reviews.v1.FilterReviewsResponse
-	12, // 14: nagorneva_reviews.reviews.v1.ReviewsService.FilterDoctors:output_type -> nagorneva_reviews.reviews.v1.FilterDoctorsResponse
-	12, // [12:15] is the sub-list for method output_type
-	9,  // [9:12] is the sub-list for method input_type
-	9,  // [9:9] is the sub-list for extension type_name
-	9,  // [9:9] is the sub-list for extension extendee
-	0,  // [0:9] is the sub-list for field type_name
+	4,  // 2: nagorneva_reviews.reviews.v1.DoctorOnMap.courses:type_name -> nagorneva_reviews.reviews.v1.DoctorCourse
+	3,  // 3: nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.DoctorOnMap
+	2,  // 4: nagorneva_reviews.reviews.v1.FilterReviewsResponse.reviews:type_name -> nagorneva_reviews.reviews.v1.Review
+	0,  // 5: nagorneva_reviews.reviews.v1.FilterDoctorsRequest.reviews_sort:type_name -> nagorneva_reviews.reviews.v1.ReviewsSort
+	9,  // 6: nagorneva_reviews.reviews.v1.FilteredDoctor.city:type_name -> nagorneva_reviews.reviews.v1.FilterDoctorCity
+	10, // 7: nagorneva_reviews.reviews.v1.FilteredDoctor.specialty:type_name -> nagorneva_reviews.reviews.v1.FilterDoctorSpecialty
+	11, // 8: nagorneva_reviews.reviews.v1.FilteredDoctor.completed_courses:type_name -> nagorneva_reviews.reviews.v1.CompletedCourse
+	12, // 9: nagorneva_reviews.reviews.v1.FilterDoctorsResponse.doctors:type_name -> nagorneva_reviews.reviews.v1.FilteredDoctor
+	1,  // 10: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:input_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapRequest
+	6,  // 11: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:input_type -> nagorneva_reviews.reviews.v1.FilterReviewsRequest
+	8,  // 12: nagorneva_reviews.reviews.v1.ReviewsService.FilterDoctors:input_type -> nagorneva_reviews.reviews.v1.FilterDoctorsRequest
+	5,  // 13: nagorneva_reviews.reviews.v1.ReviewsService.GetDoctorsOnMap:output_type -> nagorneva_reviews.reviews.v1.GetDoctorsOnMapResponse
+	7,  // 14: nagorneva_reviews.reviews.v1.ReviewsService.FilterReviews:output_type -> nagorneva_reviews.reviews.v1.FilterReviewsResponse
+	13, // 15: nagorneva_reviews.reviews.v1.ReviewsService.FilterDoctors:output_type -> nagorneva_reviews.reviews.v1.FilterDoctorsResponse
+	13, // [13:16] is the sub-list for method output_type
+	10, // [10:13] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_reviews_reviews_proto_init() }
@@ -1043,15 +1119,15 @@ func file_reviews_reviews_proto_init() {
 	if File_reviews_reviews_proto != nil {
 		return
 	}
-	file_reviews_reviews_proto_msgTypes[4].OneofWrappers = []any{}
-	file_reviews_reviews_proto_msgTypes[6].OneofWrappers = []any{}
+	file_reviews_reviews_proto_msgTypes[5].OneofWrappers = []any{}
+	file_reviews_reviews_proto_msgTypes[7].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_reviews_reviews_proto_rawDesc), len(file_reviews_reviews_proto_rawDesc)),
 			NumEnums:      1,
-			NumMessages:   12,
+			NumMessages:   13,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

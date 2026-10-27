@@ -17,6 +17,10 @@ func (s *Service) GetDoctorsOnMap(ctx context.Context, req *reviewspb.GetDoctors
 	out := make([]*reviewspb.DoctorOnMap, 0, len(doctors))
 	for _, doctor := range doctors {
 		item := &reviewspb.DoctorOnMap{Id: doctor.ID, Name: doctor.Name, Photo: doctor.Photo, City: doctor.City, Lat: doctor.Lat, Lon: doctor.Lon, Reviews: make([]*reviewspb.Review, 0, len(doctor.Reviews))}
+		item.Courses = make([]*reviewspb.DoctorCourse, 0, len(doctor.Courses))
+		for _, course := range doctor.Courses {
+			item.Courses = append(item.Courses, &reviewspb.DoctorCourse{Id: course.ID, Name: course.Name, SiteLink: course.SiteLink})
+		}
 		for _, review := range doctor.Reviews {
 			item.Reviews = append(item.Reviews, &reviewspb.Review{Id: review.ID, DoctorId: review.DoctorID, Rating: int32(review.Rating), Comment: review.Comment, CourseId: review.CourseID, CourseName: review.CourseName, CourseSiteLink: review.CourseSiteLink, CreatedAt: timestamppb.New(review.CreatedAt)})
 		}

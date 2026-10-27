@@ -14,7 +14,7 @@ func New(db postgres.DB) *Repository { return &Repository{db: db} }
 
 func (d *Repository) Get(ctx context.Context, lat, lon, radius float64) ([]domain.DoctorOnMap, error) {
 	// Equirectangular distance is adequate for UI filtering; DB keeps independent map coordinates.
-	rows, err := d.db.Query(ctx, `SELECT d.id,d.name,CASE WHEN d.personal_data_consent THEN d.full_name ELSE '' END,CASE WHEN d.personal_data_consent THEN d.photo ELSE '' END,d.personal_data_consent,d.city_id,d.specialty_id,d.lat,d.lon,d.is_active,c.name FROM doctors d JOIN cities c ON c.id=d.city_id WHERE d.is_active AND ($3 <= 0 OR 6371 * acos(least(1.0, cos(radians($1))*cos(radians(d.lat))*cos(radians(d.lon)-radians($2))+sin(radians($1))*sin(radians(d.lat)))) <= $3) ORDER BY d.id`, lat, lon, radius)
+	rows, err := d.db.Query(ctx, `SELECT d.id,d.name,CASE WHEN d.personal_data_consent THEN d.full_name ELSE '' END,CASE WHEN d.personal_data_consent THEN d.photo ELSE '' END,d.personal_data_consent,d.city_id,d.specialty_id,d.lat,d.lon,d.is_active,c.name FROM doctors d JOIN cities c ON c.id=d.city_id WHERE d.is_active AND ($3 <= 0 OR 6371 * acos(least(1.0, cos(radians($1))*cos(radians(d.lat))*cos(radians(d.lon)-radians($2))+sin(radians($1))*sin(radians(d.lat)))) <= $3) ORDER BY EXISTS (SELECT 1 FROM reviews r WHERE r.doctor_id=d.id AND r.is_active) DESC, d.id`, lat, lon, radius)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,16 @@ func (d *Repository) Get(ctx context.Context, lat, lon, radius float64) ([]domai
 		return nil, err
 	}
 	rows.Close()
+	doctorIDs := make([]int64, 0, len(out))
+	for _, doctor := range out {
+		doctorIDs = append(doctorIDs, doctor.ID)
+	}
+	courses, err := d.courses(ctx, doctorIDs)
+	if err != nil {
+		return nil, err
+	}
 	for i := range out {
+		out[i].Courses = courses[out[i].ID]
 		reviews, err := d.reviews(ctx, out[i].ID)
 		if err != nil {
 			return nil, err
@@ -54,6 +63,33 @@ func (d *Repository) reviews(ctx context.Context, doctorID int64) ([]domain.Revi
 			return nil, fmt.Errorf("scan review: %w", err)
 		}
 		result = append(result, r)
+	}
+	return result, rows.Err()
+}
+
+func (d *Repository) courses(ctx context.Context, doctorIDs []int64) (map[int64][]domain.Course, error) {
+	result := make(map[int64][]domain.Course)
+	if len(doctorIDs) == 0 {
+		return result, nil
+	}
+
+	rows, err := d.db.Query(ctx, `
+SELECT completion.doctor_id, course.id, course.name, course.site_link
+FROM doctor_courses completion
+JOIN courses course ON course.id = completion.course_id
+WHERE completion.doctor_id = ANY($1::bigint[])
+ORDER BY completion.doctor_id, course.id`, doctorIDs)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var doctorID int64
+		var course domain.Course
+		if err := rows.Scan(&doctorID, &course.ID, &course.Name, &course.SiteLink); err != nil {
+			return nil, err
+		}
+		result[doctorID] = append(result[doctorID], course)
 	}
 	return result, rows.Err()
 }
