@@ -402,6 +402,10 @@
         "createdAt": {
           "type": "string",
           "format": "date-time"
+        },
+        "courseSiteLink": {
+          "type": "string",
+          "description": "Course website URL; empty when the course has no link."
         }
       }
     },

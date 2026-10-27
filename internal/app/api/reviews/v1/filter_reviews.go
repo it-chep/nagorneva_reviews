@@ -19,7 +19,7 @@ func (s *Service) FilterReviews(ctx context.Context, req *reviewspb.FilterReview
 	}
 	out := make([]*reviewspb.Review, 0, len(reviews))
 	for _, review := range reviews {
-		out = append(out, &reviewspb.Review{Id: review.ID, DoctorId: review.DoctorID, Rating: int32(review.Rating), Comment: review.Comment, CourseId: review.CourseID, CourseName: review.CourseName, CreatedAt: timestamppb.New(review.CreatedAt)})
+		out = append(out, &reviewspb.Review{Id: review.ID, DoctorId: review.DoctorID, Rating: int32(review.Rating), Comment: review.Comment, CourseId: review.CourseID, CourseName: review.CourseName, CourseSiteLink: review.CourseSiteLink, CreatedAt: timestamppb.New(review.CreatedAt)})
 	}
 	return &reviewspb.FilterReviewsResponse{Reviews: out}, nil
 }

@@ -35,6 +35,8 @@ message Review {
   int64 course_id = 5;
   string course_name = 6;
   google.protobuf.Timestamp created_at = 7;
+  // Course website URL; empty when the course has no link.
+  string course_site_link = 8;
 }
 
 message DoctorOnMap {

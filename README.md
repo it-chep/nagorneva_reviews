@@ -95,6 +95,8 @@ Swagger UI доступен по `/docs`, объединённая схема �
 | `GET /api/v1/admin/doctors/{id}/reviews` | Все отзывы выбранного врача, включая неактивные |
 | `POST /api/v1/admin/doctors/{id}/photo` | `multipart/form-data` с полем `photo` либо JSON protobuf с фото в base64; загрузка в S3 |
 
+Публичные отзывы в `/api/v1/reviews/filter` и `/api/v1/doctors_on_map` содержат ссылку на сайт курса: `courseSiteLink` в JSON (`course_site_link` в protobuf). Значение берётся из `site_link` курса, заданного через административный API. Если ссылка не задана, строковое значение пустое; JSON-сериализатор может опустить такое поле.
+
 Загрузка фотографий временно отключена: в `.env` и `.env.example` оставьте `S3_BUCKET=` пустым. В этом режиме S3-клиент не создаётся, ключи хранилища не требуются, а multipart-загрузка фото возвращает HTTP 503 (gRPC — `FailedPrecondition`). Остальные функции приложения работают без S3.
 
 Чтобы вернуть загрузку фотографий через Yandex Object Storage по схеме из `medblogers_base`, укажите существующий бакет и его статические ключи в `S3_ENDPOINT`, `S3_REGION`, `S3_ACCESS_KEY`, `S3_SECRET_KEY` и `S3_BUCKET`. Приложение не создаёт бакет само. `S3_PUBLIC_URL` необязателен: по умолчанию ссылки имеют вид `https://storage.yandexcloud.net/<S3_BUCKET>/<object-key>`. Имя объекта — `images/user_<doctor_id>_<timestamp>.<ext>`.

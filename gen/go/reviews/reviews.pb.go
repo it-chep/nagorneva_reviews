@@ -134,16 +134,18 @@ func (x *GetDoctorsOnMapRequest) GetRadiusKm() float64 {
 }
 
 type Review struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	DoctorId      int64                  `protobuf:"varint,2,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
-	Rating        int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"`
-	Comment       string                 `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
-	CourseId      int64                  `protobuf:"varint,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
-	CourseName    string                 `protobuf:"bytes,6,opt,name=course_name,json=courseName,proto3" json:"course_name,omitempty"`
-	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state      protoimpl.MessageState `protogen:"open.v1"`
+	Id         int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	DoctorId   int64                  `protobuf:"varint,2,opt,name=doctor_id,json=doctorId,proto3" json:"doctor_id,omitempty"`
+	Rating     int32                  `protobuf:"varint,3,opt,name=rating,proto3" json:"rating,omitempty"`
+	Comment    string                 `protobuf:"bytes,4,opt,name=comment,proto3" json:"comment,omitempty"`
+	CourseId   int64                  `protobuf:"varint,5,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	CourseName string                 `protobuf:"bytes,6,opt,name=course_name,json=courseName,proto3" json:"course_name,omitempty"`
+	CreatedAt  *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	// Course website URL; empty when the course has no link.
+	CourseSiteLink string `protobuf:"bytes,8,opt,name=course_site_link,json=courseSiteLink,proto3" json:"course_site_link,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *Review) Reset() {
@@ -223,6 +225,13 @@ func (x *Review) GetCreatedAt() *timestamppb.Timestamp {
 		return x.CreatedAt
 	}
 	return nil
+}
+
+func (x *Review) GetCourseSiteLink() string {
+	if x != nil {
+		return x.CourseSiteLink
+	}
+	return ""
 }
 
 type DoctorOnMap struct {
@@ -899,7 +908,7 @@ const file_reviews_reviews_proto_rawDesc = "" +
 	"\x16GetDoctorsOnMapRequest\x12\x10\n" +
 	"\x03lat\x18\x01 \x01(\x01R\x03lat\x12\x10\n" +
 	"\x03lon\x18\x02 \x01(\x01R\x03lon\x12\x1b\n" +
-	"\tradius_km\x18\x03 \x01(\x01R\bradiusKm\"\xe0\x01\n" +
+	"\tradius_km\x18\x03 \x01(\x01R\bradiusKm\"\x8a\x02\n" +
 	"\x06Review\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
 	"\tdoctor_id\x18\x02 \x01(\x03R\bdoctorId\x12\x16\n" +
@@ -909,7 +918,8 @@ const file_reviews_reviews_proto_rawDesc = "" +
 	"\vcourse_name\x18\x06 \x01(\tR\n" +
 	"courseName\x129\n" +
 	"\n" +
-	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\xbf\x01\n" +
+	"created_at\x18\a \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\x12(\n" +
+	"\x10course_site_link\x18\b \x01(\tR\x0ecourseSiteLink\"\xbf\x01\n" +
 	"\vDoctorOnMap\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +

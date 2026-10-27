@@ -44,7 +44,8 @@ type Review struct {
 }
 type ReviewWithCourse struct {
 	Review
-	CourseName string `json:"course_name"`
+	CourseName     string `json:"course_name"`
+	CourseSiteLink string `json:"course_site_link"`
 }
 type DoctorOnMap struct {
 	Doctor

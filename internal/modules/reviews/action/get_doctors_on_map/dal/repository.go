@@ -42,7 +42,7 @@ func (d *Repository) Get(ctx context.Context, lat, lon, radius float64) ([]domai
 	return out, nil
 }
 func (d *Repository) reviews(ctx context.Context, doctorID int64) ([]domain.ReviewWithCourse, error) {
-	rows, err := d.db.Query(ctx, `SELECT r.id,r.doctor_id,r.rating,r.comment,r.course_id,r.created_at,r.is_active,c.name FROM reviews r JOIN courses c ON c.id=r.course_id WHERE r.doctor_id=$1 AND r.is_active ORDER BY r.created_at DESC`, doctorID)
+	rows, err := d.db.Query(ctx, `SELECT r.id,r.doctor_id,r.rating,r.comment,r.course_id,r.created_at,r.is_active,c.name,c.site_link FROM reviews r JOIN courses c ON c.id=r.course_id WHERE r.doctor_id=$1 AND r.is_active ORDER BY r.created_at DESC`, doctorID)
 	if err != nil {
 		return nil, err
 	}
@@ -50,7 +50,7 @@ func (d *Repository) reviews(ctx context.Context, doctorID int64) ([]domain.Revi
 	result := []domain.ReviewWithCourse{}
 	for rows.Next() {
 		var r domain.ReviewWithCourse
-		if err := rows.Scan(&r.ID, &r.DoctorID, &r.Rating, &r.Comment, &r.CourseID, &r.CreatedAt, &r.IsActive, &r.CourseName); err != nil {
+		if err := rows.Scan(&r.ID, &r.DoctorID, &r.Rating, &r.Comment, &r.CourseID, &r.CreatedAt, &r.IsActive, &r.CourseName, &r.CourseSiteLink); err != nil {
 			return nil, fmt.Errorf("scan review: %w", err)
 		}
 		result = append(result, r)

@@ -4,6 +4,7 @@ package e2e
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"os"
@@ -13,6 +14,8 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5/pgxpool"
+	reviewspb "github.com/nagorneva/nagorneva_reviews/gen/go/reviews"
+	reviewsapi "github.com/nagorneva/nagorneva_reviews/internal/app/api/reviews/v1"
 	citydal "github.com/nagorneva/nagorneva_reviews/internal/modules/admin/entities/cities/dal"
 	citydto "github.com/nagorneva/nagorneva_reviews/internal/modules/admin/entities/cities/dto"
 	coursedal "github.com/nagorneva/nagorneva_reviews/internal/modules/admin/entities/courses/dal"
@@ -25,11 +28,13 @@ import (
 	specialtydto "github.com/nagorneva/nagorneva_reviews/internal/modules/admin/entities/specialties/dto"
 	userdal "github.com/nagorneva/nagorneva_reviews/internal/modules/admin/entities/users/dal"
 	userdto "github.com/nagorneva/nagorneva_reviews/internal/modules/admin/entities/users/dto"
+	reviewsmodule "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews"
 	filterdal "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/action/filter_doctors/dal"
 	filterdto "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/action/filter_doctors/dto"
 	publicreviewdal "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/action/filter_reviews/dal"
 	mapdal "github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/action/get_doctors_on_map/dal"
 	"github.com/nagorneva/nagorneva_reviews/internal/pkg/domain_error"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 func testDatabase(t *testing.T) *pgxpool.Pool {
@@ -176,6 +181,35 @@ func TestTypedRepositoriesAndPublicQueries(t *testing.T) {
 	if err != nil || len(publicReviews) != 1 {
 		t.Fatalf("public reviews: %+v %v", publicReviews, err)
 	}
+	publicAPI := reviewsapi.New(reviewsmodule.New(db))
+	checkPublicCourseLink := func(want string) {
+		t.Helper()
+		filtered, err := publicAPI.FilterReviews(ctx, &reviewspb.FilterReviewsRequest{CourseId: &course.ID})
+		if err != nil || len(filtered.GetReviews()) != 1 {
+			t.Fatalf("public review API: %v %v", filtered, err)
+		}
+		mapped, err := publicAPI.GetDoctorsOnMap(ctx, &reviewspb.GetDoctorsOnMapRequest{})
+		if err != nil || len(mapped.GetDoctors()) != 1 || len(mapped.Doctors[0].Reviews) != 1 {
+			t.Fatalf("public map API: %v %v", mapped, err)
+		}
+		for _, review := range []*reviewspb.Review{filtered.Reviews[0], mapped.Doctors[0].Reviews[0]} {
+			if review.GetCourseSiteLink() != want || review.GetCourseName() != "Course" {
+				t.Fatalf("public course data: %v, want link %q", review, want)
+			}
+			data, err := protojson.Marshal(review)
+			if err != nil {
+				t.Fatal(err)
+			}
+			var body map[string]any
+			if err := json.Unmarshal(data, &body); err != nil {
+				t.Fatal(err)
+			}
+			if want != "" && body["courseSiteLink"] != want {
+				t.Fatalf("public JSON courseSiteLink: %s", data)
+			}
+		}
+	}
+	checkPublicCourseLink("https://example.test")
 	adminReviews, err := reviews.GetDoctorReviews(ctx, doctor.ID)
 	if err != nil || len(adminReviews) != 1 || adminReviews[0].CourseName != "Course" {
 		t.Fatalf("doctor reviews: %+v %v", adminReviews, err)
@@ -206,6 +240,7 @@ func TestTypedRepositoriesAndPublicQueries(t *testing.T) {
 	if err != nil || course.SiteLink != "" || course.Name != "Course" {
 		t.Fatalf("course patch: %+v %v", course, err)
 	}
+	checkPublicCourseLink("")
 	specialty, err = specialties.UpdateSpecialty(ctx, specialty.ID, specialtydto.UpdateInput{Name: ptr("New")})
 	if err != nil || specialty.Name != "New" {
 		t.Fatalf("specialty patch: %+v %v", specialty, err)
