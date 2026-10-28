@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/nagorneva/nagorneva_reviews/internal/modules/reviews/domain"
+	"github.com/nagorneva/nagorneva_reviews/internal/pkg/geo"
 	"github.com/nagorneva/nagorneva_reviews/internal/pkg/postgres"
 )
 
@@ -13,8 +14,8 @@ type Repository struct{ db postgres.DB }
 func New(db postgres.DB) *Repository { return &Repository{db: db} }
 
 func (d *Repository) Get(ctx context.Context, lat, lon, radius float64) ([]domain.DoctorOnMap, error) {
-	// Equirectangular distance is adequate for UI filtering; DB keeps independent map coordinates.
-	rows, err := d.db.Query(ctx, `SELECT d.id,d.name,CASE WHEN d.personal_data_consent THEN d.full_name ELSE '' END,CASE WHEN d.personal_data_consent THEN d.photo ELSE '' END,d.personal_data_consent,d.city_id,d.specialty_id,d.lat,d.lon,d.is_active,c.name FROM doctors d JOIN cities c ON c.id=d.city_id WHERE d.is_active AND ($3 <= 0 OR 6371 * acos(least(1.0, cos(radians($1))*cos(radians(d.lat))*cos(radians(d.lon)-radians($2))+sin(radians($1))*sin(radians(d.lat)))) <= $3) ORDER BY EXISTS (SELECT 1 FROM reviews r WHERE r.doctor_id=d.id AND r.is_active) DESC, d.id`, lat, lon, radius)
+	south, north, west, east := geo.Bounds(lat, lon, radius)
+	rows, err := d.db.Query(ctx, `SELECT d.id,d.name,CASE WHEN d.personal_data_consent THEN d.full_name ELSE '' END,CASE WHEN d.personal_data_consent THEN d.photo ELSE '' END,d.personal_data_consent,d.city_id,d.specialty_id,d.lat,d.lon,d.is_active,c.name FROM doctors d JOIN cities c ON c.id=d.city_id WHERE d.is_active AND d.lat BETWEEN $4::float8 AND $5::float8 AND (($6::float8 <= $7::float8 AND d.lon BETWEEN $6::float8 AND $7::float8) OR ($6::float8 > $7::float8 AND (d.lon >= $6::float8 OR d.lon <= $7::float8))) AND ($3 <= 0 OR 6371 * acos(least(1.0, cos(radians($1))*cos(radians(d.lat))*cos(radians(d.lon)-radians($2))+sin(radians($1))*sin(radians(d.lat)))) <= $3) ORDER BY EXISTS (SELECT 1 FROM reviews r WHERE r.doctor_id=d.id AND r.is_active) DESC, d.id`, lat, lon, radius, south, north, west, east)
 	if err != nil {
 		return nil, err
 	}
@@ -40,29 +41,35 @@ func (d *Repository) Get(ctx context.Context, lat, lon, radius float64) ([]domai
 	if err != nil {
 		return nil, err
 	}
+	reviews, err := d.reviews(ctx, doctorIDs)
+	if err != nil {
+		return nil, err
+	}
 	for i := range out {
 		out[i].Courses = courses[out[i].ID]
-		reviews, err := d.reviews(ctx, out[i].ID)
-		if err != nil {
-			return nil, err
+		out[i].Reviews = reviews[out[i].ID]
+		if out[i].Reviews == nil {
+			out[i].Reviews = []domain.ReviewWithCourse{}
 		}
-		out[i].Reviews = reviews
 	}
 	return out, nil
 }
-func (d *Repository) reviews(ctx context.Context, doctorID int64) ([]domain.ReviewWithCourse, error) {
-	rows, err := d.db.Query(ctx, `SELECT r.id,r.doctor_id,r.rating,r.comment,r.course_id,r.created_at,r.is_active,c.name,c.site_link FROM reviews r JOIN courses c ON c.id=r.course_id WHERE r.doctor_id=$1 AND r.is_active ORDER BY r.created_at DESC`, doctorID)
+func (d *Repository) reviews(ctx context.Context, doctorIDs []int64) (map[int64][]domain.ReviewWithCourse, error) {
+	result := make(map[int64][]domain.ReviewWithCourse)
+	if len(doctorIDs) == 0 {
+		return result, nil
+	}
+	rows, err := d.db.Query(ctx, `SELECT r.id,r.doctor_id,r.rating,r.comment,r.course_id,r.created_at,r.is_active,c.name,c.site_link FROM reviews r JOIN courses c ON c.id=r.course_id WHERE r.doctor_id = ANY($1::bigint[]) AND r.is_active ORDER BY r.doctor_id, r.created_at DESC`, doctorIDs)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	result := []domain.ReviewWithCourse{}
 	for rows.Next() {
 		var r domain.ReviewWithCourse
 		if err := rows.Scan(&r.ID, &r.DoctorID, &r.Rating, &r.Comment, &r.CourseID, &r.CreatedAt, &r.IsActive, &r.CourseName, &r.CourseSiteLink); err != nil {
 			return nil, fmt.Errorf("scan review: %w", err)
 		}
-		result = append(result, r)
+		result[r.DoctorID] = append(result[r.DoctorID], r)
 	}
 	return result, rows.Err()
 }

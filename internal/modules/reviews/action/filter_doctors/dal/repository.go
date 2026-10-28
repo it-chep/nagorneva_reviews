@@ -18,7 +18,8 @@ func New(db postgres.DB) *Repository { return &Repository{db: db} }
 // supplied by the caller.
 func (d *Repository) Filter(ctx context.Context, cityIDs, specialtyIDs, courseIDs []int64, isActive, personalDataConsent *bool, reviewsSort dto.ReviewsSort) ([]domain.FilteredDoctor, error) {
 	rows, err := d.db.Query(ctx, `
-WITH filtered_doctors AS (
+WITH review_counts AS (SELECT doctor_id, count(*) AS reviews_count FROM reviews WHERE is_active GROUP BY doctor_id),
+filtered_doctors AS (
 SELECT
     d.id,
     d.name,
@@ -26,11 +27,12 @@ SELECT
     city.id AS city_id, city.name AS city_name, city.lat AS city_lat, city.lon AS city_lon,
     specialty.id AS specialty_id, specialty.name AS specialty_name,
     d.is_active, d.personal_data_consent,
-    (SELECT count(*) FROM reviews review WHERE review.doctor_id = d.id AND review.is_active) AS reviews_count
+    COALESCE(review_counts.reviews_count, 0) AS reviews_count
 FROM doctors d
+LEFT JOIN review_counts ON review_counts.doctor_id = d.id
 JOIN cities city ON city.id = d.city_id
 JOIN specialties specialty ON specialty.id = d.specialty_id
-WHERE (COALESCE(cardinality($1::bigint[]), 0) = 0 OR d.city_id = ANY($1::bigint[]))
+WHERE d.is_active AND (COALESCE(cardinality($1::bigint[]), 0) = 0 OR d.city_id = ANY($1::bigint[]))
   AND (COALESCE(cardinality($2::bigint[]), 0) = 0 OR d.specialty_id = ANY($2::bigint[]))
   AND (
       COALESCE(cardinality($3::bigint[]), 0) = 0

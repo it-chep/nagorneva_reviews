@@ -6,3 +6,25 @@ outputs/*.sql
 outputs/doctors_import_*/
 outputs/reviews_import_*/
 *.local
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local tooling and preview files
+/.github/workflows/ci.yml
+/.idea/dataSources.xml
+/scripts/import_school_students.py
+/dev/map/index.html
+/dev/map/local-api.js
+/dev/map/page.js
+/scripts/prepare_doctors_import.py
+/scripts/prepare_reviews_import.py
+/dev/map/reviews-map-widget.js
+/reviews-map-widget.js
+/scripts/s3-public-photos-policy.json

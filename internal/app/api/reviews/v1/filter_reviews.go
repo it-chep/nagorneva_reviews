@@ -13,9 +13,18 @@ func (s *Service) FilterReviews(ctx context.Context, req *reviewspb.FilterReview
 	if (req.Lat == nil) != (req.Lon == nil) {
 		return nil, status.Error(codes.InvalidArgument, "lat and lon must be provided together")
 	}
+	if err := validateLocation(req.GetLat(), req.GetLon(), req.GetRadiusKm()); err != nil {
+		return nil, err
+	}
+	if req.CourseId != nil && req.GetCourseId() <= 0 {
+		return nil, status.Error(codes.InvalidArgument, "course_id must be positive")
+	}
+	if req.Lat == nil && req.GetRadiusKm() > 0 {
+		return nil, status.Error(codes.InvalidArgument, "coordinates are required with a positive radius")
+	}
 	reviews, err := s.module.Actions.FilterReviews.Execute(ctx, req.CourseId, req.Lat, req.Lon, req.GetRadiusKm())
 	if err != nil {
-		return nil, status.Error(codes.Internal, "internal server error")
+		return nil, publicError(ctx, err)
 	}
 	out := make([]*reviewspb.Review, 0, len(reviews))
 	for _, review := range reviews {

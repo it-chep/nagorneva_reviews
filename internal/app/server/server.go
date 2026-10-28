@@ -164,7 +164,7 @@ func (s *Server) Run(ctx context.Context) error {
 func (s *Server) router() *chi.Mux {
 	router := chi.NewRouter()
 	router.Use(trimTrailingSlash, chimiddleware.Recoverer, chimiddleware.RequestID,
-		chimiddleware.RealIP, chimiddleware.Timeout(30*time.Second), appmiddleware.CORSMiddleware(s.cfg))
+		chimiddleware.RealIP, appmiddleware.Timeout(30*time.Second), appmiddleware.CORSMiddleware(s.cfg))
 	router.Get("/healthz", healthv1.Get)
 	multipart := appmiddleware.AdminAuth(s.cfg.Token, s.cfg.Debug)(http.HandlerFunc(s.admin.UploadDoctorPhotoMultipart))
 	router.Post("/api/v1/admin/doctors/{id}/photo", func(w http.ResponseWriter, r *http.Request) {

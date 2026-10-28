@@ -4,15 +4,16 @@ import (
 	"context"
 
 	reviewspb "github.com/nagorneva/nagorneva_reviews/gen/go/reviews"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (s *Service) GetDoctorsOnMap(ctx context.Context, req *reviewspb.GetDoctorsOnMapRequest) (*reviewspb.GetDoctorsOnMapResponse, error) {
+	if err := validateLocation(req.GetLat(), req.GetLon(), req.GetRadiusKm()); err != nil {
+		return nil, err
+	}
 	doctors, err := s.module.Actions.GetDoctorsOnMap.Execute(ctx, req.GetLat(), req.GetLon(), req.GetRadiusKm())
 	if err != nil {
-		return nil, status.Error(codes.Internal, "internal server error")
+		return nil, publicError(ctx, err)
 	}
 	out := make([]*reviewspb.DoctorOnMap, 0, len(doctors))
 	for _, doctor := range doctors {

@@ -27,7 +27,7 @@ func (s *Service) FilterDoctors(ctx context.Context, req *reviewspb.FilterDoctor
 	}
 	doctors, err := s.module.Actions.FilterDoctors.Execute(ctx, req.GetCityIds(), req.GetSpecialtyIds(), req.GetCourseIds(), req.IsActive, req.PersonalDataConsent, reviewsSort)
 	if err != nil {
-		return nil, status.Error(codes.Internal, "internal server error")
+		return nil, publicError(ctx, err)
 	}
 
 	result := make([]*reviewspb.FilteredDoctor, 0, len(doctors))
