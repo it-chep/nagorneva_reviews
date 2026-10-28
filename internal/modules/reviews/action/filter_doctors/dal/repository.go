@@ -32,7 +32,7 @@ FROM doctors d
 LEFT JOIN review_counts ON review_counts.doctor_id = d.id
 JOIN cities city ON city.id = d.city_id
 JOIN specialties specialty ON specialty.id = d.specialty_id
-WHERE d.is_active AND (COALESCE(cardinality($1::bigint[]), 0) = 0 OR d.city_id = ANY($1::bigint[]))
+WHERE d.is_active AND city.id != 2 AND (COALESCE(cardinality($1::bigint[]), 0) = 0 OR d.city_id = ANY($1::bigint[]))
   AND (COALESCE(cardinality($2::bigint[]), 0) = 0 OR d.specialty_id = ANY($2::bigint[]))
   AND (
       COALESCE(cardinality($3::bigint[]), 0) = 0
