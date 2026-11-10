@@ -53,6 +53,30 @@ func (adminStub) UpdateDoctor(_ context.Context, req *adminpb.UpdateDoctorReques
 	}
 	return &adminpb.UpdateDoctorResponse{Doctor: &adminpb.Doctor{Id: req.Id}}, nil
 }
+func (adminStub) FilterDoctors(_ context.Context, req *adminpb.FilterDoctorsRequest) (*adminpb.FilterDoctorsResponse, error) {
+	if len(req.CityIds) != 1 || req.CityIds[0] != 2 {
+		return nil, status.Error(codes.InvalidArgument, "city filter missing")
+	}
+	return &adminpb.FilterDoctorsResponse{DoctorCount: 1}, nil
+}
+func (adminStub) GetDoctorCourses(_ context.Context, req *adminpb.GetDoctorCoursesRequest) (*adminpb.GetDoctorCoursesResponse, error) {
+	if req.Id != 7 {
+		return nil, status.Error(codes.InvalidArgument, "doctor ID missing")
+	}
+	return &adminpb.GetDoctorCoursesResponse{Courses: []*adminpb.Course{{Id: 3, Name: "Completed"}}}, nil
+}
+func (adminStub) AddDoctorCourse(_ context.Context, req *adminpb.AddDoctorCourseRequest) (*adminpb.AddDoctorCourseResponse, error) {
+	if req.Id != 7 || req.CourseId != 3 {
+		return nil, status.Error(codes.InvalidArgument, "course IDs missing")
+	}
+	return &adminpb.AddDoctorCourseResponse{}, nil
+}
+func (adminStub) DeleteDoctorCourse(_ context.Context, req *adminpb.DeleteDoctorCourseRequest) (*adminpb.DeleteDoctorCourseResponse, error) {
+	if req.Id != 7 || req.CourseId != 3 {
+		return nil, status.Error(codes.InvalidArgument, "course IDs missing")
+	}
+	return &adminpb.DeleteDoctorCourseResponse{}, nil
+}
 func (adminStub) UploadDoctorPhoto(_ context.Context, req *adminpb.UploadDoctorPhotoRequest) (*adminpb.UploadDoctorPhotoResponse, error) {
 	return &adminpb.UploadDoctorPhotoResponse{Doctor: &adminpb.Doctor{Id: req.Id, ReviewsCount: int64(len(req.Photo))}}, nil
 }
@@ -66,6 +90,10 @@ type reviewsStub struct {
 
 func (reviewsStub) FilterDoctors(ctx context.Context, _ *reviewspb.FilterDoctorsRequest) (*reviewspb.FilterDoctorsResponse, error) {
 	return &reviewspb.FilterDoctorsResponse{DoctorCount: 2}, nil
+}
+
+func (reviewsStub) GetDoctorsOnMap(context.Context, *reviewspb.GetDoctorsOnMapRequest) (*reviewspb.GetDoctorsOnMapResponse, error) {
+	return &reviewspb.GetDoctorsOnMapResponse{}, nil
 }
 
 func runningServer(t *testing.T, debug bool) (string, *grpc.ClientConn) {
@@ -141,6 +169,15 @@ func TestGatewayAndNativeGRPC(t *testing.T) {
 		{"trailing slash", "GET", "/api/v1/admin/users/", "", "valid", 200},
 		{"login exemption", "POST", "/api/v1/admin/login", `{"email":"a","password":"b"}`, "", 200},
 		{"public", "POST", "/api/v1/doctors/filter", `{}`, "", 200},
+		{"admin filter auth", "POST", "/api/v1/admin/doctors/filter", `{"cityIds":["2"]}`, "", 401},
+		{"admin filter", "POST", "/api/v1/admin/doctors/filter", `{"cityIds":["2"]}`, "valid", 200},
+		{"get courses auth", "GET", "/api/v1/admin/doctors/7/courses", "", "", 401},
+		{"get courses", "GET", "/api/v1/admin/doctors/7/courses", "", "valid", 200},
+		{"add course auth", "POST", "/api/v1/admin/doctors/7/courses", `{"course_id":3}`, "", 401},
+		{"add course", "POST", "/api/v1/admin/doctors/7/courses", `{"course_id":3}`, "valid", 200},
+		{"delete course auth", "DELETE", "/api/v1/admin/doctors/7/courses/3", "", "", 401},
+		{"delete course", "DELETE", "/api/v1/admin/doctors/7/courses/3", "", "valid", 200},
+		{"map count", "POST", "/api/v1/doctors_on_map", `{}`, "", 200},
 		{"partial update", "PATCH", "/api/v1/admin/doctors/7", `{"is_active":false,"name":""}`, "valid", 200},
 		{"not found", "GET", "/api/v1/admin/users/404", "", "valid", 404},
 		{"panic recovery", "GET", "/api/v1/admin/users/500", "", "valid", 500},
@@ -169,6 +206,9 @@ func TestGatewayAndNativeGRPC(t *testing.T) {
 			}
 			if response.StatusCode != tc.code {
 				t.Fatalf("status=%d, body=%s", response.StatusCode, body)
+			}
+			if tc.name == "map count" && !bytes.Contains(body, []byte(`"all_doctors_count":"0"`)) {
+				t.Fatalf("missing zero total: %s", body)
 			}
 			if tc.name == "gateway auth" && !bytes.Contains(body, []byte("admin@example.test")) {
 				t.Fatalf("missing result: %s", body)

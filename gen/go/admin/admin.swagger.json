@@ -366,6 +366,38 @@
         ]
       }
     },
+    "/api/v1/admin/doctors/filter": {
+      "post": {
+        "operationId": "AdminService_FilterDoctors",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.FilterDoctorsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.FilterDoctorsRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AdminService"
+        ]
+      }
+    },
     "/api/v1/admin/doctors/{id}": {
       "get": {
         "operationId": "AdminService_GetDoctor",
@@ -456,6 +488,112 @@
             "schema": {
               "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.UpdateDoctorBody"
             }
+          }
+        ],
+        "tags": [
+          "AdminService"
+        ]
+      }
+    },
+    "/api/v1/admin/doctors/{id}/courses": {
+      "get": {
+        "operationId": "AdminService_GetDoctorCourses",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.GetDoctorCoursesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "tags": [
+          "AdminService"
+        ]
+      },
+      "post": {
+        "operationId": "AdminService_AddDoctorCourse",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AddDoctorCourseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.AdminService.AddDoctorCourseBody"
+            }
+          }
+        ],
+        "tags": [
+          "AdminService"
+        ]
+      }
+    },
+    "/api/v1/admin/doctors/{id}/courses/{courseId}": {
+      "delete": {
+        "operationId": "AdminService_DeleteDoctorCourse",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/nagorneva_reviews.admin.v1.DeleteDoctorCourseResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/google.rpc.Status"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          },
+          {
+            "name": "courseId",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "format": "int64"
           }
         ],
         "tags": [
@@ -1042,6 +1180,18 @@
         }
       }
     },
+    "nagorneva_reviews.admin.v1.AddDoctorCourseResponse": {
+      "type": "object"
+    },
+    "nagorneva_reviews.admin.v1.AdminService.AddDoctorCourseBody": {
+      "type": "object",
+      "properties": {
+        "courseId": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "nagorneva_reviews.admin.v1.AdminService.UpdateCityBody": {
       "type": "object",
       "properties": {
@@ -1354,6 +1504,9 @@
     "nagorneva_reviews.admin.v1.DeleteCourseResponse": {
       "type": "object"
     },
+    "nagorneva_reviews.admin.v1.DeleteDoctorCourseResponse": {
+      "type": "object"
+    },
     "nagorneva_reviews.admin.v1.DeleteDoctorResponse": {
       "type": "object"
     },
@@ -1408,6 +1561,95 @@
         }
       }
     },
+    "nagorneva_reviews.admin.v1.FilterDoctorsRequest": {
+      "type": "object",
+      "properties": {
+        "cityIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "specialtyIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "courseIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "personalDataConsent": {
+          "type": "boolean"
+        },
+        "reviewsSort": {
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.ReviewsSort"
+        }
+      }
+    },
+    "nagorneva_reviews.admin.v1.FilterDoctorsResponse": {
+      "type": "object",
+      "properties": {
+        "doctors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.FilteredDoctor"
+          }
+        },
+        "doctorCount": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "nagorneva_reviews.admin.v1.FilteredDoctor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64"
+        },
+        "name": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "city": {
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.City"
+        },
+        "specialty": {
+          "$ref": "#/definitions/nagorneva_reviews.admin.v1.Specialty"
+        },
+        "completedCourses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
+          }
+        },
+        "isActive": {
+          "type": "boolean"
+        },
+        "personalDataConsent": {
+          "type": "boolean"
+        },
+        "reviewsCount": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
     "nagorneva_reviews.admin.v1.GetCityResponse": {
       "type": "object",
       "properties": {
@@ -1421,6 +1663,18 @@
       "properties": {
         "course": {
           "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
+        }
+      }
+    },
+    "nagorneva_reviews.admin.v1.GetDoctorCoursesResponse": {
+      "type": "object",
+      "properties": {
+        "courses": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/nagorneva_reviews.admin.v1.Course"
+          }
         }
       }
     },
@@ -1595,6 +1849,16 @@
           "type": "string"
         }
       }
+    },
+    "nagorneva_reviews.admin.v1.ReviewsSort": {
+      "type": "string",
+      "enum": [
+        "REVIEWS_SORT_UNSPECIFIED",
+        "REVIEWS_SORT_DESC",
+        "REVIEWS_SORT_ASC"
+      ],
+      "default": "REVIEWS_SORT_UNSPECIFIED",
+      "description": "Administrative filtering includes doctors without a city (city_id = 2) and\ninactive doctors unless explicitly excluded by the supplied filters."
     },
     "nagorneva_reviews.admin.v1.Specialty": {
       "type": "object",

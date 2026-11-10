@@ -487,6 +487,24 @@ func (w *AdminServiceServiceDesc) ListDoctors(ctx context.Context, in *ListDocto
 	return resp.(*ListDoctorsResponse), err
 }
 
+func (w *AdminServiceServiceDesc) FilterDoctors(ctx context.Context, in *FilterDoctorsRequest) (*FilterDoctorsResponse, error) {
+	if w.opts.UnaryInterceptor == nil {
+		return w.svc.FilterDoctors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w,
+		FullMethod: "/nagorneva_reviews.admin.v1.AdminService/FilterDoctors",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.svc.FilterDoctors(ctx, req.(*FilterDoctorsRequest))
+	}
+	resp, err := w.opts.UnaryInterceptor(ctx, in, info, handler)
+	if err != nil || resp == nil {
+		return nil, err
+	}
+	return resp.(*FilterDoctorsResponse), err
+}
+
 func (w *AdminServiceServiceDesc) UpdateDoctor(ctx context.Context, in *UpdateDoctorRequest) (*UpdateDoctorResponse, error) {
 	if w.opts.UnaryInterceptor == nil {
 		return w.svc.UpdateDoctor(ctx, in)
@@ -539,6 +557,60 @@ func (w *AdminServiceServiceDesc) UploadDoctorPhoto(ctx context.Context, in *Upl
 		return nil, err
 	}
 	return resp.(*UploadDoctorPhotoResponse), err
+}
+
+func (w *AdminServiceServiceDesc) GetDoctorCourses(ctx context.Context, in *GetDoctorCoursesRequest) (*GetDoctorCoursesResponse, error) {
+	if w.opts.UnaryInterceptor == nil {
+		return w.svc.GetDoctorCourses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w,
+		FullMethod: "/nagorneva_reviews.admin.v1.AdminService/GetDoctorCourses",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.svc.GetDoctorCourses(ctx, req.(*GetDoctorCoursesRequest))
+	}
+	resp, err := w.opts.UnaryInterceptor(ctx, in, info, handler)
+	if err != nil || resp == nil {
+		return nil, err
+	}
+	return resp.(*GetDoctorCoursesResponse), err
+}
+
+func (w *AdminServiceServiceDesc) AddDoctorCourse(ctx context.Context, in *AddDoctorCourseRequest) (*AddDoctorCourseResponse, error) {
+	if w.opts.UnaryInterceptor == nil {
+		return w.svc.AddDoctorCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w,
+		FullMethod: "/nagorneva_reviews.admin.v1.AdminService/AddDoctorCourse",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.svc.AddDoctorCourse(ctx, req.(*AddDoctorCourseRequest))
+	}
+	resp, err := w.opts.UnaryInterceptor(ctx, in, info, handler)
+	if err != nil || resp == nil {
+		return nil, err
+	}
+	return resp.(*AddDoctorCourseResponse), err
+}
+
+func (w *AdminServiceServiceDesc) DeleteDoctorCourse(ctx context.Context, in *DeleteDoctorCourseRequest) (*DeleteDoctorCourseResponse, error) {
+	if w.opts.UnaryInterceptor == nil {
+		return w.svc.DeleteDoctorCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     w,
+		FullMethod: "/nagorneva_reviews.admin.v1.AdminService/DeleteDoctorCourse",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return w.svc.DeleteDoctorCourse(ctx, req.(*DeleteDoctorCourseRequest))
+	}
+	resp, err := w.opts.UnaryInterceptor(ctx, in, info, handler)
+	if err != nil || resp == nil {
+		return nil, err
+	}
+	return resp.(*DeleteDoctorCourseResponse), err
 }
 
 func (w *AdminServiceServiceDesc) GetDoctorReviews(ctx context.Context, in *GetDoctorReviewsRequest) (*GetDoctorReviewsResponse, error) {

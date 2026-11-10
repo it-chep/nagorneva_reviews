@@ -240,6 +240,8 @@ func TestTypedRepositoriesAndPublicQueries(t *testing.T) {
 	if err != nil || course.SiteLink != "" || course.Name != "Course" {
 		t.Fatalf("course patch: %+v %v", course, err)
 	}
+	// Direct fixture updates do not invalidate the full-map cache.
+	publicAPI = reviewsapi.New(reviewsmodule.New(db))
 	checkPublicCourseLink("")
 	specialty, err = specialties.UpdateSpecialty(ctx, specialty.ID, specialtydto.UpdateInput{Name: ptr("New")})
 	if err != nil || specialty.Name != "New" {

@@ -19,39 +19,43 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	AdminService_Login_FullMethodName             = "/nagorneva_reviews.admin.v1.AdminService/Login"
-	AdminService_CreateUser_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/CreateUser"
-	AdminService_GetUser_FullMethodName           = "/nagorneva_reviews.admin.v1.AdminService/GetUser"
-	AdminService_ListUsers_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/ListUsers"
-	AdminService_UpdateUser_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/UpdateUser"
-	AdminService_DeleteUser_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/DeleteUser"
-	AdminService_CreateCity_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/CreateCity"
-	AdminService_GetCity_FullMethodName           = "/nagorneva_reviews.admin.v1.AdminService/GetCity"
-	AdminService_ListCities_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/ListCities"
-	AdminService_UpdateCity_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/UpdateCity"
-	AdminService_DeleteCity_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/DeleteCity"
-	AdminService_CreateSpecialty_FullMethodName   = "/nagorneva_reviews.admin.v1.AdminService/CreateSpecialty"
-	AdminService_GetSpecialty_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/GetSpecialty"
-	AdminService_ListSpecialties_FullMethodName   = "/nagorneva_reviews.admin.v1.AdminService/ListSpecialties"
-	AdminService_UpdateSpecialty_FullMethodName   = "/nagorneva_reviews.admin.v1.AdminService/UpdateSpecialty"
-	AdminService_DeleteSpecialty_FullMethodName   = "/nagorneva_reviews.admin.v1.AdminService/DeleteSpecialty"
-	AdminService_CreateCourse_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/CreateCourse"
-	AdminService_GetCourse_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/GetCourse"
-	AdminService_ListCourses_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/ListCourses"
-	AdminService_UpdateCourse_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/UpdateCourse"
-	AdminService_DeleteCourse_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/DeleteCourse"
-	AdminService_CreateDoctor_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/CreateDoctor"
-	AdminService_GetDoctor_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/GetDoctor"
-	AdminService_ListDoctors_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/ListDoctors"
-	AdminService_UpdateDoctor_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/UpdateDoctor"
-	AdminService_DeleteDoctor_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/DeleteDoctor"
-	AdminService_UploadDoctorPhoto_FullMethodName = "/nagorneva_reviews.admin.v1.AdminService/UploadDoctorPhoto"
-	AdminService_GetDoctorReviews_FullMethodName  = "/nagorneva_reviews.admin.v1.AdminService/GetDoctorReviews"
-	AdminService_CreateReview_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/CreateReview"
-	AdminService_GetReview_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/GetReview"
-	AdminService_ListReviews_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/ListReviews"
-	AdminService_UpdateReview_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/UpdateReview"
-	AdminService_DeleteReview_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/DeleteReview"
+	AdminService_Login_FullMethodName              = "/nagorneva_reviews.admin.v1.AdminService/Login"
+	AdminService_CreateUser_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/CreateUser"
+	AdminService_GetUser_FullMethodName            = "/nagorneva_reviews.admin.v1.AdminService/GetUser"
+	AdminService_ListUsers_FullMethodName          = "/nagorneva_reviews.admin.v1.AdminService/ListUsers"
+	AdminService_UpdateUser_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/UpdateUser"
+	AdminService_DeleteUser_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/DeleteUser"
+	AdminService_CreateCity_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/CreateCity"
+	AdminService_GetCity_FullMethodName            = "/nagorneva_reviews.admin.v1.AdminService/GetCity"
+	AdminService_ListCities_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/ListCities"
+	AdminService_UpdateCity_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/UpdateCity"
+	AdminService_DeleteCity_FullMethodName         = "/nagorneva_reviews.admin.v1.AdminService/DeleteCity"
+	AdminService_CreateSpecialty_FullMethodName    = "/nagorneva_reviews.admin.v1.AdminService/CreateSpecialty"
+	AdminService_GetSpecialty_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/GetSpecialty"
+	AdminService_ListSpecialties_FullMethodName    = "/nagorneva_reviews.admin.v1.AdminService/ListSpecialties"
+	AdminService_UpdateSpecialty_FullMethodName    = "/nagorneva_reviews.admin.v1.AdminService/UpdateSpecialty"
+	AdminService_DeleteSpecialty_FullMethodName    = "/nagorneva_reviews.admin.v1.AdminService/DeleteSpecialty"
+	AdminService_CreateCourse_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/CreateCourse"
+	AdminService_GetCourse_FullMethodName          = "/nagorneva_reviews.admin.v1.AdminService/GetCourse"
+	AdminService_ListCourses_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/ListCourses"
+	AdminService_UpdateCourse_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/UpdateCourse"
+	AdminService_DeleteCourse_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/DeleteCourse"
+	AdminService_CreateDoctor_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/CreateDoctor"
+	AdminService_GetDoctor_FullMethodName          = "/nagorneva_reviews.admin.v1.AdminService/GetDoctor"
+	AdminService_ListDoctors_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/ListDoctors"
+	AdminService_FilterDoctors_FullMethodName      = "/nagorneva_reviews.admin.v1.AdminService/FilterDoctors"
+	AdminService_UpdateDoctor_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/UpdateDoctor"
+	AdminService_DeleteDoctor_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/DeleteDoctor"
+	AdminService_UploadDoctorPhoto_FullMethodName  = "/nagorneva_reviews.admin.v1.AdminService/UploadDoctorPhoto"
+	AdminService_GetDoctorCourses_FullMethodName   = "/nagorneva_reviews.admin.v1.AdminService/GetDoctorCourses"
+	AdminService_AddDoctorCourse_FullMethodName    = "/nagorneva_reviews.admin.v1.AdminService/AddDoctorCourse"
+	AdminService_DeleteDoctorCourse_FullMethodName = "/nagorneva_reviews.admin.v1.AdminService/DeleteDoctorCourse"
+	AdminService_GetDoctorReviews_FullMethodName   = "/nagorneva_reviews.admin.v1.AdminService/GetDoctorReviews"
+	AdminService_CreateReview_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/CreateReview"
+	AdminService_GetReview_FullMethodName          = "/nagorneva_reviews.admin.v1.AdminService/GetReview"
+	AdminService_ListReviews_FullMethodName        = "/nagorneva_reviews.admin.v1.AdminService/ListReviews"
+	AdminService_UpdateReview_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/UpdateReview"
+	AdminService_DeleteReview_FullMethodName       = "/nagorneva_reviews.admin.v1.AdminService/DeleteReview"
 )
 
 // AdminServiceClient is the client API for AdminService service.
@@ -85,9 +89,13 @@ type AdminServiceClient interface {
 	CreateDoctor(ctx context.Context, in *CreateDoctorRequest, opts ...grpc.CallOption) (*CreateDoctorResponse, error)
 	GetDoctor(ctx context.Context, in *GetDoctorRequest, opts ...grpc.CallOption) (*GetDoctorResponse, error)
 	ListDoctors(ctx context.Context, in *ListDoctorsRequest, opts ...grpc.CallOption) (*ListDoctorsResponse, error)
+	FilterDoctors(ctx context.Context, in *FilterDoctorsRequest, opts ...grpc.CallOption) (*FilterDoctorsResponse, error)
 	UpdateDoctor(ctx context.Context, in *UpdateDoctorRequest, opts ...grpc.CallOption) (*UpdateDoctorResponse, error)
 	DeleteDoctor(ctx context.Context, in *DeleteDoctorRequest, opts ...grpc.CallOption) (*DeleteDoctorResponse, error)
 	UploadDoctorPhoto(ctx context.Context, in *UploadDoctorPhotoRequest, opts ...grpc.CallOption) (*UploadDoctorPhotoResponse, error)
+	GetDoctorCourses(ctx context.Context, in *GetDoctorCoursesRequest, opts ...grpc.CallOption) (*GetDoctorCoursesResponse, error)
+	AddDoctorCourse(ctx context.Context, in *AddDoctorCourseRequest, opts ...grpc.CallOption) (*AddDoctorCourseResponse, error)
+	DeleteDoctorCourse(ctx context.Context, in *DeleteDoctorCourseRequest, opts ...grpc.CallOption) (*DeleteDoctorCourseResponse, error)
 	GetDoctorReviews(ctx context.Context, in *GetDoctorReviewsRequest, opts ...grpc.CallOption) (*GetDoctorReviewsResponse, error)
 	CreateReview(ctx context.Context, in *CreateReviewRequest, opts ...grpc.CallOption) (*CreateReviewResponse, error)
 	GetReview(ctx context.Context, in *GetReviewRequest, opts ...grpc.CallOption) (*GetReviewResponse, error)
@@ -344,6 +352,16 @@ func (c *adminServiceClient) ListDoctors(ctx context.Context, in *ListDoctorsReq
 	return out, nil
 }
 
+func (c *adminServiceClient) FilterDoctors(ctx context.Context, in *FilterDoctorsRequest, opts ...grpc.CallOption) (*FilterDoctorsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(FilterDoctorsResponse)
+	err := c.cc.Invoke(ctx, AdminService_FilterDoctors_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *adminServiceClient) UpdateDoctor(ctx context.Context, in *UpdateDoctorRequest, opts ...grpc.CallOption) (*UpdateDoctorResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateDoctorResponse)
@@ -368,6 +386,36 @@ func (c *adminServiceClient) UploadDoctorPhoto(ctx context.Context, in *UploadDo
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UploadDoctorPhotoResponse)
 	err := c.cc.Invoke(ctx, AdminService_UploadDoctorPhoto_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) GetDoctorCourses(ctx context.Context, in *GetDoctorCoursesRequest, opts ...grpc.CallOption) (*GetDoctorCoursesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetDoctorCoursesResponse)
+	err := c.cc.Invoke(ctx, AdminService_GetDoctorCourses_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) AddDoctorCourse(ctx context.Context, in *AddDoctorCourseRequest, opts ...grpc.CallOption) (*AddDoctorCourseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddDoctorCourseResponse)
+	err := c.cc.Invoke(ctx, AdminService_AddDoctorCourse_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) DeleteDoctorCourse(ctx context.Context, in *DeleteDoctorCourseRequest, opts ...grpc.CallOption) (*DeleteDoctorCourseResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(DeleteDoctorCourseResponse)
+	err := c.cc.Invoke(ctx, AdminService_DeleteDoctorCourse_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -465,9 +513,13 @@ type AdminServiceServer interface {
 	CreateDoctor(context.Context, *CreateDoctorRequest) (*CreateDoctorResponse, error)
 	GetDoctor(context.Context, *GetDoctorRequest) (*GetDoctorResponse, error)
 	ListDoctors(context.Context, *ListDoctorsRequest) (*ListDoctorsResponse, error)
+	FilterDoctors(context.Context, *FilterDoctorsRequest) (*FilterDoctorsResponse, error)
 	UpdateDoctor(context.Context, *UpdateDoctorRequest) (*UpdateDoctorResponse, error)
 	DeleteDoctor(context.Context, *DeleteDoctorRequest) (*DeleteDoctorResponse, error)
 	UploadDoctorPhoto(context.Context, *UploadDoctorPhotoRequest) (*UploadDoctorPhotoResponse, error)
+	GetDoctorCourses(context.Context, *GetDoctorCoursesRequest) (*GetDoctorCoursesResponse, error)
+	AddDoctorCourse(context.Context, *AddDoctorCourseRequest) (*AddDoctorCourseResponse, error)
+	DeleteDoctorCourse(context.Context, *DeleteDoctorCourseRequest) (*DeleteDoctorCourseResponse, error)
 	GetDoctorReviews(context.Context, *GetDoctorReviewsRequest) (*GetDoctorReviewsResponse, error)
 	CreateReview(context.Context, *CreateReviewRequest) (*CreateReviewResponse, error)
 	GetReview(context.Context, *GetReviewRequest) (*GetReviewResponse, error)
@@ -555,6 +607,9 @@ func (UnimplementedAdminServiceServer) GetDoctor(context.Context, *GetDoctorRequ
 func (UnimplementedAdminServiceServer) ListDoctors(context.Context, *ListDoctorsRequest) (*ListDoctorsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListDoctors not implemented")
 }
+func (UnimplementedAdminServiceServer) FilterDoctors(context.Context, *FilterDoctorsRequest) (*FilterDoctorsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method FilterDoctors not implemented")
+}
 func (UnimplementedAdminServiceServer) UpdateDoctor(context.Context, *UpdateDoctorRequest) (*UpdateDoctorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateDoctor not implemented")
 }
@@ -563,6 +618,15 @@ func (UnimplementedAdminServiceServer) DeleteDoctor(context.Context, *DeleteDoct
 }
 func (UnimplementedAdminServiceServer) UploadDoctorPhoto(context.Context, *UploadDoctorPhotoRequest) (*UploadDoctorPhotoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadDoctorPhoto not implemented")
+}
+func (UnimplementedAdminServiceServer) GetDoctorCourses(context.Context, *GetDoctorCoursesRequest) (*GetDoctorCoursesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorCourses not implemented")
+}
+func (UnimplementedAdminServiceServer) AddDoctorCourse(context.Context, *AddDoctorCourseRequest) (*AddDoctorCourseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddDoctorCourse not implemented")
+}
+func (UnimplementedAdminServiceServer) DeleteDoctorCourse(context.Context, *DeleteDoctorCourseRequest) (*DeleteDoctorCourseResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteDoctorCourse not implemented")
 }
 func (UnimplementedAdminServiceServer) GetDoctorReviews(context.Context, *GetDoctorReviewsRequest) (*GetDoctorReviewsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetDoctorReviews not implemented")
@@ -1034,6 +1098,24 @@ func _AdminService_ListDoctors_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_FilterDoctors_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(FilterDoctorsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).FilterDoctors(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_FilterDoctors_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).FilterDoctors(ctx, req.(*FilterDoctorsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _AdminService_UpdateDoctor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UpdateDoctorRequest)
 	if err := dec(in); err != nil {
@@ -1084,6 +1166,60 @@ func _AdminService_UploadDoctorPhoto_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServiceServer).UploadDoctorPhoto(ctx, req.(*UploadDoctorPhotoRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_GetDoctorCourses_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetDoctorCoursesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).GetDoctorCourses(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_GetDoctorCourses_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).GetDoctorCourses(ctx, req.(*GetDoctorCoursesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_AddDoctorCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddDoctorCourseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AddDoctorCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_AddDoctorCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AddDoctorCourse(ctx, req.(*AddDoctorCourseRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_DeleteDoctorCourse_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteDoctorCourseRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).DeleteDoctorCourse(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: AdminService_DeleteDoctorCourse_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).DeleteDoctorCourse(ctx, req.(*DeleteDoctorCourseRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1300,6 +1436,10 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AdminService_ListDoctors_Handler,
 		},
 		{
+			MethodName: "FilterDoctors",
+			Handler:    _AdminService_FilterDoctors_Handler,
+		},
+		{
 			MethodName: "UpdateDoctor",
 			Handler:    _AdminService_UpdateDoctor_Handler,
 		},
@@ -1310,6 +1450,18 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadDoctorPhoto",
 			Handler:    _AdminService_UploadDoctorPhoto_Handler,
+		},
+		{
+			MethodName: "GetDoctorCourses",
+			Handler:    _AdminService_GetDoctorCourses_Handler,
+		},
+		{
+			MethodName: "AddDoctorCourse",
+			Handler:    _AdminService_AddDoctorCourse_Handler,
+		},
+		{
+			MethodName: "DeleteDoctorCourse",
+			Handler:    _AdminService_DeleteDoctorCourse_Handler,
 		},
 		{
 			MethodName: "GetDoctorReviews",

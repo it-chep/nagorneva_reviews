@@ -9,21 +9,30 @@ import (
 	"github.com/nagorneva/nagorneva_reviews/internal/pkg/postgres"
 )
 
-type Repository struct{ db postgres.DB }
+type Repository struct {
+	db                 postgres.DB
+	includeUnpublished bool
+}
 
 func New(db postgres.DB) *Repository { return &Repository{db: db} }
+
+// NewForAdmin includes all doctors and their unmasked administrative data.
+// Only authenticated AdminService actions may use this repository.
+func NewForAdmin(db postgres.DB) *Repository {
+	return &Repository{db: db, includeUnpublished: true}
+}
 
 // Filter combines non-empty filter groups with AND. IDs inside one group are
 // alternatives, so a doctor may match any city, specialty, or completed course
 // supplied by the caller.
 func (d *Repository) Filter(ctx context.Context, cityIDs, specialtyIDs, courseIDs []int64, isActive, personalDataConsent *bool, reviewsSort dto.ReviewsSort) ([]domain.FilteredDoctor, error) {
 	rows, err := d.db.Query(ctx, `
-WITH review_counts AS (SELECT doctor_id, count(*) AS reviews_count FROM reviews WHERE is_active GROUP BY doctor_id),
+WITH review_counts AS (SELECT doctor_id, count(*) AS reviews_count FROM reviews WHERE ($7::boolean OR is_active) GROUP BY doctor_id),
 filtered_doctors AS (
 SELECT
     d.id,
     d.name,
-    CASE WHEN d.personal_data_consent THEN d.photo ELSE '' END AS photo,
+    CASE WHEN $7::boolean OR d.personal_data_consent THEN d.photo ELSE '' END AS photo,
     city.id AS city_id, city.name AS city_name, city.lat AS city_lat, city.lon AS city_lon,
     specialty.id AS specialty_id, specialty.name AS specialty_name,
     d.is_active, d.personal_data_consent,
@@ -32,7 +41,7 @@ FROM doctors d
 LEFT JOIN review_counts ON review_counts.doctor_id = d.id
 JOIN cities city ON city.id = d.city_id
 JOIN specialties specialty ON specialty.id = d.specialty_id
-WHERE d.is_active AND city.id != 2 AND (COALESCE(cardinality($1::bigint[]), 0) = 0 OR d.city_id = ANY($1::bigint[]))
+WHERE ($7::boolean OR (d.is_active AND city.id != 2)) AND (COALESCE(cardinality($1::bigint[]), 0) = 0 OR d.city_id = ANY($1::bigint[]))
   AND (COALESCE(cardinality($2::bigint[]), 0) = 0 OR d.specialty_id = ANY($2::bigint[]))
   AND (
       COALESCE(cardinality($3::bigint[]), 0) = 0
@@ -49,7 +58,7 @@ SELECT * FROM filtered_doctors
 ORDER BY
   CASE WHEN $6 = 1 THEN reviews_count END DESC,
   CASE WHEN $6 = 2 THEN reviews_count END ASC,
-  id ASC`, cityIDs, specialtyIDs, courseIDs, isActive, personalDataConsent, int32(reviewsSort))
+  id ASC`, cityIDs, specialtyIDs, courseIDs, isActive, personalDataConsent, int32(reviewsSort), d.includeUnpublished)
 	if err != nil {
 		return nil, err
 	}
@@ -82,6 +91,8 @@ ORDER BY
 		return nil, err
 	}
 
+	rows.Close()
+
 	completedCourses, err := d.completedCourses(ctx, doctorIDs)
 	if err != nil {
 		return nil, err
@@ -102,7 +113,7 @@ func (d *Repository) completedCourses(ctx context.Context, doctorIDs []int64) (m
 	}
 
 	rows, err := d.db.Query(ctx, `
-SELECT completion.doctor_id, course.id, course.name
+SELECT completion.doctor_id, course.id, course.name, course.site_link
 FROM doctor_courses completion
 JOIN courses course ON course.id = completion.course_id
 WHERE completion.doctor_id = ANY($1::bigint[])
@@ -114,7 +125,7 @@ ORDER BY completion.doctor_id, course.id`, doctorIDs)
 	for rows.Next() {
 		var doctorID int64
 		var course domain.Course
-		if err := rows.Scan(&doctorID, &course.ID, &course.Name); err != nil {
+		if err := rows.Scan(&doctorID, &course.ID, &course.Name, &course.SiteLink); err != nil {
 			return nil, err
 		}
 		result[doctorID] = append(result[doctorID], course)

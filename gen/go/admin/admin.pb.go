@@ -23,6 +23,57 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+// Administrative filtering includes doctors without a city (city_id = 2) and
+// inactive doctors unless explicitly excluded by the supplied filters.
+type ReviewsSort int32
+
+const (
+	ReviewsSort_REVIEWS_SORT_UNSPECIFIED ReviewsSort = 0
+	ReviewsSort_REVIEWS_SORT_DESC        ReviewsSort = 1
+	ReviewsSort_REVIEWS_SORT_ASC         ReviewsSort = 2
+)
+
+// Enum value maps for ReviewsSort.
+var (
+	ReviewsSort_name = map[int32]string{
+		0: "REVIEWS_SORT_UNSPECIFIED",
+		1: "REVIEWS_SORT_DESC",
+		2: "REVIEWS_SORT_ASC",
+	}
+	ReviewsSort_value = map[string]int32{
+		"REVIEWS_SORT_UNSPECIFIED": 0,
+		"REVIEWS_SORT_DESC":        1,
+		"REVIEWS_SORT_ASC":         2,
+	}
+)
+
+func (x ReviewsSort) Enum() *ReviewsSort {
+	p := new(ReviewsSort)
+	*p = x
+	return p
+}
+
+func (x ReviewsSort) String() string {
+	return protoimpl.X.EnumStringOf(x.Descriptor(), protoreflect.EnumNumber(x))
+}
+
+func (ReviewsSort) Descriptor() protoreflect.EnumDescriptor {
+	return file_admin_admin_proto_enumTypes[0].Descriptor()
+}
+
+func (ReviewsSort) Type() protoreflect.EnumType {
+	return &file_admin_admin_proto_enumTypes[0]
+}
+
+func (x ReviewsSort) Number() protoreflect.EnumNumber {
+	return protoreflect.EnumNumber(x)
+}
+
+// Deprecated: Use ReviewsSort.Descriptor instead.
+func (ReviewsSort) EnumDescriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{0}
+}
+
 type LoginRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Email         string                 `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
@@ -2955,6 +3006,270 @@ func (x *UploadDoctorPhotoResponse) GetDoctor() *Doctor {
 	return nil
 }
 
+type GetDoctorCoursesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDoctorCoursesRequest) Reset() {
+	*x = GetDoctorCoursesRequest{}
+	mi := &file_admin_admin_proto_msgTypes[59]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDoctorCoursesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDoctorCoursesRequest) ProtoMessage() {}
+
+func (x *GetDoctorCoursesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[59]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDoctorCoursesRequest.ProtoReflect.Descriptor instead.
+func (*GetDoctorCoursesRequest) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{59}
+}
+
+func (x *GetDoctorCoursesRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type GetDoctorCoursesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Courses       []*Course              `protobuf:"bytes,1,rep,name=courses,proto3" json:"courses,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetDoctorCoursesResponse) Reset() {
+	*x = GetDoctorCoursesResponse{}
+	mi := &file_admin_admin_proto_msgTypes[60]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetDoctorCoursesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetDoctorCoursesResponse) ProtoMessage() {}
+
+func (x *GetDoctorCoursesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[60]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetDoctorCoursesResponse.ProtoReflect.Descriptor instead.
+func (*GetDoctorCoursesResponse) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{60}
+}
+
+func (x *GetDoctorCoursesResponse) GetCourses() []*Course {
+	if x != nil {
+		return x.Courses
+	}
+	return nil
+}
+
+type AddDoctorCourseRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	CourseId      int64                  `protobuf:"varint,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddDoctorCourseRequest) Reset() {
+	*x = AddDoctorCourseRequest{}
+	mi := &file_admin_admin_proto_msgTypes[61]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddDoctorCourseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddDoctorCourseRequest) ProtoMessage() {}
+
+func (x *AddDoctorCourseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[61]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddDoctorCourseRequest.ProtoReflect.Descriptor instead.
+func (*AddDoctorCourseRequest) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{61}
+}
+
+func (x *AddDoctorCourseRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *AddDoctorCourseRequest) GetCourseId() int64 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type AddDoctorCourseResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *AddDoctorCourseResponse) Reset() {
+	*x = AddDoctorCourseResponse{}
+	mi := &file_admin_admin_proto_msgTypes[62]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *AddDoctorCourseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*AddDoctorCourseResponse) ProtoMessage() {}
+
+func (x *AddDoctorCourseResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[62]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use AddDoctorCourseResponse.ProtoReflect.Descriptor instead.
+func (*AddDoctorCourseResponse) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{62}
+}
+
+type DeleteDoctorCourseRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	CourseId      int64                  `protobuf:"varint,2,opt,name=course_id,json=courseId,proto3" json:"course_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDoctorCourseRequest) Reset() {
+	*x = DeleteDoctorCourseRequest{}
+	mi := &file_admin_admin_proto_msgTypes[63]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDoctorCourseRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDoctorCourseRequest) ProtoMessage() {}
+
+func (x *DeleteDoctorCourseRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[63]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDoctorCourseRequest.ProtoReflect.Descriptor instead.
+func (*DeleteDoctorCourseRequest) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{63}
+}
+
+func (x *DeleteDoctorCourseRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *DeleteDoctorCourseRequest) GetCourseId() int64 {
+	if x != nil {
+		return x.CourseId
+	}
+	return 0
+}
+
+type DeleteDoctorCourseResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *DeleteDoctorCourseResponse) Reset() {
+	*x = DeleteDoctorCourseResponse{}
+	mi := &file_admin_admin_proto_msgTypes[64]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *DeleteDoctorCourseResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteDoctorCourseResponse) ProtoMessage() {}
+
+func (x *DeleteDoctorCourseResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[64]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteDoctorCourseResponse.ProtoReflect.Descriptor instead.
+func (*DeleteDoctorCourseResponse) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{64}
+}
+
 type GetDoctorReviewsRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -2964,7 +3279,7 @@ type GetDoctorReviewsRequest struct {
 
 func (x *GetDoctorReviewsRequest) Reset() {
 	*x = GetDoctorReviewsRequest{}
-	mi := &file_admin_admin_proto_msgTypes[59]
+	mi := &file_admin_admin_proto_msgTypes[65]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -2976,7 +3291,7 @@ func (x *GetDoctorReviewsRequest) String() string {
 func (*GetDoctorReviewsRequest) ProtoMessage() {}
 
 func (x *GetDoctorReviewsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[59]
+	mi := &file_admin_admin_proto_msgTypes[65]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2989,7 +3304,7 @@ func (x *GetDoctorReviewsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDoctorReviewsRequest.ProtoReflect.Descriptor instead.
 func (*GetDoctorReviewsRequest) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{59}
+	return file_admin_admin_proto_rawDescGZIP(), []int{65}
 }
 
 func (x *GetDoctorReviewsRequest) GetId() int64 {
@@ -3008,7 +3323,7 @@ type GetDoctorReviewsResponse struct {
 
 func (x *GetDoctorReviewsResponse) Reset() {
 	*x = GetDoctorReviewsResponse{}
-	mi := &file_admin_admin_proto_msgTypes[60]
+	mi := &file_admin_admin_proto_msgTypes[66]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3020,7 +3335,7 @@ func (x *GetDoctorReviewsResponse) String() string {
 func (*GetDoctorReviewsResponse) ProtoMessage() {}
 
 func (x *GetDoctorReviewsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[60]
+	mi := &file_admin_admin_proto_msgTypes[66]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3033,7 +3348,7 @@ func (x *GetDoctorReviewsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetDoctorReviewsResponse.ProtoReflect.Descriptor instead.
 func (*GetDoctorReviewsResponse) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{60}
+	return file_admin_admin_proto_rawDescGZIP(), []int{66}
 }
 
 func (x *GetDoctorReviewsResponse) GetReviews() []*Review {
@@ -3059,7 +3374,7 @@ type Review struct {
 
 func (x *Review) Reset() {
 	*x = Review{}
-	mi := &file_admin_admin_proto_msgTypes[61]
+	mi := &file_admin_admin_proto_msgTypes[67]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3071,7 +3386,7 @@ func (x *Review) String() string {
 func (*Review) ProtoMessage() {}
 
 func (x *Review) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[61]
+	mi := &file_admin_admin_proto_msgTypes[67]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3084,7 +3399,7 @@ func (x *Review) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Review.ProtoReflect.Descriptor instead.
 func (*Review) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{61}
+	return file_admin_admin_proto_rawDescGZIP(), []int{67}
 }
 
 func (x *Review) GetId() int64 {
@@ -3156,7 +3471,7 @@ type CreateReviewRequest struct {
 
 func (x *CreateReviewRequest) Reset() {
 	*x = CreateReviewRequest{}
-	mi := &file_admin_admin_proto_msgTypes[62]
+	mi := &file_admin_admin_proto_msgTypes[68]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3168,7 +3483,7 @@ func (x *CreateReviewRequest) String() string {
 func (*CreateReviewRequest) ProtoMessage() {}
 
 func (x *CreateReviewRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[62]
+	mi := &file_admin_admin_proto_msgTypes[68]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3181,7 +3496,7 @@ func (x *CreateReviewRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateReviewRequest.ProtoReflect.Descriptor instead.
 func (*CreateReviewRequest) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{62}
+	return file_admin_admin_proto_rawDescGZIP(), []int{68}
 }
 
 func (x *CreateReviewRequest) GetDoctorId() int64 {
@@ -3228,7 +3543,7 @@ type CreateReviewResponse struct {
 
 func (x *CreateReviewResponse) Reset() {
 	*x = CreateReviewResponse{}
-	mi := &file_admin_admin_proto_msgTypes[63]
+	mi := &file_admin_admin_proto_msgTypes[69]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3240,7 +3555,7 @@ func (x *CreateReviewResponse) String() string {
 func (*CreateReviewResponse) ProtoMessage() {}
 
 func (x *CreateReviewResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[63]
+	mi := &file_admin_admin_proto_msgTypes[69]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3253,7 +3568,7 @@ func (x *CreateReviewResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateReviewResponse.ProtoReflect.Descriptor instead.
 func (*CreateReviewResponse) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{63}
+	return file_admin_admin_proto_rawDescGZIP(), []int{69}
 }
 
 func (x *CreateReviewResponse) GetReview() *Review {
@@ -3272,7 +3587,7 @@ type GetReviewRequest struct {
 
 func (x *GetReviewRequest) Reset() {
 	*x = GetReviewRequest{}
-	mi := &file_admin_admin_proto_msgTypes[64]
+	mi := &file_admin_admin_proto_msgTypes[70]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3284,7 +3599,7 @@ func (x *GetReviewRequest) String() string {
 func (*GetReviewRequest) ProtoMessage() {}
 
 func (x *GetReviewRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[64]
+	mi := &file_admin_admin_proto_msgTypes[70]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3297,7 +3612,7 @@ func (x *GetReviewRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetReviewRequest.ProtoReflect.Descriptor instead.
 func (*GetReviewRequest) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{64}
+	return file_admin_admin_proto_rawDescGZIP(), []int{70}
 }
 
 func (x *GetReviewRequest) GetId() int64 {
@@ -3316,7 +3631,7 @@ type GetReviewResponse struct {
 
 func (x *GetReviewResponse) Reset() {
 	*x = GetReviewResponse{}
-	mi := &file_admin_admin_proto_msgTypes[65]
+	mi := &file_admin_admin_proto_msgTypes[71]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3328,7 +3643,7 @@ func (x *GetReviewResponse) String() string {
 func (*GetReviewResponse) ProtoMessage() {}
 
 func (x *GetReviewResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[65]
+	mi := &file_admin_admin_proto_msgTypes[71]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3341,7 +3656,7 @@ func (x *GetReviewResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetReviewResponse.ProtoReflect.Descriptor instead.
 func (*GetReviewResponse) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{65}
+	return file_admin_admin_proto_rawDescGZIP(), []int{71}
 }
 
 func (x *GetReviewResponse) GetReview() *Review {
@@ -3359,7 +3674,7 @@ type ListReviewsRequest struct {
 
 func (x *ListReviewsRequest) Reset() {
 	*x = ListReviewsRequest{}
-	mi := &file_admin_admin_proto_msgTypes[66]
+	mi := &file_admin_admin_proto_msgTypes[72]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3371,7 +3686,7 @@ func (x *ListReviewsRequest) String() string {
 func (*ListReviewsRequest) ProtoMessage() {}
 
 func (x *ListReviewsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[66]
+	mi := &file_admin_admin_proto_msgTypes[72]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3384,7 +3699,7 @@ func (x *ListReviewsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListReviewsRequest.ProtoReflect.Descriptor instead.
 func (*ListReviewsRequest) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{66}
+	return file_admin_admin_proto_rawDescGZIP(), []int{72}
 }
 
 type ListReviewsResponse struct {
@@ -3396,7 +3711,7 @@ type ListReviewsResponse struct {
 
 func (x *ListReviewsResponse) Reset() {
 	*x = ListReviewsResponse{}
-	mi := &file_admin_admin_proto_msgTypes[67]
+	mi := &file_admin_admin_proto_msgTypes[73]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3408,7 +3723,7 @@ func (x *ListReviewsResponse) String() string {
 func (*ListReviewsResponse) ProtoMessage() {}
 
 func (x *ListReviewsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[67]
+	mi := &file_admin_admin_proto_msgTypes[73]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3421,7 +3736,7 @@ func (x *ListReviewsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ListReviewsResponse.ProtoReflect.Descriptor instead.
 func (*ListReviewsResponse) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{67}
+	return file_admin_admin_proto_rawDescGZIP(), []int{73}
 }
 
 func (x *ListReviewsResponse) GetReviews() []*Review {
@@ -3444,7 +3759,7 @@ type UpdateReviewRequest struct {
 
 func (x *UpdateReviewRequest) Reset() {
 	*x = UpdateReviewRequest{}
-	mi := &file_admin_admin_proto_msgTypes[68]
+	mi := &file_admin_admin_proto_msgTypes[74]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3456,7 +3771,7 @@ func (x *UpdateReviewRequest) String() string {
 func (*UpdateReviewRequest) ProtoMessage() {}
 
 func (x *UpdateReviewRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[68]
+	mi := &file_admin_admin_proto_msgTypes[74]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3469,7 +3784,7 @@ func (x *UpdateReviewRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateReviewRequest.ProtoReflect.Descriptor instead.
 func (*UpdateReviewRequest) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{68}
+	return file_admin_admin_proto_rawDescGZIP(), []int{74}
 }
 
 func (x *UpdateReviewRequest) GetId() int64 {
@@ -3516,7 +3831,7 @@ type UpdateReviewResponse struct {
 
 func (x *UpdateReviewResponse) Reset() {
 	*x = UpdateReviewResponse{}
-	mi := &file_admin_admin_proto_msgTypes[69]
+	mi := &file_admin_admin_proto_msgTypes[75]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3528,7 +3843,7 @@ func (x *UpdateReviewResponse) String() string {
 func (*UpdateReviewResponse) ProtoMessage() {}
 
 func (x *UpdateReviewResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[69]
+	mi := &file_admin_admin_proto_msgTypes[75]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3541,7 +3856,7 @@ func (x *UpdateReviewResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateReviewResponse.ProtoReflect.Descriptor instead.
 func (*UpdateReviewResponse) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{69}
+	return file_admin_admin_proto_rawDescGZIP(), []int{75}
 }
 
 func (x *UpdateReviewResponse) GetReview() *Review {
@@ -3560,7 +3875,7 @@ type DeleteReviewRequest struct {
 
 func (x *DeleteReviewRequest) Reset() {
 	*x = DeleteReviewRequest{}
-	mi := &file_admin_admin_proto_msgTypes[70]
+	mi := &file_admin_admin_proto_msgTypes[76]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3572,7 +3887,7 @@ func (x *DeleteReviewRequest) String() string {
 func (*DeleteReviewRequest) ProtoMessage() {}
 
 func (x *DeleteReviewRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[70]
+	mi := &file_admin_admin_proto_msgTypes[76]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3585,7 +3900,7 @@ func (x *DeleteReviewRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteReviewRequest.ProtoReflect.Descriptor instead.
 func (*DeleteReviewRequest) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{70}
+	return file_admin_admin_proto_rawDescGZIP(), []int{76}
 }
 
 func (x *DeleteReviewRequest) GetId() int64 {
@@ -3603,7 +3918,7 @@ type DeleteReviewResponse struct {
 
 func (x *DeleteReviewResponse) Reset() {
 	*x = DeleteReviewResponse{}
-	mi := &file_admin_admin_proto_msgTypes[71]
+	mi := &file_admin_admin_proto_msgTypes[77]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -3615,7 +3930,7 @@ func (x *DeleteReviewResponse) String() string {
 func (*DeleteReviewResponse) ProtoMessage() {}
 
 func (x *DeleteReviewResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_admin_admin_proto_msgTypes[71]
+	mi := &file_admin_admin_proto_msgTypes[77]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3628,7 +3943,251 @@ func (x *DeleteReviewResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteReviewResponse.ProtoReflect.Descriptor instead.
 func (*DeleteReviewResponse) Descriptor() ([]byte, []int) {
-	return file_admin_admin_proto_rawDescGZIP(), []int{71}
+	return file_admin_admin_proto_rawDescGZIP(), []int{77}
+}
+
+type FilterDoctorsRequest struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	CityIds             []int64                `protobuf:"varint,1,rep,packed,name=city_ids,json=cityIds,proto3" json:"city_ids,omitempty"`
+	SpecialtyIds        []int64                `protobuf:"varint,2,rep,packed,name=specialty_ids,json=specialtyIds,proto3" json:"specialty_ids,omitempty"`
+	CourseIds           []int64                `protobuf:"varint,3,rep,packed,name=course_ids,json=courseIds,proto3" json:"course_ids,omitempty"`
+	IsActive            *bool                  `protobuf:"varint,4,opt,name=is_active,json=isActive,proto3,oneof" json:"is_active,omitempty"`
+	PersonalDataConsent *bool                  `protobuf:"varint,5,opt,name=personal_data_consent,json=personalDataConsent,proto3,oneof" json:"personal_data_consent,omitempty"`
+	ReviewsSort         ReviewsSort            `protobuf:"varint,6,opt,name=reviews_sort,json=reviewsSort,proto3,enum=nagorneva_reviews.admin.v1.ReviewsSort" json:"reviews_sort,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *FilterDoctorsRequest) Reset() {
+	*x = FilterDoctorsRequest{}
+	mi := &file_admin_admin_proto_msgTypes[78]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilterDoctorsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilterDoctorsRequest) ProtoMessage() {}
+
+func (x *FilterDoctorsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[78]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilterDoctorsRequest.ProtoReflect.Descriptor instead.
+func (*FilterDoctorsRequest) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{78}
+}
+
+func (x *FilterDoctorsRequest) GetCityIds() []int64 {
+	if x != nil {
+		return x.CityIds
+	}
+	return nil
+}
+
+func (x *FilterDoctorsRequest) GetSpecialtyIds() []int64 {
+	if x != nil {
+		return x.SpecialtyIds
+	}
+	return nil
+}
+
+func (x *FilterDoctorsRequest) GetCourseIds() []int64 {
+	if x != nil {
+		return x.CourseIds
+	}
+	return nil
+}
+
+func (x *FilterDoctorsRequest) GetIsActive() bool {
+	if x != nil && x.IsActive != nil {
+		return *x.IsActive
+	}
+	return false
+}
+
+func (x *FilterDoctorsRequest) GetPersonalDataConsent() bool {
+	if x != nil && x.PersonalDataConsent != nil {
+		return *x.PersonalDataConsent
+	}
+	return false
+}
+
+func (x *FilterDoctorsRequest) GetReviewsSort() ReviewsSort {
+	if x != nil {
+		return x.ReviewsSort
+	}
+	return ReviewsSort_REVIEWS_SORT_UNSPECIFIED
+}
+
+type FilteredDoctor struct {
+	state               protoimpl.MessageState `protogen:"open.v1"`
+	Id                  int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name                string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Photo               string                 `protobuf:"bytes,3,opt,name=photo,proto3" json:"photo,omitempty"`
+	City                *City                  `protobuf:"bytes,4,opt,name=city,proto3" json:"city,omitempty"`
+	Specialty           *Specialty             `protobuf:"bytes,5,opt,name=specialty,proto3" json:"specialty,omitempty"`
+	CompletedCourses    []*Course              `protobuf:"bytes,6,rep,name=completed_courses,json=completedCourses,proto3" json:"completed_courses,omitempty"`
+	IsActive            bool                   `protobuf:"varint,7,opt,name=is_active,json=isActive,proto3" json:"is_active,omitempty"`
+	PersonalDataConsent bool                   `protobuf:"varint,8,opt,name=personal_data_consent,json=personalDataConsent,proto3" json:"personal_data_consent,omitempty"`
+	ReviewsCount        int64                  `protobuf:"varint,9,opt,name=reviews_count,json=reviewsCount,proto3" json:"reviews_count,omitempty"`
+	unknownFields       protoimpl.UnknownFields
+	sizeCache           protoimpl.SizeCache
+}
+
+func (x *FilteredDoctor) Reset() {
+	*x = FilteredDoctor{}
+	mi := &file_admin_admin_proto_msgTypes[79]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilteredDoctor) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilteredDoctor) ProtoMessage() {}
+
+func (x *FilteredDoctor) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[79]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilteredDoctor.ProtoReflect.Descriptor instead.
+func (*FilteredDoctor) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{79}
+}
+
+func (x *FilteredDoctor) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *FilteredDoctor) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *FilteredDoctor) GetPhoto() string {
+	if x != nil {
+		return x.Photo
+	}
+	return ""
+}
+
+func (x *FilteredDoctor) GetCity() *City {
+	if x != nil {
+		return x.City
+	}
+	return nil
+}
+
+func (x *FilteredDoctor) GetSpecialty() *Specialty {
+	if x != nil {
+		return x.Specialty
+	}
+	return nil
+}
+
+func (x *FilteredDoctor) GetCompletedCourses() []*Course {
+	if x != nil {
+		return x.CompletedCourses
+	}
+	return nil
+}
+
+func (x *FilteredDoctor) GetIsActive() bool {
+	if x != nil {
+		return x.IsActive
+	}
+	return false
+}
+
+func (x *FilteredDoctor) GetPersonalDataConsent() bool {
+	if x != nil {
+		return x.PersonalDataConsent
+	}
+	return false
+}
+
+func (x *FilteredDoctor) GetReviewsCount() int64 {
+	if x != nil {
+		return x.ReviewsCount
+	}
+	return 0
+}
+
+type FilterDoctorsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Doctors       []*FilteredDoctor      `protobuf:"bytes,1,rep,name=doctors,proto3" json:"doctors,omitempty"`
+	DoctorCount   int64                  `protobuf:"varint,2,opt,name=doctor_count,json=doctorCount,proto3" json:"doctor_count,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *FilterDoctorsResponse) Reset() {
+	*x = FilterDoctorsResponse{}
+	mi := &file_admin_admin_proto_msgTypes[80]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *FilterDoctorsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*FilterDoctorsResponse) ProtoMessage() {}
+
+func (x *FilterDoctorsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_admin_admin_proto_msgTypes[80]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use FilterDoctorsResponse.ProtoReflect.Descriptor instead.
+func (*FilterDoctorsResponse) Descriptor() ([]byte, []int) {
+	return file_admin_admin_proto_rawDescGZIP(), []int{80}
+}
+
+func (x *FilterDoctorsResponse) GetDoctors() []*FilteredDoctor {
+	if x != nil {
+		return x.Doctors
+	}
+	return nil
+}
+
+func (x *FilterDoctorsResponse) GetDoctorCount() int64 {
+	if x != nil {
+		return x.DoctorCount
+	}
+	return 0
 }
 
 var File_admin_admin_proto protoreflect.FileDescriptor
@@ -3818,6 +4377,18 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\fcontent_type\x18\x04 \x01(\tR\vcontentType\"W\n" +
 	"\x19UploadDoctorPhotoResponse\x12:\n" +
 	"\x06doctor\x18\x01 \x01(\v2\".nagorneva_reviews.admin.v1.DoctorR\x06doctor\")\n" +
+	"\x17GetDoctorCoursesRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\"X\n" +
+	"\x18GetDoctorCoursesResponse\x12<\n" +
+	"\acourses\x18\x01 \x03(\v2\".nagorneva_reviews.admin.v1.CourseR\acourses\"E\n" +
+	"\x16AddDoctorCourseRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\x03R\bcourseId\"\x19\n" +
+	"\x17AddDoctorCourseResponse\"H\n" +
+	"\x19DeleteDoctorCourseRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1b\n" +
+	"\tcourse_id\x18\x02 \x01(\x03R\bcourseId\"\x1c\n" +
+	"\x1aDeleteDoctorCourseResponse\")\n" +
 	"\x17GetDoctorReviewsRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"X\n" +
 	"\x18GetDoctorReviewsResponse\x12<\n" +
@@ -3865,7 +4436,35 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\x06review\x18\x01 \x01(\v2\".nagorneva_reviews.admin.v1.ReviewR\x06review\"%\n" +
 	"\x13DeleteReviewRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\"\x16\n" +
-	"\x14DeleteReviewResponse2\xd4&\n" +
+	"\x14DeleteReviewResponse\"\xc4\x02\n" +
+	"\x14FilterDoctorsRequest\x12\x19\n" +
+	"\bcity_ids\x18\x01 \x03(\x03R\acityIds\x12#\n" +
+	"\rspecialty_ids\x18\x02 \x03(\x03R\fspecialtyIds\x12\x1d\n" +
+	"\n" +
+	"course_ids\x18\x03 \x03(\x03R\tcourseIds\x12 \n" +
+	"\tis_active\x18\x04 \x01(\bH\x00R\bisActive\x88\x01\x01\x127\n" +
+	"\x15personal_data_consent\x18\x05 \x01(\bH\x01R\x13personalDataConsent\x88\x01\x01\x12J\n" +
+	"\freviews_sort\x18\x06 \x01(\x0e2'.nagorneva_reviews.admin.v1.ReviewsSortR\vreviewsSortB\f\n" +
+	"\n" +
+	"_is_activeB\x18\n" +
+	"\x16_personal_data_consent\"\x8c\x03\n" +
+	"\x0eFilteredDoctor\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
+	"\x04name\x18\x02 \x01(\tR\x04name\x12\x14\n" +
+	"\x05photo\x18\x03 \x01(\tR\x05photo\x124\n" +
+	"\x04city\x18\x04 \x01(\v2 .nagorneva_reviews.admin.v1.CityR\x04city\x12C\n" +
+	"\tspecialty\x18\x05 \x01(\v2%.nagorneva_reviews.admin.v1.SpecialtyR\tspecialty\x12O\n" +
+	"\x11completed_courses\x18\x06 \x03(\v2\".nagorneva_reviews.admin.v1.CourseR\x10completedCourses\x12\x1b\n" +
+	"\tis_active\x18\a \x01(\bR\bisActive\x122\n" +
+	"\x15personal_data_consent\x18\b \x01(\bR\x13personalDataConsent\x12#\n" +
+	"\rreviews_count\x18\t \x01(\x03R\freviewsCount\"\x80\x01\n" +
+	"\x15FilterDoctorsResponse\x12D\n" +
+	"\adoctors\x18\x01 \x03(\v2*.nagorneva_reviews.admin.v1.FilteredDoctorR\adoctors\x12!\n" +
+	"\fdoctor_count\x18\x02 \x01(\x03R\vdoctorCount*X\n" +
+	"\vReviewsSort\x12\x1c\n" +
+	"\x18REVIEWS_SORT_UNSPECIFIED\x10\x00\x12\x15\n" +
+	"\x11REVIEWS_SORT_DESC\x10\x01\x12\x14\n" +
+	"\x10REVIEWS_SORT_ASC\x10\x022\x8a,\n" +
 	"\fAdminService\x12|\n" +
 	"\x05Login\x12(.nagorneva_reviews.admin.v1.LoginRequest\x1a).nagorneva_reviews.admin.v1.LoginResponse\"\x1e\x82\xd3\xe4\x93\x02\x18:\x01*\"\x13/api/v1/admin/login\x12\x8b\x01\n" +
 	"\n" +
@@ -3897,10 +4496,14 @@ const file_admin_admin_proto_rawDesc = "" +
 	"\fDeleteCourse\x12/.nagorneva_reviews.admin.v1.DeleteCourseRequest\x1a0.nagorneva_reviews.admin.v1.DeleteCourseResponse\"\"\x82\xd3\xe4\x93\x02\x1c*\x1a/api/v1/admin/courses/{id}\x12\x93\x01\n" +
 	"\fCreateDoctor\x12/.nagorneva_reviews.admin.v1.CreateDoctorRequest\x1a0.nagorneva_reviews.admin.v1.CreateDoctorResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v1/admin/doctors\x12\x8c\x01\n" +
 	"\tGetDoctor\x12,.nagorneva_reviews.admin.v1.GetDoctorRequest\x1a-.nagorneva_reviews.admin.v1.GetDoctorResponse\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/doctors/{id}\x12\x8d\x01\n" +
-	"\vListDoctors\x12..nagorneva_reviews.admin.v1.ListDoctorsRequest\x1a/.nagorneva_reviews.admin.v1.ListDoctorsResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/v1/admin/doctors\x12\x98\x01\n" +
+	"\vListDoctors\x12..nagorneva_reviews.admin.v1.ListDoctorsRequest\x1a/.nagorneva_reviews.admin.v1.ListDoctorsResponse\"\x1d\x82\xd3\xe4\x93\x02\x17\x12\x15/api/v1/admin/doctors\x12\x9d\x01\n" +
+	"\rFilterDoctors\x120.nagorneva_reviews.admin.v1.FilterDoctorsRequest\x1a1.nagorneva_reviews.admin.v1.FilterDoctorsResponse\"'\x82\xd3\xe4\x93\x02!:\x01*\"\x1c/api/v1/admin/doctors/filter\x12\x98\x01\n" +
 	"\fUpdateDoctor\x12/.nagorneva_reviews.admin.v1.UpdateDoctorRequest\x1a0.nagorneva_reviews.admin.v1.UpdateDoctorResponse\"%\x82\xd3\xe4\x93\x02\x1f:\x01*2\x1a/api/v1/admin/doctors/{id}\x12\x95\x01\n" +
 	"\fDeleteDoctor\x12/.nagorneva_reviews.admin.v1.DeleteDoctorRequest\x1a0.nagorneva_reviews.admin.v1.DeleteDoctorResponse\"\"\x82\xd3\xe4\x93\x02\x1c*\x1a/api/v1/admin/doctors/{id}\x12\xad\x01\n" +
 	"\x11UploadDoctorPhoto\x124.nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest\x1a5.nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse\"+\x82\xd3\xe4\x93\x02%:\x01*\" /api/v1/admin/doctors/{id}/photo\x12\xa9\x01\n" +
+	"\x10GetDoctorCourses\x123.nagorneva_reviews.admin.v1.GetDoctorCoursesRequest\x1a4.nagorneva_reviews.admin.v1.GetDoctorCoursesResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/api/v1/admin/doctors/{id}/courses\x12\xa9\x01\n" +
+	"\x0fAddDoctorCourse\x122.nagorneva_reviews.admin.v1.AddDoctorCourseRequest\x1a3.nagorneva_reviews.admin.v1.AddDoctorCourseResponse\"-\x82\xd3\xe4\x93\x02':\x01*\"\"/api/v1/admin/doctors/{id}/courses\x12\xbb\x01\n" +
+	"\x12DeleteDoctorCourse\x125.nagorneva_reviews.admin.v1.DeleteDoctorCourseRequest\x1a6.nagorneva_reviews.admin.v1.DeleteDoctorCourseResponse\"6\x82\xd3\xe4\x93\x020*./api/v1/admin/doctors/{id}/courses/{course_id}\x12\xa9\x01\n" +
 	"\x10GetDoctorReviews\x123.nagorneva_reviews.admin.v1.GetDoctorReviewsRequest\x1a4.nagorneva_reviews.admin.v1.GetDoctorReviewsResponse\"*\x82\xd3\xe4\x93\x02$\x12\"/api/v1/admin/doctors/{id}/reviews\x12\x93\x01\n" +
 	"\fCreateReview\x12/.nagorneva_reviews.admin.v1.CreateReviewRequest\x1a0.nagorneva_reviews.admin.v1.CreateReviewResponse\" \x82\xd3\xe4\x93\x02\x1a:\x01*\"\x15/api/v1/admin/reviews\x12\x8c\x01\n" +
 	"\tGetReview\x12,.nagorneva_reviews.admin.v1.GetReviewRequest\x1a-.nagorneva_reviews.admin.v1.GetReviewResponse\"\"\x82\xd3\xe4\x93\x02\x1c\x12\x1a/api/v1/admin/reviews/{id}\x12\x8d\x01\n" +
@@ -3920,183 +4523,208 @@ func file_admin_admin_proto_rawDescGZIP() []byte {
 	return file_admin_admin_proto_rawDescData
 }
 
-var file_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 72)
+var file_admin_admin_proto_enumTypes = make([]protoimpl.EnumInfo, 1)
+var file_admin_admin_proto_msgTypes = make([]protoimpl.MessageInfo, 81)
 var file_admin_admin_proto_goTypes = []any{
-	(*LoginRequest)(nil),              // 0: nagorneva_reviews.admin.v1.LoginRequest
-	(*LoginResponse)(nil),             // 1: nagorneva_reviews.admin.v1.LoginResponse
-	(*User)(nil),                      // 2: nagorneva_reviews.admin.v1.User
-	(*CreateUserRequest)(nil),         // 3: nagorneva_reviews.admin.v1.CreateUserRequest
-	(*CreateUserResponse)(nil),        // 4: nagorneva_reviews.admin.v1.CreateUserResponse
-	(*GetUserRequest)(nil),            // 5: nagorneva_reviews.admin.v1.GetUserRequest
-	(*GetUserResponse)(nil),           // 6: nagorneva_reviews.admin.v1.GetUserResponse
-	(*ListUsersRequest)(nil),          // 7: nagorneva_reviews.admin.v1.ListUsersRequest
-	(*ListUsersResponse)(nil),         // 8: nagorneva_reviews.admin.v1.ListUsersResponse
-	(*UpdateUserRequest)(nil),         // 9: nagorneva_reviews.admin.v1.UpdateUserRequest
-	(*UpdateUserResponse)(nil),        // 10: nagorneva_reviews.admin.v1.UpdateUserResponse
-	(*DeleteUserRequest)(nil),         // 11: nagorneva_reviews.admin.v1.DeleteUserRequest
-	(*DeleteUserResponse)(nil),        // 12: nagorneva_reviews.admin.v1.DeleteUserResponse
-	(*City)(nil),                      // 13: nagorneva_reviews.admin.v1.City
-	(*CreateCityRequest)(nil),         // 14: nagorneva_reviews.admin.v1.CreateCityRequest
-	(*CreateCityResponse)(nil),        // 15: nagorneva_reviews.admin.v1.CreateCityResponse
-	(*GetCityRequest)(nil),            // 16: nagorneva_reviews.admin.v1.GetCityRequest
-	(*GetCityResponse)(nil),           // 17: nagorneva_reviews.admin.v1.GetCityResponse
-	(*ListCitiesRequest)(nil),         // 18: nagorneva_reviews.admin.v1.ListCitiesRequest
-	(*ListCitiesResponse)(nil),        // 19: nagorneva_reviews.admin.v1.ListCitiesResponse
-	(*UpdateCityRequest)(nil),         // 20: nagorneva_reviews.admin.v1.UpdateCityRequest
-	(*UpdateCityResponse)(nil),        // 21: nagorneva_reviews.admin.v1.UpdateCityResponse
-	(*DeleteCityRequest)(nil),         // 22: nagorneva_reviews.admin.v1.DeleteCityRequest
-	(*DeleteCityResponse)(nil),        // 23: nagorneva_reviews.admin.v1.DeleteCityResponse
-	(*Specialty)(nil),                 // 24: nagorneva_reviews.admin.v1.Specialty
-	(*CreateSpecialtyRequest)(nil),    // 25: nagorneva_reviews.admin.v1.CreateSpecialtyRequest
-	(*CreateSpecialtyResponse)(nil),   // 26: nagorneva_reviews.admin.v1.CreateSpecialtyResponse
-	(*GetSpecialtyRequest)(nil),       // 27: nagorneva_reviews.admin.v1.GetSpecialtyRequest
-	(*GetSpecialtyResponse)(nil),      // 28: nagorneva_reviews.admin.v1.GetSpecialtyResponse
-	(*ListSpecialtiesRequest)(nil),    // 29: nagorneva_reviews.admin.v1.ListSpecialtiesRequest
-	(*ListSpecialtiesResponse)(nil),   // 30: nagorneva_reviews.admin.v1.ListSpecialtiesResponse
-	(*UpdateSpecialtyRequest)(nil),    // 31: nagorneva_reviews.admin.v1.UpdateSpecialtyRequest
-	(*UpdateSpecialtyResponse)(nil),   // 32: nagorneva_reviews.admin.v1.UpdateSpecialtyResponse
-	(*DeleteSpecialtyRequest)(nil),    // 33: nagorneva_reviews.admin.v1.DeleteSpecialtyRequest
-	(*DeleteSpecialtyResponse)(nil),   // 34: nagorneva_reviews.admin.v1.DeleteSpecialtyResponse
-	(*Course)(nil),                    // 35: nagorneva_reviews.admin.v1.Course
-	(*CreateCourseRequest)(nil),       // 36: nagorneva_reviews.admin.v1.CreateCourseRequest
-	(*CreateCourseResponse)(nil),      // 37: nagorneva_reviews.admin.v1.CreateCourseResponse
-	(*GetCourseRequest)(nil),          // 38: nagorneva_reviews.admin.v1.GetCourseRequest
-	(*GetCourseResponse)(nil),         // 39: nagorneva_reviews.admin.v1.GetCourseResponse
-	(*ListCoursesRequest)(nil),        // 40: nagorneva_reviews.admin.v1.ListCoursesRequest
-	(*ListCoursesResponse)(nil),       // 41: nagorneva_reviews.admin.v1.ListCoursesResponse
-	(*UpdateCourseRequest)(nil),       // 42: nagorneva_reviews.admin.v1.UpdateCourseRequest
-	(*UpdateCourseResponse)(nil),      // 43: nagorneva_reviews.admin.v1.UpdateCourseResponse
-	(*DeleteCourseRequest)(nil),       // 44: nagorneva_reviews.admin.v1.DeleteCourseRequest
-	(*DeleteCourseResponse)(nil),      // 45: nagorneva_reviews.admin.v1.DeleteCourseResponse
-	(*Doctor)(nil),                    // 46: nagorneva_reviews.admin.v1.Doctor
-	(*CreateDoctorRequest)(nil),       // 47: nagorneva_reviews.admin.v1.CreateDoctorRequest
-	(*CreateDoctorResponse)(nil),      // 48: nagorneva_reviews.admin.v1.CreateDoctorResponse
-	(*GetDoctorRequest)(nil),          // 49: nagorneva_reviews.admin.v1.GetDoctorRequest
-	(*GetDoctorResponse)(nil),         // 50: nagorneva_reviews.admin.v1.GetDoctorResponse
-	(*ListDoctorsRequest)(nil),        // 51: nagorneva_reviews.admin.v1.ListDoctorsRequest
-	(*ListDoctorsResponse)(nil),       // 52: nagorneva_reviews.admin.v1.ListDoctorsResponse
-	(*UpdateDoctorRequest)(nil),       // 53: nagorneva_reviews.admin.v1.UpdateDoctorRequest
-	(*UpdateDoctorResponse)(nil),      // 54: nagorneva_reviews.admin.v1.UpdateDoctorResponse
-	(*DeleteDoctorRequest)(nil),       // 55: nagorneva_reviews.admin.v1.DeleteDoctorRequest
-	(*DeleteDoctorResponse)(nil),      // 56: nagorneva_reviews.admin.v1.DeleteDoctorResponse
-	(*UploadDoctorPhotoRequest)(nil),  // 57: nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest
-	(*UploadDoctorPhotoResponse)(nil), // 58: nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse
-	(*GetDoctorReviewsRequest)(nil),   // 59: nagorneva_reviews.admin.v1.GetDoctorReviewsRequest
-	(*GetDoctorReviewsResponse)(nil),  // 60: nagorneva_reviews.admin.v1.GetDoctorReviewsResponse
-	(*Review)(nil),                    // 61: nagorneva_reviews.admin.v1.Review
-	(*CreateReviewRequest)(nil),       // 62: nagorneva_reviews.admin.v1.CreateReviewRequest
-	(*CreateReviewResponse)(nil),      // 63: nagorneva_reviews.admin.v1.CreateReviewResponse
-	(*GetReviewRequest)(nil),          // 64: nagorneva_reviews.admin.v1.GetReviewRequest
-	(*GetReviewResponse)(nil),         // 65: nagorneva_reviews.admin.v1.GetReviewResponse
-	(*ListReviewsRequest)(nil),        // 66: nagorneva_reviews.admin.v1.ListReviewsRequest
-	(*ListReviewsResponse)(nil),       // 67: nagorneva_reviews.admin.v1.ListReviewsResponse
-	(*UpdateReviewRequest)(nil),       // 68: nagorneva_reviews.admin.v1.UpdateReviewRequest
-	(*UpdateReviewResponse)(nil),      // 69: nagorneva_reviews.admin.v1.UpdateReviewResponse
-	(*DeleteReviewRequest)(nil),       // 70: nagorneva_reviews.admin.v1.DeleteReviewRequest
-	(*DeleteReviewResponse)(nil),      // 71: nagorneva_reviews.admin.v1.DeleteReviewResponse
-	(*timestamppb.Timestamp)(nil),     // 72: google.protobuf.Timestamp
+	(ReviewsSort)(0),                   // 0: nagorneva_reviews.admin.v1.ReviewsSort
+	(*LoginRequest)(nil),               // 1: nagorneva_reviews.admin.v1.LoginRequest
+	(*LoginResponse)(nil),              // 2: nagorneva_reviews.admin.v1.LoginResponse
+	(*User)(nil),                       // 3: nagorneva_reviews.admin.v1.User
+	(*CreateUserRequest)(nil),          // 4: nagorneva_reviews.admin.v1.CreateUserRequest
+	(*CreateUserResponse)(nil),         // 5: nagorneva_reviews.admin.v1.CreateUserResponse
+	(*GetUserRequest)(nil),             // 6: nagorneva_reviews.admin.v1.GetUserRequest
+	(*GetUserResponse)(nil),            // 7: nagorneva_reviews.admin.v1.GetUserResponse
+	(*ListUsersRequest)(nil),           // 8: nagorneva_reviews.admin.v1.ListUsersRequest
+	(*ListUsersResponse)(nil),          // 9: nagorneva_reviews.admin.v1.ListUsersResponse
+	(*UpdateUserRequest)(nil),          // 10: nagorneva_reviews.admin.v1.UpdateUserRequest
+	(*UpdateUserResponse)(nil),         // 11: nagorneva_reviews.admin.v1.UpdateUserResponse
+	(*DeleteUserRequest)(nil),          // 12: nagorneva_reviews.admin.v1.DeleteUserRequest
+	(*DeleteUserResponse)(nil),         // 13: nagorneva_reviews.admin.v1.DeleteUserResponse
+	(*City)(nil),                       // 14: nagorneva_reviews.admin.v1.City
+	(*CreateCityRequest)(nil),          // 15: nagorneva_reviews.admin.v1.CreateCityRequest
+	(*CreateCityResponse)(nil),         // 16: nagorneva_reviews.admin.v1.CreateCityResponse
+	(*GetCityRequest)(nil),             // 17: nagorneva_reviews.admin.v1.GetCityRequest
+	(*GetCityResponse)(nil),            // 18: nagorneva_reviews.admin.v1.GetCityResponse
+	(*ListCitiesRequest)(nil),          // 19: nagorneva_reviews.admin.v1.ListCitiesRequest
+	(*ListCitiesResponse)(nil),         // 20: nagorneva_reviews.admin.v1.ListCitiesResponse
+	(*UpdateCityRequest)(nil),          // 21: nagorneva_reviews.admin.v1.UpdateCityRequest
+	(*UpdateCityResponse)(nil),         // 22: nagorneva_reviews.admin.v1.UpdateCityResponse
+	(*DeleteCityRequest)(nil),          // 23: nagorneva_reviews.admin.v1.DeleteCityRequest
+	(*DeleteCityResponse)(nil),         // 24: nagorneva_reviews.admin.v1.DeleteCityResponse
+	(*Specialty)(nil),                  // 25: nagorneva_reviews.admin.v1.Specialty
+	(*CreateSpecialtyRequest)(nil),     // 26: nagorneva_reviews.admin.v1.CreateSpecialtyRequest
+	(*CreateSpecialtyResponse)(nil),    // 27: nagorneva_reviews.admin.v1.CreateSpecialtyResponse
+	(*GetSpecialtyRequest)(nil),        // 28: nagorneva_reviews.admin.v1.GetSpecialtyRequest
+	(*GetSpecialtyResponse)(nil),       // 29: nagorneva_reviews.admin.v1.GetSpecialtyResponse
+	(*ListSpecialtiesRequest)(nil),     // 30: nagorneva_reviews.admin.v1.ListSpecialtiesRequest
+	(*ListSpecialtiesResponse)(nil),    // 31: nagorneva_reviews.admin.v1.ListSpecialtiesResponse
+	(*UpdateSpecialtyRequest)(nil),     // 32: nagorneva_reviews.admin.v1.UpdateSpecialtyRequest
+	(*UpdateSpecialtyResponse)(nil),    // 33: nagorneva_reviews.admin.v1.UpdateSpecialtyResponse
+	(*DeleteSpecialtyRequest)(nil),     // 34: nagorneva_reviews.admin.v1.DeleteSpecialtyRequest
+	(*DeleteSpecialtyResponse)(nil),    // 35: nagorneva_reviews.admin.v1.DeleteSpecialtyResponse
+	(*Course)(nil),                     // 36: nagorneva_reviews.admin.v1.Course
+	(*CreateCourseRequest)(nil),        // 37: nagorneva_reviews.admin.v1.CreateCourseRequest
+	(*CreateCourseResponse)(nil),       // 38: nagorneva_reviews.admin.v1.CreateCourseResponse
+	(*GetCourseRequest)(nil),           // 39: nagorneva_reviews.admin.v1.GetCourseRequest
+	(*GetCourseResponse)(nil),          // 40: nagorneva_reviews.admin.v1.GetCourseResponse
+	(*ListCoursesRequest)(nil),         // 41: nagorneva_reviews.admin.v1.ListCoursesRequest
+	(*ListCoursesResponse)(nil),        // 42: nagorneva_reviews.admin.v1.ListCoursesResponse
+	(*UpdateCourseRequest)(nil),        // 43: nagorneva_reviews.admin.v1.UpdateCourseRequest
+	(*UpdateCourseResponse)(nil),       // 44: nagorneva_reviews.admin.v1.UpdateCourseResponse
+	(*DeleteCourseRequest)(nil),        // 45: nagorneva_reviews.admin.v1.DeleteCourseRequest
+	(*DeleteCourseResponse)(nil),       // 46: nagorneva_reviews.admin.v1.DeleteCourseResponse
+	(*Doctor)(nil),                     // 47: nagorneva_reviews.admin.v1.Doctor
+	(*CreateDoctorRequest)(nil),        // 48: nagorneva_reviews.admin.v1.CreateDoctorRequest
+	(*CreateDoctorResponse)(nil),       // 49: nagorneva_reviews.admin.v1.CreateDoctorResponse
+	(*GetDoctorRequest)(nil),           // 50: nagorneva_reviews.admin.v1.GetDoctorRequest
+	(*GetDoctorResponse)(nil),          // 51: nagorneva_reviews.admin.v1.GetDoctorResponse
+	(*ListDoctorsRequest)(nil),         // 52: nagorneva_reviews.admin.v1.ListDoctorsRequest
+	(*ListDoctorsResponse)(nil),        // 53: nagorneva_reviews.admin.v1.ListDoctorsResponse
+	(*UpdateDoctorRequest)(nil),        // 54: nagorneva_reviews.admin.v1.UpdateDoctorRequest
+	(*UpdateDoctorResponse)(nil),       // 55: nagorneva_reviews.admin.v1.UpdateDoctorResponse
+	(*DeleteDoctorRequest)(nil),        // 56: nagorneva_reviews.admin.v1.DeleteDoctorRequest
+	(*DeleteDoctorResponse)(nil),       // 57: nagorneva_reviews.admin.v1.DeleteDoctorResponse
+	(*UploadDoctorPhotoRequest)(nil),   // 58: nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest
+	(*UploadDoctorPhotoResponse)(nil),  // 59: nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse
+	(*GetDoctorCoursesRequest)(nil),    // 60: nagorneva_reviews.admin.v1.GetDoctorCoursesRequest
+	(*GetDoctorCoursesResponse)(nil),   // 61: nagorneva_reviews.admin.v1.GetDoctorCoursesResponse
+	(*AddDoctorCourseRequest)(nil),     // 62: nagorneva_reviews.admin.v1.AddDoctorCourseRequest
+	(*AddDoctorCourseResponse)(nil),    // 63: nagorneva_reviews.admin.v1.AddDoctorCourseResponse
+	(*DeleteDoctorCourseRequest)(nil),  // 64: nagorneva_reviews.admin.v1.DeleteDoctorCourseRequest
+	(*DeleteDoctorCourseResponse)(nil), // 65: nagorneva_reviews.admin.v1.DeleteDoctorCourseResponse
+	(*GetDoctorReviewsRequest)(nil),    // 66: nagorneva_reviews.admin.v1.GetDoctorReviewsRequest
+	(*GetDoctorReviewsResponse)(nil),   // 67: nagorneva_reviews.admin.v1.GetDoctorReviewsResponse
+	(*Review)(nil),                     // 68: nagorneva_reviews.admin.v1.Review
+	(*CreateReviewRequest)(nil),        // 69: nagorneva_reviews.admin.v1.CreateReviewRequest
+	(*CreateReviewResponse)(nil),       // 70: nagorneva_reviews.admin.v1.CreateReviewResponse
+	(*GetReviewRequest)(nil),           // 71: nagorneva_reviews.admin.v1.GetReviewRequest
+	(*GetReviewResponse)(nil),          // 72: nagorneva_reviews.admin.v1.GetReviewResponse
+	(*ListReviewsRequest)(nil),         // 73: nagorneva_reviews.admin.v1.ListReviewsRequest
+	(*ListReviewsResponse)(nil),        // 74: nagorneva_reviews.admin.v1.ListReviewsResponse
+	(*UpdateReviewRequest)(nil),        // 75: nagorneva_reviews.admin.v1.UpdateReviewRequest
+	(*UpdateReviewResponse)(nil),       // 76: nagorneva_reviews.admin.v1.UpdateReviewResponse
+	(*DeleteReviewRequest)(nil),        // 77: nagorneva_reviews.admin.v1.DeleteReviewRequest
+	(*DeleteReviewResponse)(nil),       // 78: nagorneva_reviews.admin.v1.DeleteReviewResponse
+	(*FilterDoctorsRequest)(nil),       // 79: nagorneva_reviews.admin.v1.FilterDoctorsRequest
+	(*FilteredDoctor)(nil),             // 80: nagorneva_reviews.admin.v1.FilteredDoctor
+	(*FilterDoctorsResponse)(nil),      // 81: nagorneva_reviews.admin.v1.FilterDoctorsResponse
+	(*timestamppb.Timestamp)(nil),      // 82: google.protobuf.Timestamp
 }
 var file_admin_admin_proto_depIdxs = []int32{
-	2,  // 0: nagorneva_reviews.admin.v1.CreateUserResponse.user:type_name -> nagorneva_reviews.admin.v1.User
-	2,  // 1: nagorneva_reviews.admin.v1.GetUserResponse.user:type_name -> nagorneva_reviews.admin.v1.User
-	2,  // 2: nagorneva_reviews.admin.v1.ListUsersResponse.users:type_name -> nagorneva_reviews.admin.v1.User
-	2,  // 3: nagorneva_reviews.admin.v1.UpdateUserResponse.user:type_name -> nagorneva_reviews.admin.v1.User
-	13, // 4: nagorneva_reviews.admin.v1.CreateCityResponse.city:type_name -> nagorneva_reviews.admin.v1.City
-	13, // 5: nagorneva_reviews.admin.v1.GetCityResponse.city:type_name -> nagorneva_reviews.admin.v1.City
-	13, // 6: nagorneva_reviews.admin.v1.ListCitiesResponse.cities:type_name -> nagorneva_reviews.admin.v1.City
-	13, // 7: nagorneva_reviews.admin.v1.UpdateCityResponse.city:type_name -> nagorneva_reviews.admin.v1.City
-	24, // 8: nagorneva_reviews.admin.v1.CreateSpecialtyResponse.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
-	24, // 9: nagorneva_reviews.admin.v1.GetSpecialtyResponse.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
-	24, // 10: nagorneva_reviews.admin.v1.ListSpecialtiesResponse.specialties:type_name -> nagorneva_reviews.admin.v1.Specialty
-	24, // 11: nagorneva_reviews.admin.v1.UpdateSpecialtyResponse.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
-	35, // 12: nagorneva_reviews.admin.v1.CreateCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
-	35, // 13: nagorneva_reviews.admin.v1.GetCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
-	35, // 14: nagorneva_reviews.admin.v1.ListCoursesResponse.courses:type_name -> nagorneva_reviews.admin.v1.Course
-	35, // 15: nagorneva_reviews.admin.v1.UpdateCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
-	13, // 16: nagorneva_reviews.admin.v1.Doctor.city:type_name -> nagorneva_reviews.admin.v1.City
-	24, // 17: nagorneva_reviews.admin.v1.Doctor.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
-	46, // 18: nagorneva_reviews.admin.v1.CreateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 19: nagorneva_reviews.admin.v1.GetDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 20: nagorneva_reviews.admin.v1.ListDoctorsResponse.doctors:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 21: nagorneva_reviews.admin.v1.UpdateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	46, // 22: nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
-	61, // 23: nagorneva_reviews.admin.v1.GetDoctorReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
-	72, // 24: nagorneva_reviews.admin.v1.Review.created_at:type_name -> google.protobuf.Timestamp
-	61, // 25: nagorneva_reviews.admin.v1.CreateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
-	61, // 26: nagorneva_reviews.admin.v1.GetReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
-	61, // 27: nagorneva_reviews.admin.v1.ListReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
-	61, // 28: nagorneva_reviews.admin.v1.UpdateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
-	0,  // 29: nagorneva_reviews.admin.v1.AdminService.Login:input_type -> nagorneva_reviews.admin.v1.LoginRequest
-	3,  // 30: nagorneva_reviews.admin.v1.AdminService.CreateUser:input_type -> nagorneva_reviews.admin.v1.CreateUserRequest
-	5,  // 31: nagorneva_reviews.admin.v1.AdminService.GetUser:input_type -> nagorneva_reviews.admin.v1.GetUserRequest
-	7,  // 32: nagorneva_reviews.admin.v1.AdminService.ListUsers:input_type -> nagorneva_reviews.admin.v1.ListUsersRequest
-	9,  // 33: nagorneva_reviews.admin.v1.AdminService.UpdateUser:input_type -> nagorneva_reviews.admin.v1.UpdateUserRequest
-	11, // 34: nagorneva_reviews.admin.v1.AdminService.DeleteUser:input_type -> nagorneva_reviews.admin.v1.DeleteUserRequest
-	14, // 35: nagorneva_reviews.admin.v1.AdminService.CreateCity:input_type -> nagorneva_reviews.admin.v1.CreateCityRequest
-	16, // 36: nagorneva_reviews.admin.v1.AdminService.GetCity:input_type -> nagorneva_reviews.admin.v1.GetCityRequest
-	18, // 37: nagorneva_reviews.admin.v1.AdminService.ListCities:input_type -> nagorneva_reviews.admin.v1.ListCitiesRequest
-	20, // 38: nagorneva_reviews.admin.v1.AdminService.UpdateCity:input_type -> nagorneva_reviews.admin.v1.UpdateCityRequest
-	22, // 39: nagorneva_reviews.admin.v1.AdminService.DeleteCity:input_type -> nagorneva_reviews.admin.v1.DeleteCityRequest
-	25, // 40: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:input_type -> nagorneva_reviews.admin.v1.CreateSpecialtyRequest
-	27, // 41: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:input_type -> nagorneva_reviews.admin.v1.GetSpecialtyRequest
-	29, // 42: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:input_type -> nagorneva_reviews.admin.v1.ListSpecialtiesRequest
-	31, // 43: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:input_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyRequest
-	33, // 44: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:input_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyRequest
-	36, // 45: nagorneva_reviews.admin.v1.AdminService.CreateCourse:input_type -> nagorneva_reviews.admin.v1.CreateCourseRequest
-	38, // 46: nagorneva_reviews.admin.v1.AdminService.GetCourse:input_type -> nagorneva_reviews.admin.v1.GetCourseRequest
-	40, // 47: nagorneva_reviews.admin.v1.AdminService.ListCourses:input_type -> nagorneva_reviews.admin.v1.ListCoursesRequest
-	42, // 48: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:input_type -> nagorneva_reviews.admin.v1.UpdateCourseRequest
-	44, // 49: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:input_type -> nagorneva_reviews.admin.v1.DeleteCourseRequest
-	47, // 50: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:input_type -> nagorneva_reviews.admin.v1.CreateDoctorRequest
-	49, // 51: nagorneva_reviews.admin.v1.AdminService.GetDoctor:input_type -> nagorneva_reviews.admin.v1.GetDoctorRequest
-	51, // 52: nagorneva_reviews.admin.v1.AdminService.ListDoctors:input_type -> nagorneva_reviews.admin.v1.ListDoctorsRequest
-	53, // 53: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:input_type -> nagorneva_reviews.admin.v1.UpdateDoctorRequest
-	55, // 54: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:input_type -> nagorneva_reviews.admin.v1.DeleteDoctorRequest
-	57, // 55: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:input_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest
-	59, // 56: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:input_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsRequest
-	62, // 57: nagorneva_reviews.admin.v1.AdminService.CreateReview:input_type -> nagorneva_reviews.admin.v1.CreateReviewRequest
-	64, // 58: nagorneva_reviews.admin.v1.AdminService.GetReview:input_type -> nagorneva_reviews.admin.v1.GetReviewRequest
-	66, // 59: nagorneva_reviews.admin.v1.AdminService.ListReviews:input_type -> nagorneva_reviews.admin.v1.ListReviewsRequest
-	68, // 60: nagorneva_reviews.admin.v1.AdminService.UpdateReview:input_type -> nagorneva_reviews.admin.v1.UpdateReviewRequest
-	70, // 61: nagorneva_reviews.admin.v1.AdminService.DeleteReview:input_type -> nagorneva_reviews.admin.v1.DeleteReviewRequest
-	1,  // 62: nagorneva_reviews.admin.v1.AdminService.Login:output_type -> nagorneva_reviews.admin.v1.LoginResponse
-	4,  // 63: nagorneva_reviews.admin.v1.AdminService.CreateUser:output_type -> nagorneva_reviews.admin.v1.CreateUserResponse
-	6,  // 64: nagorneva_reviews.admin.v1.AdminService.GetUser:output_type -> nagorneva_reviews.admin.v1.GetUserResponse
-	8,  // 65: nagorneva_reviews.admin.v1.AdminService.ListUsers:output_type -> nagorneva_reviews.admin.v1.ListUsersResponse
-	10, // 66: nagorneva_reviews.admin.v1.AdminService.UpdateUser:output_type -> nagorneva_reviews.admin.v1.UpdateUserResponse
-	12, // 67: nagorneva_reviews.admin.v1.AdminService.DeleteUser:output_type -> nagorneva_reviews.admin.v1.DeleteUserResponse
-	15, // 68: nagorneva_reviews.admin.v1.AdminService.CreateCity:output_type -> nagorneva_reviews.admin.v1.CreateCityResponse
-	17, // 69: nagorneva_reviews.admin.v1.AdminService.GetCity:output_type -> nagorneva_reviews.admin.v1.GetCityResponse
-	19, // 70: nagorneva_reviews.admin.v1.AdminService.ListCities:output_type -> nagorneva_reviews.admin.v1.ListCitiesResponse
-	21, // 71: nagorneva_reviews.admin.v1.AdminService.UpdateCity:output_type -> nagorneva_reviews.admin.v1.UpdateCityResponse
-	23, // 72: nagorneva_reviews.admin.v1.AdminService.DeleteCity:output_type -> nagorneva_reviews.admin.v1.DeleteCityResponse
-	26, // 73: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:output_type -> nagorneva_reviews.admin.v1.CreateSpecialtyResponse
-	28, // 74: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:output_type -> nagorneva_reviews.admin.v1.GetSpecialtyResponse
-	30, // 75: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:output_type -> nagorneva_reviews.admin.v1.ListSpecialtiesResponse
-	32, // 76: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:output_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyResponse
-	34, // 77: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:output_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyResponse
-	37, // 78: nagorneva_reviews.admin.v1.AdminService.CreateCourse:output_type -> nagorneva_reviews.admin.v1.CreateCourseResponse
-	39, // 79: nagorneva_reviews.admin.v1.AdminService.GetCourse:output_type -> nagorneva_reviews.admin.v1.GetCourseResponse
-	41, // 80: nagorneva_reviews.admin.v1.AdminService.ListCourses:output_type -> nagorneva_reviews.admin.v1.ListCoursesResponse
-	43, // 81: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:output_type -> nagorneva_reviews.admin.v1.UpdateCourseResponse
-	45, // 82: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:output_type -> nagorneva_reviews.admin.v1.DeleteCourseResponse
-	48, // 83: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:output_type -> nagorneva_reviews.admin.v1.CreateDoctorResponse
-	50, // 84: nagorneva_reviews.admin.v1.AdminService.GetDoctor:output_type -> nagorneva_reviews.admin.v1.GetDoctorResponse
-	52, // 85: nagorneva_reviews.admin.v1.AdminService.ListDoctors:output_type -> nagorneva_reviews.admin.v1.ListDoctorsResponse
-	54, // 86: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:output_type -> nagorneva_reviews.admin.v1.UpdateDoctorResponse
-	56, // 87: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:output_type -> nagorneva_reviews.admin.v1.DeleteDoctorResponse
-	58, // 88: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:output_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse
-	60, // 89: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:output_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsResponse
-	63, // 90: nagorneva_reviews.admin.v1.AdminService.CreateReview:output_type -> nagorneva_reviews.admin.v1.CreateReviewResponse
-	65, // 91: nagorneva_reviews.admin.v1.AdminService.GetReview:output_type -> nagorneva_reviews.admin.v1.GetReviewResponse
-	67, // 92: nagorneva_reviews.admin.v1.AdminService.ListReviews:output_type -> nagorneva_reviews.admin.v1.ListReviewsResponse
-	69, // 93: nagorneva_reviews.admin.v1.AdminService.UpdateReview:output_type -> nagorneva_reviews.admin.v1.UpdateReviewResponse
-	71, // 94: nagorneva_reviews.admin.v1.AdminService.DeleteReview:output_type -> nagorneva_reviews.admin.v1.DeleteReviewResponse
-	62, // [62:95] is the sub-list for method output_type
-	29, // [29:62] is the sub-list for method input_type
-	29, // [29:29] is the sub-list for extension type_name
-	29, // [29:29] is the sub-list for extension extendee
-	0,  // [0:29] is the sub-list for field type_name
+	3,  // 0: nagorneva_reviews.admin.v1.CreateUserResponse.user:type_name -> nagorneva_reviews.admin.v1.User
+	3,  // 1: nagorneva_reviews.admin.v1.GetUserResponse.user:type_name -> nagorneva_reviews.admin.v1.User
+	3,  // 2: nagorneva_reviews.admin.v1.ListUsersResponse.users:type_name -> nagorneva_reviews.admin.v1.User
+	3,  // 3: nagorneva_reviews.admin.v1.UpdateUserResponse.user:type_name -> nagorneva_reviews.admin.v1.User
+	14, // 4: nagorneva_reviews.admin.v1.CreateCityResponse.city:type_name -> nagorneva_reviews.admin.v1.City
+	14, // 5: nagorneva_reviews.admin.v1.GetCityResponse.city:type_name -> nagorneva_reviews.admin.v1.City
+	14, // 6: nagorneva_reviews.admin.v1.ListCitiesResponse.cities:type_name -> nagorneva_reviews.admin.v1.City
+	14, // 7: nagorneva_reviews.admin.v1.UpdateCityResponse.city:type_name -> nagorneva_reviews.admin.v1.City
+	25, // 8: nagorneva_reviews.admin.v1.CreateSpecialtyResponse.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
+	25, // 9: nagorneva_reviews.admin.v1.GetSpecialtyResponse.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
+	25, // 10: nagorneva_reviews.admin.v1.ListSpecialtiesResponse.specialties:type_name -> nagorneva_reviews.admin.v1.Specialty
+	25, // 11: nagorneva_reviews.admin.v1.UpdateSpecialtyResponse.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
+	36, // 12: nagorneva_reviews.admin.v1.CreateCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
+	36, // 13: nagorneva_reviews.admin.v1.GetCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
+	36, // 14: nagorneva_reviews.admin.v1.ListCoursesResponse.courses:type_name -> nagorneva_reviews.admin.v1.Course
+	36, // 15: nagorneva_reviews.admin.v1.UpdateCourseResponse.course:type_name -> nagorneva_reviews.admin.v1.Course
+	14, // 16: nagorneva_reviews.admin.v1.Doctor.city:type_name -> nagorneva_reviews.admin.v1.City
+	25, // 17: nagorneva_reviews.admin.v1.Doctor.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
+	47, // 18: nagorneva_reviews.admin.v1.CreateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	47, // 19: nagorneva_reviews.admin.v1.GetDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	47, // 20: nagorneva_reviews.admin.v1.ListDoctorsResponse.doctors:type_name -> nagorneva_reviews.admin.v1.Doctor
+	47, // 21: nagorneva_reviews.admin.v1.UpdateDoctorResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	47, // 22: nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse.doctor:type_name -> nagorneva_reviews.admin.v1.Doctor
+	36, // 23: nagorneva_reviews.admin.v1.GetDoctorCoursesResponse.courses:type_name -> nagorneva_reviews.admin.v1.Course
+	68, // 24: nagorneva_reviews.admin.v1.GetDoctorReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
+	82, // 25: nagorneva_reviews.admin.v1.Review.created_at:type_name -> google.protobuf.Timestamp
+	68, // 26: nagorneva_reviews.admin.v1.CreateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
+	68, // 27: nagorneva_reviews.admin.v1.GetReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
+	68, // 28: nagorneva_reviews.admin.v1.ListReviewsResponse.reviews:type_name -> nagorneva_reviews.admin.v1.Review
+	68, // 29: nagorneva_reviews.admin.v1.UpdateReviewResponse.review:type_name -> nagorneva_reviews.admin.v1.Review
+	0,  // 30: nagorneva_reviews.admin.v1.FilterDoctorsRequest.reviews_sort:type_name -> nagorneva_reviews.admin.v1.ReviewsSort
+	14, // 31: nagorneva_reviews.admin.v1.FilteredDoctor.city:type_name -> nagorneva_reviews.admin.v1.City
+	25, // 32: nagorneva_reviews.admin.v1.FilteredDoctor.specialty:type_name -> nagorneva_reviews.admin.v1.Specialty
+	36, // 33: nagorneva_reviews.admin.v1.FilteredDoctor.completed_courses:type_name -> nagorneva_reviews.admin.v1.Course
+	80, // 34: nagorneva_reviews.admin.v1.FilterDoctorsResponse.doctors:type_name -> nagorneva_reviews.admin.v1.FilteredDoctor
+	1,  // 35: nagorneva_reviews.admin.v1.AdminService.Login:input_type -> nagorneva_reviews.admin.v1.LoginRequest
+	4,  // 36: nagorneva_reviews.admin.v1.AdminService.CreateUser:input_type -> nagorneva_reviews.admin.v1.CreateUserRequest
+	6,  // 37: nagorneva_reviews.admin.v1.AdminService.GetUser:input_type -> nagorneva_reviews.admin.v1.GetUserRequest
+	8,  // 38: nagorneva_reviews.admin.v1.AdminService.ListUsers:input_type -> nagorneva_reviews.admin.v1.ListUsersRequest
+	10, // 39: nagorneva_reviews.admin.v1.AdminService.UpdateUser:input_type -> nagorneva_reviews.admin.v1.UpdateUserRequest
+	12, // 40: nagorneva_reviews.admin.v1.AdminService.DeleteUser:input_type -> nagorneva_reviews.admin.v1.DeleteUserRequest
+	15, // 41: nagorneva_reviews.admin.v1.AdminService.CreateCity:input_type -> nagorneva_reviews.admin.v1.CreateCityRequest
+	17, // 42: nagorneva_reviews.admin.v1.AdminService.GetCity:input_type -> nagorneva_reviews.admin.v1.GetCityRequest
+	19, // 43: nagorneva_reviews.admin.v1.AdminService.ListCities:input_type -> nagorneva_reviews.admin.v1.ListCitiesRequest
+	21, // 44: nagorneva_reviews.admin.v1.AdminService.UpdateCity:input_type -> nagorneva_reviews.admin.v1.UpdateCityRequest
+	23, // 45: nagorneva_reviews.admin.v1.AdminService.DeleteCity:input_type -> nagorneva_reviews.admin.v1.DeleteCityRequest
+	26, // 46: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:input_type -> nagorneva_reviews.admin.v1.CreateSpecialtyRequest
+	28, // 47: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:input_type -> nagorneva_reviews.admin.v1.GetSpecialtyRequest
+	30, // 48: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:input_type -> nagorneva_reviews.admin.v1.ListSpecialtiesRequest
+	32, // 49: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:input_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyRequest
+	34, // 50: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:input_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyRequest
+	37, // 51: nagorneva_reviews.admin.v1.AdminService.CreateCourse:input_type -> nagorneva_reviews.admin.v1.CreateCourseRequest
+	39, // 52: nagorneva_reviews.admin.v1.AdminService.GetCourse:input_type -> nagorneva_reviews.admin.v1.GetCourseRequest
+	41, // 53: nagorneva_reviews.admin.v1.AdminService.ListCourses:input_type -> nagorneva_reviews.admin.v1.ListCoursesRequest
+	43, // 54: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:input_type -> nagorneva_reviews.admin.v1.UpdateCourseRequest
+	45, // 55: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:input_type -> nagorneva_reviews.admin.v1.DeleteCourseRequest
+	48, // 56: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:input_type -> nagorneva_reviews.admin.v1.CreateDoctorRequest
+	50, // 57: nagorneva_reviews.admin.v1.AdminService.GetDoctor:input_type -> nagorneva_reviews.admin.v1.GetDoctorRequest
+	52, // 58: nagorneva_reviews.admin.v1.AdminService.ListDoctors:input_type -> nagorneva_reviews.admin.v1.ListDoctorsRequest
+	79, // 59: nagorneva_reviews.admin.v1.AdminService.FilterDoctors:input_type -> nagorneva_reviews.admin.v1.FilterDoctorsRequest
+	54, // 60: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:input_type -> nagorneva_reviews.admin.v1.UpdateDoctorRequest
+	56, // 61: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:input_type -> nagorneva_reviews.admin.v1.DeleteDoctorRequest
+	58, // 62: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:input_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoRequest
+	60, // 63: nagorneva_reviews.admin.v1.AdminService.GetDoctorCourses:input_type -> nagorneva_reviews.admin.v1.GetDoctorCoursesRequest
+	62, // 64: nagorneva_reviews.admin.v1.AdminService.AddDoctorCourse:input_type -> nagorneva_reviews.admin.v1.AddDoctorCourseRequest
+	64, // 65: nagorneva_reviews.admin.v1.AdminService.DeleteDoctorCourse:input_type -> nagorneva_reviews.admin.v1.DeleteDoctorCourseRequest
+	66, // 66: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:input_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsRequest
+	69, // 67: nagorneva_reviews.admin.v1.AdminService.CreateReview:input_type -> nagorneva_reviews.admin.v1.CreateReviewRequest
+	71, // 68: nagorneva_reviews.admin.v1.AdminService.GetReview:input_type -> nagorneva_reviews.admin.v1.GetReviewRequest
+	73, // 69: nagorneva_reviews.admin.v1.AdminService.ListReviews:input_type -> nagorneva_reviews.admin.v1.ListReviewsRequest
+	75, // 70: nagorneva_reviews.admin.v1.AdminService.UpdateReview:input_type -> nagorneva_reviews.admin.v1.UpdateReviewRequest
+	77, // 71: nagorneva_reviews.admin.v1.AdminService.DeleteReview:input_type -> nagorneva_reviews.admin.v1.DeleteReviewRequest
+	2,  // 72: nagorneva_reviews.admin.v1.AdminService.Login:output_type -> nagorneva_reviews.admin.v1.LoginResponse
+	5,  // 73: nagorneva_reviews.admin.v1.AdminService.CreateUser:output_type -> nagorneva_reviews.admin.v1.CreateUserResponse
+	7,  // 74: nagorneva_reviews.admin.v1.AdminService.GetUser:output_type -> nagorneva_reviews.admin.v1.GetUserResponse
+	9,  // 75: nagorneva_reviews.admin.v1.AdminService.ListUsers:output_type -> nagorneva_reviews.admin.v1.ListUsersResponse
+	11, // 76: nagorneva_reviews.admin.v1.AdminService.UpdateUser:output_type -> nagorneva_reviews.admin.v1.UpdateUserResponse
+	13, // 77: nagorneva_reviews.admin.v1.AdminService.DeleteUser:output_type -> nagorneva_reviews.admin.v1.DeleteUserResponse
+	16, // 78: nagorneva_reviews.admin.v1.AdminService.CreateCity:output_type -> nagorneva_reviews.admin.v1.CreateCityResponse
+	18, // 79: nagorneva_reviews.admin.v1.AdminService.GetCity:output_type -> nagorneva_reviews.admin.v1.GetCityResponse
+	20, // 80: nagorneva_reviews.admin.v1.AdminService.ListCities:output_type -> nagorneva_reviews.admin.v1.ListCitiesResponse
+	22, // 81: nagorneva_reviews.admin.v1.AdminService.UpdateCity:output_type -> nagorneva_reviews.admin.v1.UpdateCityResponse
+	24, // 82: nagorneva_reviews.admin.v1.AdminService.DeleteCity:output_type -> nagorneva_reviews.admin.v1.DeleteCityResponse
+	27, // 83: nagorneva_reviews.admin.v1.AdminService.CreateSpecialty:output_type -> nagorneva_reviews.admin.v1.CreateSpecialtyResponse
+	29, // 84: nagorneva_reviews.admin.v1.AdminService.GetSpecialty:output_type -> nagorneva_reviews.admin.v1.GetSpecialtyResponse
+	31, // 85: nagorneva_reviews.admin.v1.AdminService.ListSpecialties:output_type -> nagorneva_reviews.admin.v1.ListSpecialtiesResponse
+	33, // 86: nagorneva_reviews.admin.v1.AdminService.UpdateSpecialty:output_type -> nagorneva_reviews.admin.v1.UpdateSpecialtyResponse
+	35, // 87: nagorneva_reviews.admin.v1.AdminService.DeleteSpecialty:output_type -> nagorneva_reviews.admin.v1.DeleteSpecialtyResponse
+	38, // 88: nagorneva_reviews.admin.v1.AdminService.CreateCourse:output_type -> nagorneva_reviews.admin.v1.CreateCourseResponse
+	40, // 89: nagorneva_reviews.admin.v1.AdminService.GetCourse:output_type -> nagorneva_reviews.admin.v1.GetCourseResponse
+	42, // 90: nagorneva_reviews.admin.v1.AdminService.ListCourses:output_type -> nagorneva_reviews.admin.v1.ListCoursesResponse
+	44, // 91: nagorneva_reviews.admin.v1.AdminService.UpdateCourse:output_type -> nagorneva_reviews.admin.v1.UpdateCourseResponse
+	46, // 92: nagorneva_reviews.admin.v1.AdminService.DeleteCourse:output_type -> nagorneva_reviews.admin.v1.DeleteCourseResponse
+	49, // 93: nagorneva_reviews.admin.v1.AdminService.CreateDoctor:output_type -> nagorneva_reviews.admin.v1.CreateDoctorResponse
+	51, // 94: nagorneva_reviews.admin.v1.AdminService.GetDoctor:output_type -> nagorneva_reviews.admin.v1.GetDoctorResponse
+	53, // 95: nagorneva_reviews.admin.v1.AdminService.ListDoctors:output_type -> nagorneva_reviews.admin.v1.ListDoctorsResponse
+	81, // 96: nagorneva_reviews.admin.v1.AdminService.FilterDoctors:output_type -> nagorneva_reviews.admin.v1.FilterDoctorsResponse
+	55, // 97: nagorneva_reviews.admin.v1.AdminService.UpdateDoctor:output_type -> nagorneva_reviews.admin.v1.UpdateDoctorResponse
+	57, // 98: nagorneva_reviews.admin.v1.AdminService.DeleteDoctor:output_type -> nagorneva_reviews.admin.v1.DeleteDoctorResponse
+	59, // 99: nagorneva_reviews.admin.v1.AdminService.UploadDoctorPhoto:output_type -> nagorneva_reviews.admin.v1.UploadDoctorPhotoResponse
+	61, // 100: nagorneva_reviews.admin.v1.AdminService.GetDoctorCourses:output_type -> nagorneva_reviews.admin.v1.GetDoctorCoursesResponse
+	63, // 101: nagorneva_reviews.admin.v1.AdminService.AddDoctorCourse:output_type -> nagorneva_reviews.admin.v1.AddDoctorCourseResponse
+	65, // 102: nagorneva_reviews.admin.v1.AdminService.DeleteDoctorCourse:output_type -> nagorneva_reviews.admin.v1.DeleteDoctorCourseResponse
+	67, // 103: nagorneva_reviews.admin.v1.AdminService.GetDoctorReviews:output_type -> nagorneva_reviews.admin.v1.GetDoctorReviewsResponse
+	70, // 104: nagorneva_reviews.admin.v1.AdminService.CreateReview:output_type -> nagorneva_reviews.admin.v1.CreateReviewResponse
+	72, // 105: nagorneva_reviews.admin.v1.AdminService.GetReview:output_type -> nagorneva_reviews.admin.v1.GetReviewResponse
+	74, // 106: nagorneva_reviews.admin.v1.AdminService.ListReviews:output_type -> nagorneva_reviews.admin.v1.ListReviewsResponse
+	76, // 107: nagorneva_reviews.admin.v1.AdminService.UpdateReview:output_type -> nagorneva_reviews.admin.v1.UpdateReviewResponse
+	78, // 108: nagorneva_reviews.admin.v1.AdminService.DeleteReview:output_type -> nagorneva_reviews.admin.v1.DeleteReviewResponse
+	72, // [72:109] is the sub-list for method output_type
+	35, // [35:72] is the sub-list for method input_type
+	35, // [35:35] is the sub-list for extension type_name
+	35, // [35:35] is the sub-list for extension extendee
+	0,  // [0:35] is the sub-list for field type_name
 }
 
 func init() { file_admin_admin_proto_init() }
@@ -4109,19 +4737,21 @@ func file_admin_admin_proto_init() {
 	file_admin_admin_proto_msgTypes[31].OneofWrappers = []any{}
 	file_admin_admin_proto_msgTypes[42].OneofWrappers = []any{}
 	file_admin_admin_proto_msgTypes[53].OneofWrappers = []any{}
-	file_admin_admin_proto_msgTypes[68].OneofWrappers = []any{}
+	file_admin_admin_proto_msgTypes[74].OneofWrappers = []any{}
+	file_admin_admin_proto_msgTypes[78].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_admin_admin_proto_rawDesc), len(file_admin_admin_proto_rawDesc)),
-			NumEnums:      0,
-			NumMessages:   72,
+			NumEnums:      1,
+			NumMessages:   81,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
 		GoTypes:           file_admin_admin_proto_goTypes,
 		DependencyIndexes: file_admin_admin_proto_depIdxs,
+		EnumInfos:         file_admin_admin_proto_enumTypes,
 		MessageInfos:      file_admin_admin_proto_msgTypes,
 	}.Build()
 	File_admin_admin_proto = out.File

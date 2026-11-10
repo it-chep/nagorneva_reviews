@@ -396,10 +396,12 @@ func (x *DoctorCourse) GetSiteLink() string {
 }
 
 type GetDoctorsOnMapResponse struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Doctors       []*DoctorOnMap         `protobuf:"bytes,1,rep,name=doctors,proto3" json:"doctors,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state   protoimpl.MessageState `protogen:"open.v1"`
+	Doctors []*DoctorOnMap         `protobuf:"bytes,1,rep,name=doctors,proto3" json:"doctors,omitempty"`
+	// Active doctors with a known city (city_id != 2), independent of the search radius.
+	AllDoctorsCount int64 `protobuf:"varint,2,opt,name=all_doctors_count,proto3" json:"all_doctors_count,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *GetDoctorsOnMapResponse) Reset() {
@@ -437,6 +439,13 @@ func (x *GetDoctorsOnMapResponse) GetDoctors() []*DoctorOnMap {
 		return x.Doctors
 	}
 	return nil
+}
+
+func (x *GetDoctorsOnMapResponse) GetAllDoctorsCount() int64 {
+	if x != nil {
+		return x.AllDoctorsCount
+	}
+	return 0
 }
 
 type FilterReviewsRequest struct {
@@ -1001,9 +1010,10 @@ const file_reviews_reviews_proto_rawDesc = "" +
 	"\fDoctorCourse\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x12\n" +
 	"\x04name\x18\x02 \x01(\tR\x04name\x12\x1b\n" +
-	"\tsite_link\x18\x03 \x01(\tR\bsiteLink\"^\n" +
+	"\tsite_link\x18\x03 \x01(\tR\bsiteLink\"\x8c\x01\n" +
 	"\x17GetDoctorsOnMapResponse\x12C\n" +
-	"\adoctors\x18\x01 \x03(\v2).nagorneva_reviews.reviews.v1.DoctorOnMapR\adoctors\"\xa1\x01\n" +
+	"\adoctors\x18\x01 \x03(\v2).nagorneva_reviews.reviews.v1.DoctorOnMapR\adoctors\x12,\n" +
+	"\x11all_doctors_count\x18\x02 \x01(\x03R\x11all_doctors_count\"\xa1\x01\n" +
 	"\x14FilterReviewsRequest\x12 \n" +
 	"\tcourse_id\x18\x01 \x01(\x03H\x00R\bcourseId\x88\x01\x01\x12\x15\n" +
 	"\x03lat\x18\x02 \x01(\x01H\x01R\x03lat\x88\x01\x01\x12\x15\n" +

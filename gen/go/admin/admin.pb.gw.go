@@ -833,6 +833,33 @@ func local_request_AdminService_ListDoctors_0(ctx context.Context, marshaler run
 	return msg, metadata, err
 }
 
+func request_AdminService_FilterDoctors_0(ctx context.Context, marshaler runtime.Marshaler, client AdminServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq FilterDoctorsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	msg, err := client.FilterDoctors(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_AdminService_FilterDoctors_0(ctx context.Context, marshaler runtime.Marshaler, server AdminServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq FilterDoctorsRequest
+		metadata runtime.ServerMetadata
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	msg, err := server.FilterDoctors(ctx, &protoReq)
+	return msg, metadata, err
+}
+
 func request_AdminService_UpdateDoctor_0(ctx context.Context, marshaler runtime.Marshaler, client AdminServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
 	var (
 		protoReq UpdateDoctorRequest
@@ -959,6 +986,145 @@ func local_request_AdminService_UploadDoctorPhoto_0(ctx context.Context, marshal
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
 	}
 	msg, err := server.UploadDoctorPhoto(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_AdminService_GetDoctorCourses_0(ctx context.Context, marshaler runtime.Marshaler, client AdminServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetDoctorCoursesRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := client.GetDoctorCourses(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_AdminService_GetDoctorCourses_0(ctx context.Context, marshaler runtime.Marshaler, server AdminServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq GetDoctorCoursesRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := server.GetDoctorCourses(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_AdminService_AddDoctorCourse_0(ctx context.Context, marshaler runtime.Marshaler, client AdminServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq AddDoctorCourseRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := client.AddDoctorCourse(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_AdminService_AddDoctorCourse_0(ctx context.Context, marshaler runtime.Marshaler, server AdminServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq AddDoctorCourseRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && !errors.Is(err, io.EOF) {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	msg, err := server.AddDoctorCourse(ctx, &protoReq)
+	return msg, metadata, err
+}
+
+func request_AdminService_DeleteDoctorCourse_0(ctx context.Context, marshaler runtime.Marshaler, client AdminServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteDoctorCourseRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	if req.Body != nil {
+		_, _ = io.Copy(io.Discard, req.Body)
+	}
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	val, ok = pathParams["course_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "course_id")
+	}
+	protoReq.CourseId, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "course_id", err)
+	}
+	msg, err := client.DeleteDoctorCourse(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+}
+
+func local_request_AdminService_DeleteDoctorCourse_0(ctx context.Context, marshaler runtime.Marshaler, server AdminServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var (
+		protoReq DeleteDoctorCourseRequest
+		metadata runtime.ServerMetadata
+		err      error
+	)
+	val, ok := pathParams["id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "id")
+	}
+	protoReq.Id, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "id", err)
+	}
+	val, ok = pathParams["course_id"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "course_id")
+	}
+	protoReq.CourseId, err = runtime.Int64(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "course_id", err)
+	}
+	msg, err := server.DeleteDoctorCourse(ctx, &protoReq)
 	return msg, metadata, err
 }
 
@@ -1658,6 +1824,26 @@ func RegisterAdminServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_AdminService_ListDoctors_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodPost, pattern_AdminService_FilterDoctors_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/FilterDoctors", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/filter"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_AdminService_FilterDoctors_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_FilterDoctors_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPatch, pattern_AdminService_UpdateDoctor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -1717,6 +1903,66 @@ func RegisterAdminServiceHandlerServer(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 		forward_AdminService_UploadDoctorPhoto_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_AdminService_GetDoctorCourses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/GetDoctorCourses", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/{id}/courses"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_AdminService_GetDoctorCourses_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_GetDoctorCourses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_AdminService_AddDoctorCourse_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/AddDoctorCourse", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/{id}/courses"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_AdminService_AddDoctorCourse_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_AddDoctorCourse_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_AdminService_DeleteDoctorCourse_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateIncomingContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/DeleteDoctorCourse", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/{id}/courses/{course_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_AdminService_DeleteDoctorCourse_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_DeleteDoctorCourse_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_AdminService_GetDoctorReviews_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -2286,6 +2532,23 @@ func RegisterAdminServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 		}
 		forward_AdminService_ListDoctors_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
+	mux.Handle(http.MethodPost, pattern_AdminService_FilterDoctors_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/FilterDoctors", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/filter"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_AdminService_FilterDoctors_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_FilterDoctors_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
 	mux.Handle(http.MethodPatch, pattern_AdminService_UpdateDoctor_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
@@ -2336,6 +2599,57 @@ func RegisterAdminServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 			return
 		}
 		forward_AdminService_UploadDoctorPhoto_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodGet, pattern_AdminService_GetDoctorCourses_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/GetDoctorCourses", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/{id}/courses"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_AdminService_GetDoctorCourses_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_GetDoctorCourses_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodPost, pattern_AdminService_AddDoctorCourse_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/AddDoctorCourse", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/{id}/courses"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_AdminService_AddDoctorCourse_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_AddDoctorCourse_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+	})
+	mux.Handle(http.MethodDelete, pattern_AdminService_DeleteDoctorCourse_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		annotatedContext, err := runtime.AnnotateContext(ctx, mux, req, "/nagorneva_reviews.admin.v1.AdminService/DeleteDoctorCourse", runtime.WithHTTPPathPattern("/api/v1/admin/doctors/{id}/courses/{course_id}"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_AdminService_DeleteDoctorCourse_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		forward_AdminService_DeleteDoctorCourse_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 	})
 	mux.Handle(http.MethodGet, pattern_AdminService_GetDoctorReviews_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
@@ -2443,73 +2757,81 @@ func RegisterAdminServiceHandlerClient(ctx context.Context, mux *runtime.ServeMu
 }
 
 var (
-	pattern_AdminService_Login_0             = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "login"}, ""))
-	pattern_AdminService_CreateUser_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "users"}, ""))
-	pattern_AdminService_GetUser_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "users", "id"}, ""))
-	pattern_AdminService_ListUsers_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "users"}, ""))
-	pattern_AdminService_UpdateUser_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "users", "id"}, ""))
-	pattern_AdminService_DeleteUser_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "users", "id"}, ""))
-	pattern_AdminService_CreateCity_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "cities"}, ""))
-	pattern_AdminService_GetCity_0           = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "cities", "id"}, ""))
-	pattern_AdminService_ListCities_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "cities"}, ""))
-	pattern_AdminService_UpdateCity_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "cities", "id"}, ""))
-	pattern_AdminService_DeleteCity_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "cities", "id"}, ""))
-	pattern_AdminService_CreateSpecialty_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "specialties"}, ""))
-	pattern_AdminService_GetSpecialty_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "specialties", "id"}, ""))
-	pattern_AdminService_ListSpecialties_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "specialties"}, ""))
-	pattern_AdminService_UpdateSpecialty_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "specialties", "id"}, ""))
-	pattern_AdminService_DeleteSpecialty_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "specialties", "id"}, ""))
-	pattern_AdminService_CreateCourse_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "courses"}, ""))
-	pattern_AdminService_GetCourse_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "courses", "id"}, ""))
-	pattern_AdminService_ListCourses_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "courses"}, ""))
-	pattern_AdminService_UpdateCourse_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "courses", "id"}, ""))
-	pattern_AdminService_DeleteCourse_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "courses", "id"}, ""))
-	pattern_AdminService_CreateDoctor_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "doctors"}, ""))
-	pattern_AdminService_GetDoctor_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "doctors", "id"}, ""))
-	pattern_AdminService_ListDoctors_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "doctors"}, ""))
-	pattern_AdminService_UpdateDoctor_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "doctors", "id"}, ""))
-	pattern_AdminService_DeleteDoctor_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "doctors", "id"}, ""))
-	pattern_AdminService_UploadDoctorPhoto_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "admin", "doctors", "id", "photo"}, ""))
-	pattern_AdminService_GetDoctorReviews_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "admin", "doctors", "id", "reviews"}, ""))
-	pattern_AdminService_CreateReview_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "reviews"}, ""))
-	pattern_AdminService_GetReview_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "reviews", "id"}, ""))
-	pattern_AdminService_ListReviews_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "reviews"}, ""))
-	pattern_AdminService_UpdateReview_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "reviews", "id"}, ""))
-	pattern_AdminService_DeleteReview_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "reviews", "id"}, ""))
+	pattern_AdminService_Login_0              = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "login"}, ""))
+	pattern_AdminService_CreateUser_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "users"}, ""))
+	pattern_AdminService_GetUser_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "users", "id"}, ""))
+	pattern_AdminService_ListUsers_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "users"}, ""))
+	pattern_AdminService_UpdateUser_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "users", "id"}, ""))
+	pattern_AdminService_DeleteUser_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "users", "id"}, ""))
+	pattern_AdminService_CreateCity_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "cities"}, ""))
+	pattern_AdminService_GetCity_0            = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "cities", "id"}, ""))
+	pattern_AdminService_ListCities_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "cities"}, ""))
+	pattern_AdminService_UpdateCity_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "cities", "id"}, ""))
+	pattern_AdminService_DeleteCity_0         = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "cities", "id"}, ""))
+	pattern_AdminService_CreateSpecialty_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "specialties"}, ""))
+	pattern_AdminService_GetSpecialty_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "specialties", "id"}, ""))
+	pattern_AdminService_ListSpecialties_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "specialties"}, ""))
+	pattern_AdminService_UpdateSpecialty_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "specialties", "id"}, ""))
+	pattern_AdminService_DeleteSpecialty_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "specialties", "id"}, ""))
+	pattern_AdminService_CreateCourse_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "courses"}, ""))
+	pattern_AdminService_GetCourse_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "courses", "id"}, ""))
+	pattern_AdminService_ListCourses_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "courses"}, ""))
+	pattern_AdminService_UpdateCourse_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "courses", "id"}, ""))
+	pattern_AdminService_DeleteCourse_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "courses", "id"}, ""))
+	pattern_AdminService_CreateDoctor_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "doctors"}, ""))
+	pattern_AdminService_GetDoctor_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "doctors", "id"}, ""))
+	pattern_AdminService_ListDoctors_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "doctors"}, ""))
+	pattern_AdminService_FilterDoctors_0      = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4}, []string{"api", "v1", "admin", "doctors", "filter"}, ""))
+	pattern_AdminService_UpdateDoctor_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "doctors", "id"}, ""))
+	pattern_AdminService_DeleteDoctor_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "doctors", "id"}, ""))
+	pattern_AdminService_UploadDoctorPhoto_0  = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "admin", "doctors", "id", "photo"}, ""))
+	pattern_AdminService_GetDoctorCourses_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "admin", "doctors", "id", "courses"}, ""))
+	pattern_AdminService_AddDoctorCourse_0    = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "admin", "doctors", "id", "courses"}, ""))
+	pattern_AdminService_DeleteDoctorCourse_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5, 1, 0, 4, 1, 5, 6}, []string{"api", "v1", "admin", "doctors", "id", "courses", "course_id"}, ""))
+	pattern_AdminService_GetDoctorReviews_0   = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4, 2, 5}, []string{"api", "v1", "admin", "doctors", "id", "reviews"}, ""))
+	pattern_AdminService_CreateReview_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "reviews"}, ""))
+	pattern_AdminService_GetReview_0          = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "reviews", "id"}, ""))
+	pattern_AdminService_ListReviews_0        = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3}, []string{"api", "v1", "admin", "reviews"}, ""))
+	pattern_AdminService_UpdateReview_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "reviews", "id"}, ""))
+	pattern_AdminService_DeleteReview_0       = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 1, 0, 4, 1, 5, 4}, []string{"api", "v1", "admin", "reviews", "id"}, ""))
 )
 
 var (
-	forward_AdminService_Login_0             = runtime.ForwardResponseMessage
-	forward_AdminService_CreateUser_0        = runtime.ForwardResponseMessage
-	forward_AdminService_GetUser_0           = runtime.ForwardResponseMessage
-	forward_AdminService_ListUsers_0         = runtime.ForwardResponseMessage
-	forward_AdminService_UpdateUser_0        = runtime.ForwardResponseMessage
-	forward_AdminService_DeleteUser_0        = runtime.ForwardResponseMessage
-	forward_AdminService_CreateCity_0        = runtime.ForwardResponseMessage
-	forward_AdminService_GetCity_0           = runtime.ForwardResponseMessage
-	forward_AdminService_ListCities_0        = runtime.ForwardResponseMessage
-	forward_AdminService_UpdateCity_0        = runtime.ForwardResponseMessage
-	forward_AdminService_DeleteCity_0        = runtime.ForwardResponseMessage
-	forward_AdminService_CreateSpecialty_0   = runtime.ForwardResponseMessage
-	forward_AdminService_GetSpecialty_0      = runtime.ForwardResponseMessage
-	forward_AdminService_ListSpecialties_0   = runtime.ForwardResponseMessage
-	forward_AdminService_UpdateSpecialty_0   = runtime.ForwardResponseMessage
-	forward_AdminService_DeleteSpecialty_0   = runtime.ForwardResponseMessage
-	forward_AdminService_CreateCourse_0      = runtime.ForwardResponseMessage
-	forward_AdminService_GetCourse_0         = runtime.ForwardResponseMessage
-	forward_AdminService_ListCourses_0       = runtime.ForwardResponseMessage
-	forward_AdminService_UpdateCourse_0      = runtime.ForwardResponseMessage
-	forward_AdminService_DeleteCourse_0      = runtime.ForwardResponseMessage
-	forward_AdminService_CreateDoctor_0      = runtime.ForwardResponseMessage
-	forward_AdminService_GetDoctor_0         = runtime.ForwardResponseMessage
-	forward_AdminService_ListDoctors_0       = runtime.ForwardResponseMessage
-	forward_AdminService_UpdateDoctor_0      = runtime.ForwardResponseMessage
-	forward_AdminService_DeleteDoctor_0      = runtime.ForwardResponseMessage
-	forward_AdminService_UploadDoctorPhoto_0 = runtime.ForwardResponseMessage
-	forward_AdminService_GetDoctorReviews_0  = runtime.ForwardResponseMessage
-	forward_AdminService_CreateReview_0      = runtime.ForwardResponseMessage
-	forward_AdminService_GetReview_0         = runtime.ForwardResponseMessage
-	forward_AdminService_ListReviews_0       = runtime.ForwardResponseMessage
-	forward_AdminService_UpdateReview_0      = runtime.ForwardResponseMessage
-	forward_AdminService_DeleteReview_0      = runtime.ForwardResponseMessage
+	forward_AdminService_Login_0              = runtime.ForwardResponseMessage
+	forward_AdminService_CreateUser_0         = runtime.ForwardResponseMessage
+	forward_AdminService_GetUser_0            = runtime.ForwardResponseMessage
+	forward_AdminService_ListUsers_0          = runtime.ForwardResponseMessage
+	forward_AdminService_UpdateUser_0         = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteUser_0         = runtime.ForwardResponseMessage
+	forward_AdminService_CreateCity_0         = runtime.ForwardResponseMessage
+	forward_AdminService_GetCity_0            = runtime.ForwardResponseMessage
+	forward_AdminService_ListCities_0         = runtime.ForwardResponseMessage
+	forward_AdminService_UpdateCity_0         = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteCity_0         = runtime.ForwardResponseMessage
+	forward_AdminService_CreateSpecialty_0    = runtime.ForwardResponseMessage
+	forward_AdminService_GetSpecialty_0       = runtime.ForwardResponseMessage
+	forward_AdminService_ListSpecialties_0    = runtime.ForwardResponseMessage
+	forward_AdminService_UpdateSpecialty_0    = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteSpecialty_0    = runtime.ForwardResponseMessage
+	forward_AdminService_CreateCourse_0       = runtime.ForwardResponseMessage
+	forward_AdminService_GetCourse_0          = runtime.ForwardResponseMessage
+	forward_AdminService_ListCourses_0        = runtime.ForwardResponseMessage
+	forward_AdminService_UpdateCourse_0       = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteCourse_0       = runtime.ForwardResponseMessage
+	forward_AdminService_CreateDoctor_0       = runtime.ForwardResponseMessage
+	forward_AdminService_GetDoctor_0          = runtime.ForwardResponseMessage
+	forward_AdminService_ListDoctors_0        = runtime.ForwardResponseMessage
+	forward_AdminService_FilterDoctors_0      = runtime.ForwardResponseMessage
+	forward_AdminService_UpdateDoctor_0       = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteDoctor_0       = runtime.ForwardResponseMessage
+	forward_AdminService_UploadDoctorPhoto_0  = runtime.ForwardResponseMessage
+	forward_AdminService_GetDoctorCourses_0   = runtime.ForwardResponseMessage
+	forward_AdminService_AddDoctorCourse_0    = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteDoctorCourse_0 = runtime.ForwardResponseMessage
+	forward_AdminService_GetDoctorReviews_0   = runtime.ForwardResponseMessage
+	forward_AdminService_CreateReview_0       = runtime.ForwardResponseMessage
+	forward_AdminService_GetReview_0          = runtime.ForwardResponseMessage
+	forward_AdminService_ListReviews_0        = runtime.ForwardResponseMessage
+	forward_AdminService_UpdateReview_0       = runtime.ForwardResponseMessage
+	forward_AdminService_DeleteReview_0       = runtime.ForwardResponseMessage
 )

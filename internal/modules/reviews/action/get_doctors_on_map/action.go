@@ -10,6 +10,13 @@ import (
 
 type Storage interface {
 	Get(ctx context.Context, lat, lon, radius float64) ([]domain.DoctorOnMap, error)
+	CountAll(ctx context.Context) (int64, error)
+}
+
+// Result includes the total public catalog size independently of the viewport.
+type Result struct {
+	Doctors         []domain.DoctorOnMap
+	AllDoctorsCount int64
 }
 type cacheEntry struct {
 	doctors []domain.DoctorOnMap
@@ -32,26 +39,34 @@ func New(storage Storage) Action {
 
 // Cache the complete map only: arbitrary viewport requests do not grow the cache.
 // The pointer keeps synchronization shared when Action is copied by value.
-func (a Action) Execute(ctx context.Context, lat, lon, radiusKm float64) ([]domain.DoctorOnMap, error) {
+func (a Action) Execute(ctx context.Context, lat, lon, radiusKm float64) (Result, error) {
 	if radiusKm != 0 {
-		return a.dal.Get(ctx, lat, lon, radiusKm)
+		doctors, err := a.dal.Get(ctx, lat, lon, radiusKm)
+		if err != nil {
+			return Result{}, err
+		}
+		count, err := a.dal.CountAll(ctx)
+		if err != nil {
+			return Result{}, err
+		}
+		return Result{Doctors: doctors, AllDoctorsCount: count}, nil
 	}
 	const key = "all"
 	for {
 		if err := ctx.Err(); err != nil {
-			return nil, err
+			return Result{}, err
 		}
 		a.cache.mu.Lock()
 		if entry, ok := a.cache.entries[key]; ok && a.cache.now().Before(entry.expires) {
 			result := cloneDoctors(entry.doctors)
 			a.cache.mu.Unlock()
-			return result, nil
+			return Result{Doctors: result, AllDoctorsCount: int64(len(result))}, nil
 		}
 		if done := a.cache.loading; done != nil {
 			a.cache.mu.Unlock()
 			select {
 			case <-ctx.Done():
-				return nil, ctx.Err()
+				return Result{}, ctx.Err()
 			case <-done:
 				continue
 			}
@@ -66,7 +81,7 @@ func (a Action) Execute(ctx context.Context, lat, lon, radiusKm float64) ([]doma
 		close(a.cache.loading)
 		a.cache.loading = nil
 		a.cache.mu.Unlock()
-		return doctors, err
+		return Result{Doctors: doctors, AllDoctorsCount: int64(len(doctors))}, err
 	}
 }
 func cloneDoctors(source []domain.DoctorOnMap) []domain.DoctorOnMap {

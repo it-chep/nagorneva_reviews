@@ -81,6 +81,9 @@ service AdminService {
   rpc ListDoctors(ListDoctorsRequest) returns (ListDoctorsResponse) {
     option (google.api.http) = {get:"/api/v1/admin/doctors"};
   }
+  rpc FilterDoctors(FilterDoctorsRequest) returns (FilterDoctorsResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/doctors/filter" body:"*"};
+  }
   rpc UpdateDoctor(UpdateDoctorRequest) returns (UpdateDoctorResponse) {
     option (google.api.http) = {patch:"/api/v1/admin/doctors/{id}" body:"*"};
   }
@@ -89,6 +92,15 @@ service AdminService {
   }
   rpc UploadDoctorPhoto(UploadDoctorPhotoRequest) returns (UploadDoctorPhotoResponse) {
     option (google.api.http) = {post:"/api/v1/admin/doctors/{id}/photo" body:"*"};
+  }
+  rpc GetDoctorCourses(GetDoctorCoursesRequest) returns (GetDoctorCoursesResponse) {
+    option (google.api.http) = {get:"/api/v1/admin/doctors/{id}/courses"};
+  }
+  rpc AddDoctorCourse(AddDoctorCourseRequest) returns (AddDoctorCourseResponse) {
+    option (google.api.http) = {post:"/api/v1/admin/doctors/{id}/courses" body:"*"};
+  }
+  rpc DeleteDoctorCourse(DeleteDoctorCourseRequest) returns (DeleteDoctorCourseResponse) {
+    option (google.api.http) = {delete:"/api/v1/admin/doctors/{id}/courses/{course_id}"};
   }
   rpc GetDoctorReviews(GetDoctorReviewsRequest) returns (GetDoctorReviewsResponse) {
     option (google.api.http) = {get:"/api/v1/admin/doctors/{id}/reviews"};
@@ -324,6 +336,22 @@ message UploadDoctorPhotoRequest {
 message UploadDoctorPhotoResponse {
   Doctor doctor = 1;
 }
+message GetDoctorCoursesRequest {
+  int64 id = 1;
+}
+message GetDoctorCoursesResponse {
+  repeated Course courses = 1;
+}
+message AddDoctorCourseRequest {
+  int64 id = 1;
+  int64 course_id = 2;
+}
+message AddDoctorCourseResponse {}
+message DeleteDoctorCourseRequest {
+  int64 id = 1;
+  int64 course_id = 2;
+}
+message DeleteDoctorCourseResponse {}
 message GetDoctorReviewsRequest {
   int64 id = 1;
 }
@@ -375,3 +403,34 @@ message DeleteReviewRequest {
   int64 id = 1;
 }
 message DeleteReviewResponse {}
+
+// Administrative filtering includes doctors without a city (city_id = 2) and
+// inactive doctors unless explicitly excluded by the supplied filters.
+enum ReviewsSort {
+  REVIEWS_SORT_UNSPECIFIED = 0;
+  REVIEWS_SORT_DESC = 1;
+  REVIEWS_SORT_ASC = 2;
+}
+message FilterDoctorsRequest {
+  repeated int64 city_ids = 1;
+  repeated int64 specialty_ids = 2;
+  repeated int64 course_ids = 3;
+  optional bool is_active = 4;
+  optional bool personal_data_consent = 5;
+  ReviewsSort reviews_sort = 6;
+}
+message FilteredDoctor {
+  int64 id = 1;
+  string name = 2;
+  string photo = 3;
+  City city = 4;
+  Specialty specialty = 5;
+  repeated Course completed_courses = 6;
+  bool is_active = 7;
+  bool personal_data_consent = 8;
+  int64 reviews_count = 9;
+}
+message FilterDoctorsResponse {
+  repeated FilteredDoctor doctors = 1;
+  int64 doctor_count = 2;
+}

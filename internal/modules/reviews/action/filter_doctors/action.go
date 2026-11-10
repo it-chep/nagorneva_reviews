@@ -1,4 +1,5 @@
-// Package filter_doctors contains the public doctor catalog filtering use case.
+// Package filter_doctors contains the doctor catalog filtering use case.
+// Public and administrative visibility is chosen by the wired repository.
 package filter_doctors
 
 import (

@@ -394,6 +394,11 @@
             "type": "object",
             "$ref": "#/definitions/nagorneva_reviews.reviews.v1.DoctorOnMap"
           }
+        },
+        "all_doctors_count": {
+          "type": "string",
+          "format": "int64",
+          "description": "Active doctors with a known city (city_id != 2), independent of the search radius."
         }
       }
     },

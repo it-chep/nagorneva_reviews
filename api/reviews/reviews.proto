@@ -59,6 +59,8 @@ message DoctorCourse {
 
 message GetDoctorsOnMapResponse {
   repeated DoctorOnMap doctors = 1;
+  // Active doctors with a known city (city_id != 2), independent of the search radius.
+  int64 all_doctors_count = 2 [json_name = "all_doctors_count"];
 }
 
 message FilterReviewsRequest {

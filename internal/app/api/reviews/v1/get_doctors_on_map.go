@@ -11,12 +11,12 @@ func (s *Service) GetDoctorsOnMap(ctx context.Context, req *reviewspb.GetDoctors
 	if err := validateLocation(req.GetLat(), req.GetLon(), req.GetRadiusKm()); err != nil {
 		return nil, err
 	}
-	doctors, err := s.module.Actions.GetDoctorsOnMap.Execute(ctx, req.GetLat(), req.GetLon(), req.GetRadiusKm())
+	result, err := s.module.Actions.GetDoctorsOnMap.Execute(ctx, req.GetLat(), req.GetLon(), req.GetRadiusKm())
 	if err != nil {
 		return nil, publicError(ctx, err)
 	}
-	out := make([]*reviewspb.DoctorOnMap, 0, len(doctors))
-	for _, doctor := range doctors {
+	out := make([]*reviewspb.DoctorOnMap, 0, len(result.Doctors))
+	for _, doctor := range result.Doctors {
 		item := &reviewspb.DoctorOnMap{Id: doctor.ID, Name: doctor.Name, Photo: doctor.Photo, City: doctor.City, Lat: doctor.Lat, Lon: doctor.Lon, Reviews: make([]*reviewspb.Review, 0, len(doctor.Reviews))}
 		item.Courses = make([]*reviewspb.DoctorCourse, 0, len(doctor.Courses))
 		for _, course := range doctor.Courses {
@@ -27,5 +27,5 @@ func (s *Service) GetDoctorsOnMap(ctx context.Context, req *reviewspb.GetDoctors
 		}
 		out = append(out, item)
 	}
-	return &reviewspb.GetDoctorsOnMapResponse{Doctors: out}, nil
+	return &reviewspb.GetDoctorsOnMapResponse{Doctors: out, AllDoctorsCount: result.AllDoctorsCount}, nil
 }
